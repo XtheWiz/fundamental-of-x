@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Raft Consensus — Fundamental of Distributed Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 04</div>
+          <h1>Raft Consensus</h1>
+          <p class="blurb">
+            Lamport's Paxos was technically brilliant and famously
+            unreadable. Raft (2014) achieves the same guarantees with a
+            design optimized for human comprehension — and that's why
+            etcd, Consul, CockroachDB, and TiDB all run on it.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The protocol</h2>
+          <p>Two roles, three rules:</p>
+          <ol>
+            <li>Clients send commands to the <strong>leader</strong>. Followers redirect.</li>
+            <li>Leader appends to its own log, then <strong>AppendEntries</strong> to every follower.</li>
+            <li>Once a majority of followers ack a given entry, the leader <strong>commits</strong> it and applies it to its state machine. Followers apply once they hear about the commit.</li>
+          </ol>
+          <p>
+            "Majority" is the magic. With 5 nodes, you need 3 acks to
+            commit. That means at most 2 can be slow/dead and the cluster
+            still progresses. It also means two competing leaders can
+            <em>never</em> both commit an entry — they'd both need
+            majorities, which would overlap.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Append entries to the leader. Watch them propagate, get acked, and commit once a majority agrees. Drop a follower's network and watch it fall behind, then catch up.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Quorum-based: any majority can commit; any two majorities overlap. That's how Raft sidesteps split-brain.</li>
+            <li>Throughput is bottlenecked by the slowest member of the majority — typically the slowest 3 of 5. Outliers don't matter.</li>
+            <li>The same protocol handles leader election (last lesson) and log replication (this one). Same RPCs, different phases.</li>
+            <li>Raft is now the default consensus algorithm in production. Paxos lives mostly in academic papers and the deeply-customized Google bits (Spanner).</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initRaftWidget } from '../widgets/raft.js';
+    mountSidebar({ manifest, currentSlug: 'raft' });
+    mountBreadcrumb({ manifest, currentTitle: 'Raft Consensus' });
+    mountLessonNav({ manifest, currentSlug: 'raft' });
+    mountMenuToggle();
+    initRaftWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

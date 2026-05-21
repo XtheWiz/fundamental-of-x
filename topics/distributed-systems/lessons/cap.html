@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>CAP Theorem — Fundamental of Distributed Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 01</div>
+          <h1>CAP Theorem</h1>
+          <p class="blurb">
+            Eric Brewer's famous 2000 conjecture (proven a few years later):
+            a distributed system can guarantee at most <strong>two</strong>
+            of Consistency, Availability, and Partition tolerance —
+            <em>when</em> partitions happen. Most "CAP debates" boil down
+            to people picking that "when."
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The three letters</h2>
+          <ul>
+            <li><strong>C — Consistency</strong>: every read returns the most recent write (or an error). All replicas agree.</li>
+            <li><strong>A — Availability</strong>: every request gets a (non-error) response — though not necessarily the latest data.</li>
+            <li><strong>P — Partition tolerance</strong>: the system keeps working even when messages between nodes are dropped or delayed.</li>
+          </ul>
+          <p>
+            In practice, partitions <em>will</em> happen (cables get cut,
+            switches fail, regions go down). So P isn't really optional.
+            CAP collapses to: <strong>when there's a partition, do you
+            stay consistent (CP) or stay available (AP)?</strong>
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Two replicas, one network. Tune partition severity and pick which side of CAP you favor. Then watch what reads and writes do.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>"Pick 2 of 3" is the snappy version. The accurate version: <strong>during partitions</strong>, choose C or A.</li>
+            <li><strong>CP systems</strong> (etcd, Zookeeper, traditional RDBMS with synchronous replication): refuse writes when nodes can't talk. Used where correctness matters more than uptime.</li>
+            <li><strong>AP systems</strong> (Cassandra, DynamoDB, most caches): keep serving on both sides of a partition, reconcile later. Used where uptime matters more than freshness.</li>
+            <li>PACELC extends CAP: even when there's no partition (Else), there's still a Latency-vs-Consistency tradeoff. Most systems lean one way or the other in both regimes.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initCapWidget } from '../widgets/cap.js';
+    mountSidebar({ manifest, currentSlug: 'cap' });
+    mountBreadcrumb({ manifest, currentTitle: 'CAP Theorem' });
+    mountLessonNav({ manifest, currentSlug: 'cap' });
+    mountMenuToggle();
+    initCapWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

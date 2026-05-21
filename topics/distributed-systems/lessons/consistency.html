@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Consistency Models — Fundamental of Distributed Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 02</div>
+          <h1>Consistency Models</h1>
+          <p class="blurb">
+            "What does a read return?" sounds like a settled question.
+            With replicas and replication lag, it has at least four
+            answers — and the choice is one of the most fundamental
+            design knobs in any distributed system.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The four common models</h2>
+          <ul>
+            <li><strong>Strong consistency</strong> (linearizable) — every read sees the most recent write. Simulates a single machine. Expensive: requires coordination across replicas before any read returns.</li>
+            <li><strong>Read-your-writes</strong> — a client always sees its own past writes, but may see stale data from others. The bare minimum for "the UI feels responsive after I post."</li>
+            <li><strong>Causal consistency</strong> — if A causes B, every observer sees A before B. Concurrent (unrelated) events may be seen in different orders. The sweet spot for many real workloads.</li>
+            <li><strong>Eventual consistency</strong> — given enough time without writes, all replicas converge. Until then, anything goes. Cheapest; common in caches, CDNs, DNS.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Same scenario, four models. A timeline with 3 replicas and a few writes — see what a read at each timestamp would return under each model.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Strong consistency is easy to <em>reason about</em> but expensive to <em>provide</em>. Every read or write may need to round-trip to a coordinator.</li>
+            <li>Eventual is cheap but exposes inconsistencies to users. "Why does my comment show up sometimes and not others?" is an eventual-consistency complaint.</li>
+            <li>Causal consistency is often the practical sweet spot — read-your-writes plus "everything you've observed stays consistent" with no global coordination.</li>
+            <li>Most real systems mix: strong consistency for billing, eventual for analytics, causal for feeds. Pick per-data-class.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initConsistencyWidget } from '../widgets/consistency.js';
+    mountSidebar({ manifest, currentSlug: 'consistency' });
+    mountBreadcrumb({ manifest, currentTitle: 'Consistency Models' });
+    mountLessonNav({ manifest, currentSlug: 'consistency' });
+    mountMenuToggle();
+    initConsistencyWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

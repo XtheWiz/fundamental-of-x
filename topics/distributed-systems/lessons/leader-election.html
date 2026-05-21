@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Leader Election — Fundamental of Distributed Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 03</div>
+          <h1>Leader Election</h1>
+          <p class="blurb">
+            Many distributed protocols are much easier if you have one
+            designated coordinator. But who's the coordinator? And what
+            happens when they die? Leader election is the meta-protocol:
+            how a leaderless cluster picks one.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The shape of the problem</h2>
+          <p>
+            All nodes start as <strong>followers</strong>. They expect to
+            hear from a leader periodically (heartbeats). If a follower
+            doesn't hear from the leader within a random timeout, it
+            promotes itself to <strong>candidate</strong> and asks the
+            others for votes.
+          </p>
+          <p>
+            Each node votes once per term. Whichever candidate gets a
+            majority becomes leader and starts sending heartbeats. The
+            losers fall back to follower.
+          </p>
+          <p>
+            The randomized timeout is what breaks ties: in practice one
+            candidate wakes up first and wins outright. Equal-timeout
+            cases cause split votes — the cluster simply re-elects with a
+            new round.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Five nodes. Kill the leader and watch the cluster pick a new one. Repeat — the next leader's identity is random (because timeouts are).</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Randomized timeouts are the magic — without them, every follower would time out simultaneously and split the vote forever.</li>
+            <li>A leader can serve N followers without ever asking them anything; the followers just have to hear a heartbeat. Cheap when stable.</li>
+            <li>An election freezes writes for the duration. Modern systems (etcd, Raft) target ~150ms elections to minimize this window.</li>
+            <li>Split-brain (two leaders thinking they're in charge) is the worst failure mode. Quorum-based protocols (next lesson) make it impossible.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initLeaderElectionWidget } from '../widgets/leader-election.js';
+    mountSidebar({ manifest, currentSlug: 'leader-election' });
+    mountBreadcrumb({ manifest, currentTitle: 'Leader Election' });
+    mountLessonNav({ manifest, currentSlug: 'leader-election' });
+    mountMenuToggle();
+    initLeaderElectionWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
