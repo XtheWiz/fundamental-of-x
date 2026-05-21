@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Overfitting &amp; Regularization — Fundamental of Machine Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 08</div>
+          <h1>Overfitting &amp; Regularization</h1>
+          <p class="blurb">
+            A model that fits the training data <em>perfectly</em> usually
+            fails on new data. It memorized noise instead of learning the
+            pattern. The sweet spot between under- and over-fitting is
+            where ML practice actually lives.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The bias-variance tradeoff</h2>
+          <ul>
+            <li><strong>High bias</strong> (underfit): model is too simple to capture the truth. Big errors on training <em>and</em> test.</li>
+            <li><strong>High variance</strong> (overfit): model is too flexible. Memorizes training noise; bad on test data.</li>
+            <li><strong>Sweet spot</strong>: complex enough to capture the signal, simple enough to ignore the noise.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>The four tools</h2>
+          <ul>
+            <li><strong>More data</strong>. The simplest fix — overfitting shrinks as N grows.</li>
+            <li><strong>Smaller model</strong>. Fewer parameters → less capacity to memorize.</li>
+            <li><strong>Regularization</strong>. Add a penalty term to the loss that punishes large weights (L1, L2). Forces the model to use only what it needs.</li>
+            <li><strong>Validation + early stopping</strong>. Hold out 10–20% of data, watch its loss during training, stop when it stops improving.</li>
+          </ul>
+          <p>Deep nets add: dropout, batch norm, data augmentation. Same idea — prevent the model from over-committing.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Fit a polynomial to noisy data. Slide the degree from 1 (line) to 12 (wiggle). Watch the train loss drop while the validation loss rises.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Training loss shrinks monotonically; <strong>validation loss has a U-shape</strong>. The valley is your sweet spot.</li>
+            <li>"Big models always overfit" — not true at modern scale. With enough data, very large models generalize surprisingly well. This is the whole story of LLMs.</li>
+            <li>The cardinal sin: peeking at the <em>test set</em> while developing. Hold it out until the very end. Otherwise you've effectively trained on it.</li>
+            <li>Cross-validation is the systematic version: rotate the validation slice over the training data, average the results. More reliable than a single split.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initOverfittingWidget } from '../widgets/overfitting.js';
+    mountSidebar({ manifest, currentSlug: 'overfitting' });
+    mountBreadcrumb({ manifest, currentTitle: 'Overfitting & Regularization' });
+    mountLessonNav({ manifest, currentSlug: 'overfitting' });
+    mountMenuToggle();
+    initOverfittingWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

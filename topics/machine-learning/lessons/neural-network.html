@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Neural Networks — Fundamental of Machine Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 05</div>
+          <h1>Neural Networks</h1>
+          <p class="blurb">
+            Stack linear models, put a non-linear squash between them,
+            and you get a function that can approximate almost anything.
+            That's the entire neural-network idea. The depth and width
+            of modern models is just more of the same.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>A neuron</h2>
+          <p>
+            One neuron computes <code>output = σ(w₁x₁ + w₂x₂ + … + b)</code>
+            — a weighted sum of inputs passed through an activation
+            function (sigmoid, tanh, ReLU). That's logistic regression in
+            one neuron's worth of code.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>A layer, a network</h2>
+          <p>
+            A <strong>layer</strong> is several neurons in parallel,
+            each with its own weights, all looking at the same inputs.
+            A <strong>network</strong> is layers stacked: the outputs of
+            one layer feed the next.
+          </p>
+          <p>
+            With one hidden layer and enough neurons, a network can
+            approximate any continuous function (the
+            <em>universal approximation theorem</em>). In practice we
+            use many shallow-ish layers because they train better.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Why non-linearity?</h2>
+          <p>
+            Without the activation function, stacking layers collapses to
+            one layer: linear-of-linear is still linear. The squash makes
+            each layer add expressive power. The whole reason XOR was
+            "unsolvable" in the 1960s AI winter was that researchers used
+            single-layer perceptrons — no hidden layer, no curve.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>A tiny network (2 inputs, 4 hidden, 1 output) learning XOR. Step training and watch the decision regions form.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>"Neural network" is misleading marketing — they're not very brain-like. They're stacked weighted sums with squashes.</li>
+            <li>Each layer transforms its input into a representation the next layer can use. Deep networks build hierarchies — edges → shapes → objects.</li>
+            <li>The biggest practical change since the 1990s: ReLU replaced sigmoid/tanh (better gradients), GPUs replaced CPUs (1000× speed), and we trained on internet-scale data.</li>
+            <li>Modern architectures (CNNs, transformers, diffusion) reuse this same backbone with structured connectivity. Same math, smarter wiring.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initNeuralNetworkWidget } from '../widgets/neural-network.js';
+    mountSidebar({ manifest, currentSlug: 'neural-network' });
+    mountBreadcrumb({ manifest, currentTitle: 'Neural Networks' });
+    mountLessonNav({ manifest, currentSlug: 'neural-network' });
+    mountMenuToggle();
+    initNeuralNetworkWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

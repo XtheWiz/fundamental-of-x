@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Backpropagation — Fundamental of Machine Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 06</div>
+          <h1>Backpropagation</h1>
+          <p class="blurb">
+            How does the optimizer know which way to nudge weight #4,073
+            in the middle of a 200-layer network? Backprop: apply the
+            chain rule, layer by layer, in reverse. Same calculus a
+            physics student knows; just a lot of it.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The chain rule, repeatedly</h2>
+          <p>
+            If <code>L = f(g(h(x)))</code>, the derivative w.r.t. <code>x</code> is
+            <code>f'(g(h(x))) · g'(h(x)) · h'(x)</code>. The chain rule.
+            Backpropagation is just this, applied across every connection
+            in a neural network, in a smart order.
+          </p>
+          <p>"In a smart order" means: compute the loss first (forward pass), then walk <em>backward</em> through the network, multiplying gradients as you go. Reverse-mode automatic differentiation.</p>
+        </section>
+
+        <section class="section">
+          <h2>Why reverse, not forward?</h2>
+          <p>
+            Forward mode: compute gradient w.r.t. one input variable —
+            efficient when there's <em>one</em> input and many outputs.
+            Reverse mode: compute gradient w.r.t. one output (the loss)
+            — efficient when there's <em>one</em> output and many
+            parameters. Networks have millions of parameters but only
+            one loss → reverse mode is the obvious choice.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>A tiny network. Step through forward pass, then backward pass. Watch which gradient flows where.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Backprop is the chain rule plus bookkeeping. It's exact (no approximation), and it's why training a 70B-parameter LLM is even feasible.</li>
+            <li>Frameworks (PyTorch, JAX, TF) build a <em>computation graph</em> on the forward pass, then walk it backward. You write the model; they handle the gradients.</li>
+            <li>"Vanishing gradients": multiplying many small numbers (e.g., sigmoid derivatives < 0.25) shrinks to zero through deep nets. ReLU and residual connections were invented to fix this.</li>
+            <li>"Exploding gradients": the opposite. Fixed with clipping, normalization (BatchNorm, LayerNorm), and careful initialization.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initBackpropWidget } from '../widgets/backprop.js';
+    mountSidebar({ manifest, currentSlug: 'backprop' });
+    mountBreadcrumb({ manifest, currentTitle: 'Backpropagation' });
+    mountLessonNav({ manifest, currentSlug: 'backprop' });
+    mountMenuToggle();
+    initBackpropWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
