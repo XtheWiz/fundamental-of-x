@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Caching — Fundamental of Backend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 04</div>
+          <h1>Caching</h1>
+          <p class="blurb">
+            The fastest request is the one you don't make. A modern web stack
+            has cached copies of the same data in at least four places — and
+            the trick to making it work is knowing what to cache, where, for
+            how long, and how to invalidate.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The four layers</h2>
+          <ol>
+            <li><strong>Browser cache</strong> — per-user, controlled by <code>Cache-Control</code> headers. Free, but only helps repeat visitors.</li>
+            <li><strong>CDN</strong> — shared across all users in a region. Cuts trips to origin entirely for static content.</li>
+            <li><strong>Reverse proxy</strong> (nginx, Varnish) — at the edge of <em>your</em> infrastructure. Can cache even dynamic responses with the right hints.</li>
+            <li><strong>Application cache</strong> (Redis, Memcached) — inside the app, in front of the database. Pre-computed views, hot keys, computed results.</li>
+          </ol>
+          <p>And implicitly: <strong>database query cache</strong> below all of these.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Send a request and watch it cascade through each layer. Each cache has its own TTL. Try invalidating specific layers and observing what happens.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Caches save latency, bandwidth, and load. A 99% CDN hit rate means your origin sees 1% of the traffic — that's an order-of-magnitude saving.</li>
+            <li><strong>Cache invalidation is the hard part.</strong> "There are only two hard things…" — Phil Karlton. Most cache bugs are stale data, not misses.</li>
+            <li>TTLs are a tradeoff: long = fewer origin hits, more stale data. Short = more origin hits, fresher data. Tune per content type.</li>
+            <li>HTTP gives you the tools: <code>Cache-Control: public, max-age=3600</code>, <code>ETag</code>, <code>Last-Modified</code>, <code>Vary</code>. Use them deliberately.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initCachingWidget } from '../widgets/caching.js';
+    mountSidebar({ manifest, currentSlug: 'caching' });
+    mountBreadcrumb({ manifest, currentTitle: 'Caching' });
+    mountLessonNav({ manifest, currentSlug: 'caching' });
+    mountMenuToggle();
+    initCachingWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

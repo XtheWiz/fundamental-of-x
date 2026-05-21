@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Request Lifecycle — Fundamental of Backend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 08</div>
+          <h1>Request Lifecycle</h1>
+          <p class="blurb">
+            We've covered the parts. Now watch them in concert: a browser
+            making a request travels through CDN, load balancer, reverse
+            proxy, app server, cache, and database — six possible stops
+            and many possible shortcuts.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The full journey</h2>
+          <p>A typical modern stack, in order of contact:</p>
+          <ol>
+            <li><strong>Browser</strong> — checks its own cache first. May skip everything else.</li>
+            <li><strong>CDN</strong> — serves static/cacheable responses from the edge node nearest you.</li>
+            <li><strong>Load Balancer</strong> — picks a healthy backend instance.</li>
+            <li><strong>Reverse Proxy</strong> — terminates TLS, routes by path, may also cache.</li>
+            <li><strong>Application Server</strong> — runs your code: middleware, auth, business logic.</li>
+            <li><strong>App Cache</strong> (Redis/Memcached) — pre-computed answers for hot queries.</li>
+            <li><strong>Database</strong> — the source of truth, only touched when nothing else has the answer.</li>
+          </ol>
+          <p>Every layer is a chance for a hit (fast) or a miss (continue to next layer). Optimize for hit rates at the outermost layers — that's where the biggest wins are.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Send a request. Toggle which layers hit their cache. See where the milliseconds go.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>The fastest request is the one served from the layer closest to the user. A CDN hit at the edge skips your origin entirely — sub-50ms responses globally.</li>
+            <li>The slowest request hits every layer down to the database. That's still usually <200ms on a healthy system.</li>
+            <li>Most production "performance work" is about moving the hit rate up the stack: more CDN hits, more proxy hits, more app cache hits.</li>
+            <li>Each layer can fail independently. Observability (per-layer metrics + traces) is how you locate problems quickly.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initLifecycleWidget } from '../widgets/lifecycle.js';
+    mountSidebar({ manifest, currentSlug: 'lifecycle' });
+    mountBreadcrumb({ manifest, currentTitle: 'Request Lifecycle' });
+    mountLessonNav({ manifest, currentSlug: 'lifecycle' });
+    mountMenuToggle();
+    initLifecycleWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

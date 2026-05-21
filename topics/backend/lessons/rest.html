@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REST &amp; API Design — Fundamental of Backend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 02</div>
+          <h1>REST &amp; API Design</h1>
+          <p class="blurb">
+            REST is a style, not a standard. The good news: most of it is just
+            "use HTTP the way it was meant to be used." The bad news: a lot
+            of APIs in the wild don't.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The principles</h2>
+          <ol>
+            <li><strong>Resources, not verbs in URLs.</strong> <code>/users/42</code>, not <code>/getUser?id=42</code>. The HTTP verb is the verb.</li>
+            <li><strong>Use methods correctly.</strong> GET reads. POST creates. PUT replaces. PATCH updates. DELETE deletes.</li>
+            <li><strong>Stateless.</strong> Every request carries everything the server needs. No session affinity (except via cookies/tokens carried explicitly).</li>
+            <li><strong>Predictable status codes.</strong> 2xx success, 3xx redirect, 4xx client problem, 5xx server problem.</li>
+            <li><strong>Idempotency where promised.</strong> A retry of PUT/DELETE shouldn't double-delete. POST often isn't idempotent — design around it (idempotency keys).</li>
+          </ol>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Score yourself on six API-design choices. Each scenario gives two options. Pick the more RESTful one.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Most "wrong" APIs aren't wrong-wrong — they work — but they're harder to cache, retry safely, and reason about.</li>
+            <li>"REST" is fuzzy. <strong>RESTful</strong> means following the spirit (resources + HTTP verbs); <strong>HATEOAS</strong> is the strict academic version that almost nobody actually does.</li>
+            <li>For internal/private APIs, gRPC or GraphQL may fit better than REST. Pick the tool for the job — REST isn't a religion.</li>
+            <li>Versioning is unavoidable. Prefix with <code>/v1/</code>, use <code>Accept-Version</code> headers, or both. Decide before launch — it's hard to change later.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initRestWidget } from '../widgets/rest.js';
+    mountSidebar({ manifest, currentSlug: 'rest' });
+    mountBreadcrumb({ manifest, currentTitle: 'REST & API Design' });
+    mountLessonNav({ manifest, currentSlug: 'rest' });
+    mountMenuToggle();
+    initRestWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

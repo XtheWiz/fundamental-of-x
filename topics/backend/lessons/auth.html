@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sessions &amp; Auth — Fundamental of Backend</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 03</div>
+          <h1>Sessions &amp; Auth</h1>
+          <p class="blurb">
+            How does your server know it's still you on the second request?
+            HTTP is stateless — every request stands alone — so we have to
+            carry identity along. Cookies, tokens, JWTs, and OAuth are all
+            answers to "how do we do that safely?"
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The three answers</h2>
+          <ul>
+            <li><strong>Sessions + cookies</strong>: server keeps state, hands client a random session ID via cookie. Simple, scales fine if you have a shared session store. Default in most web frameworks.</li>
+            <li><strong>Tokens (JWTs)</strong>: server signs a token containing the user info. Client carries it. No server-side state to look up — verify the signature and trust the contents. Easy to scale, hard to revoke.</li>
+            <li><strong>OAuth</strong>: not really auth — it's <em>delegated authorization</em>. "Let this app act on my behalf at Provider X." Used everywhere as a login mechanism via "Sign in with…"</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try the OAuth dance</h2>
+          <p>The classic Authorization Code flow has three parties — your app, the user's browser, and an identity provider like GitHub. Step through each message.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>OAuth's safety comes from never letting your app see the user's password. Only the provider does.</li>
+            <li>The <code>code</code> from the redirect is one-time, short-lived, and only useful when combined with your secret <strong>client_secret</strong>.</li>
+            <li>The <code>state</code> parameter is anti-CSRF: your app sets it, checks it came back unchanged. Skipping it is a known vulnerability class.</li>
+            <li>"Sign in with X" buttons are OAuth under the hood — the access token gives your app permission to call <code>/me</code> on the provider, and from that you create a local session.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initAuthWidget } from '../widgets/auth.js';
+    mountSidebar({ manifest, currentSlug: 'auth' });
+    mountBreadcrumb({ manifest, currentTitle: 'Sessions & Auth' });
+    mountLessonNav({ manifest, currentSlug: 'auth' });
+    mountMenuToggle();
+    initAuthWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
