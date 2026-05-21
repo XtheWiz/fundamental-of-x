@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TLS Revisited — Fundamental of Cryptography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 08</div>
+          <h1>TLS Revisited</h1>
+          <p class="blurb">
+            The TLS handshake makes a lot more sense once you've seen the
+            primitives. We walked through the messages in the
+            <a href="../../internet/lessons/tls.html">Internet topic's TLS
+            lesson</a> — now let's annotate each step with the crypto
+            piece it uses, and see how they all fit together.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The full toolkit</h2>
+          <p>Every primitive from the previous seven lessons shows up in TLS:</p>
+          <ul>
+            <li><strong>Hashing</strong> (lesson 1) — for transcript integrity (Finished message).</li>
+            <li><strong>Symmetric crypto</strong> (lesson 2) — bulk encryption after handshake (AES-GCM).</li>
+            <li><strong>Asymmetric crypto</strong> (lesson 3) — server's keypair, used for authentication.</li>
+            <li><strong>Diffie-Hellman</strong> (lesson 4) — the ephemeral key exchange (ECDHE).</li>
+            <li><strong>Digital signatures</strong> (lesson 5) — server signs the handshake to prove identity.</li>
+            <li><strong>Certificate chains</strong> (lesson 6) — how the client knows it's the real server.</li>
+          </ul>
+          <p>Password hashing (lesson 7) is the odd one out — it doesn't appear in TLS. It's the user-authentication primitive that runs <em>on top</em> of the encrypted channel TLS sets up.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Step through the handshake again. The primitives panel on the right lights up as each one is invoked.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>TLS is a <strong>protocol composition</strong> — none of the building blocks is exotic, but assembling them safely takes care.</li>
+            <li><strong>Authentication</strong> (the cert + signature) is what stops MITM attacks; <strong>key agreement</strong> (DH) is what gives forward secrecy.</li>
+            <li>The <strong>symmetric key</strong> derived from the DH exchange does all the bulk encryption. Asymmetric crypto only happens at handshake time.</li>
+            <li>TLS 1.3 finished trimming legacy options. Older versions allowed many cipher suites; modern TLS narrows the choices to the ones still considered safe.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initTlsRevisitedWidget } from '../widgets/tls-revisited.js';
+    mountSidebar({ manifest, currentSlug: 'tls-revisited' });
+    mountBreadcrumb({ manifest, currentTitle: 'TLS Revisited' });
+    mountLessonNav({ manifest, currentSlug: 'tls-revisited' });
+    mountMenuToggle();
+    initTlsRevisitedWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

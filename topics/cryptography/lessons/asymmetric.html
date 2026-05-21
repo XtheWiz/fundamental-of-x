@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Asymmetric Crypto — Fundamental of Cryptography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 03</div>
+          <h1>Asymmetric Crypto</h1>
+          <p class="blurb">
+            One of the strangest, most beautiful ideas in computing: a
+            keypair where the two halves are mathematically linked but
+            knowing one tells you nothing about the other. Anyone can
+            encrypt to you using your public half; only you can decrypt
+            with the private half you never share.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The asymmetric trick</h2>
+          <ul>
+            <li>A keypair is generated together — one public, one private. <strong>Both halves</strong> are needed; you can't make one from scratch later.</li>
+            <li>Anyone with your <strong>public key</strong> can encrypt a message that only your <strong>private key</strong> can read.</li>
+            <li>The reverse also works (lesson 5): you can <em>sign</em> with your private key, and anyone with your public key can verify it.</li>
+            <li>The math is hard. RSA depends on factoring giant numbers; elliptic curves depend on discrete logs. Both are infeasible at current scale.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>The catch</h2>
+          <p>
+            Asymmetric crypto is <strong>slow</strong> — orders of magnitude
+            slower than symmetric. So in practice (TLS, PGP, Signal), it's
+            only used to <em>agree on</em> a fresh symmetric key. The
+            actual bulk traffic flows over fast symmetric crypto.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Generate a keypair. Encrypt a message with the public key. Decrypt with the private key. Try doing it the wrong way and watch it fail.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li><strong>Public is shoutable.</strong> Put it on a billboard. It only lets people send you stuff, not read your stuff.</li>
+            <li><strong>Private is sacred.</strong> Anyone who has it can decrypt everything sent to you and sign messages as you.</li>
+            <li>Asymmetric is too slow for bulk data. It bootstraps the symmetric layer; that's the workhorse.</li>
+            <li>RSA is the classic algorithm; ECC (Elliptic Curve) is the modern one — smaller keys, same security.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initAsymmetricWidget } from '../widgets/asymmetric.js';
+    mountSidebar({ manifest, currentSlug: 'asymmetric' });
+    mountBreadcrumb({ manifest, currentTitle: 'Asymmetric Crypto' });
+    mountLessonNav({ manifest, currentSlug: 'asymmetric' });
+    mountMenuToggle();
+    initAsymmetricWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
