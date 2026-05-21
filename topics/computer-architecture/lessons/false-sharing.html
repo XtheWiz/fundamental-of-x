@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-core &amp; False Sharing — Fundamental of Computer Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 07</div>
+          <h1>Multi-core &amp; False Sharing</h1>
+          <p class="blurb">
+            Four cores, four counters, no shared writes — should scale
+            perfectly, right? It can be 10× <em>slower</em> than one
+            core. Welcome to false sharing: the most expensive 64 bytes
+            of memory in concurrent code.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The coherence protocol</h2>
+          <p>
+            Each core has its own L1 cache. When two cores need the same
+            cache line, they negotiate: <strong>MESI</strong> (Modified /
+            Exclusive / Shared / Invalid) tracks who has what.
+          </p>
+          <ul>
+            <li><strong>Modified</strong>: this core has the only copy, and it's been written.</li>
+            <li><strong>Exclusive</strong>: this core has the only copy, clean.</li>
+            <li><strong>Shared</strong>: multiple cores have read-only copies.</li>
+            <li><strong>Invalid</strong>: this core's copy is stale and must be re-fetched.</li>
+          </ul>
+          <p>
+            Writes are the expensive ones: when a core writes, all other
+            cores' copies of that line are <strong>invalidated</strong>.
+            They have to re-fetch (often from RAM, dozens of nanoseconds).
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>False sharing</h2>
+          <p>
+            If four threads each increment their <em>own</em> counter, but
+            all four counters happen to sit on the same 64-byte cache line,
+            every write invalidates the other three cores' copies. The
+            line ping-pongs between cores; cycles burn doing nothing.
+          </p>
+          <p>The fix: <strong>pad</strong> each counter to its own cache line. Same logic, 10× faster.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Run 100 increments per thread. Compare shared layout vs padded layout. Watch the cache-line state changes.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>"Per-thread state" only scales if each thread's state lives on its <em>own</em> cache line.</li>
+            <li>Common patterns that hit this: per-thread counters, per-thread random state, hot atomics in metrics.</li>
+            <li>The pad-to-cache-line trick is standard in high-performance libraries (Java's <code>@Contended</code>, C++'s <code>alignas(64)</code>, Rust's <code>repr(align(64))</code>).</li>
+            <li>You can't see false sharing in normal profiling — CPU samples look like idle waits. Look for it whenever multi-core scaling is mysteriously sublinear.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initFalseSharingWidget } from '../widgets/false-sharing.js';
+    mountSidebar({ manifest, currentSlug: 'false-sharing' });
+    mountBreadcrumb({ manifest, currentTitle: 'Multi-core & False Sharing' });
+    mountLessonNav({ manifest, currentSlug: 'false-sharing' });
+    mountMenuToggle();
+    initFalseSharingWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

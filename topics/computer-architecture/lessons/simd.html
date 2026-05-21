@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIMD &amp; Vectorization — Fundamental of Computer Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 06</div>
+          <h1>SIMD &amp; Vectorization</h1>
+          <p class="blurb">
+            Single Instruction, Multiple Data. Your CPU has wide registers
+            that can hold many numbers at once, and instructions that
+            operate on all of them in a single cycle. It's an entire
+            speedup hiding behind the right compiler flag.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The idea</h2>
+          <p>
+            A 32-bit add takes 1 cycle on a scalar ALU. A 256-bit SIMD add
+            also takes 1 cycle — but it adds <em>eight</em> 32-bit values
+            in parallel. Same hardware-clock, 8× the work done.
+          </p>
+          <p>Common SIMD widths today:</p>
+          <ul style="font-family: var(--font-mono); font-size: 0.92rem;">
+            <li>SSE / AVX-128 — 128-bit, 4× floats per op</li>
+            <li>AVX2 / AVX-256 — 256-bit, 8× floats per op</li>
+            <li>AVX-512 — 512-bit, 16× floats per op</li>
+            <li>NEON (ARM) — 128-bit on phones &amp; servers</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Where you'll see it</h2>
+          <p>
+            Most compilers auto-vectorize simple loops at <code>-O2</code>
+            or <code>-O3</code> — image filters, audio mixing, linear
+            algebra, hashing, compression. Modern ML libraries
+            (PyTorch's CPU paths, NumPy) live inside SIMD. Database engines
+            use it for column-store aggregations.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Compare scalar vs SIMD multiplication of 8 numbers. Watch how 8 cycles collapse to 1.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>SIMD is essentially free CPU performance — if your loop fits the model (regular, branch-free, data-parallel).</li>
+            <li>Branches inside the loop kill auto-vectorization. Same with pointer chasing or unpredictable access patterns.</li>
+            <li>Modern languages help: <code>numpy</code>, Rust's <code>std::simd</code>, Go's compiler hints, Java's Vector API. You don't usually write assembly.</li>
+            <li>GPUs are SIMD on steroids — thousands of "lanes" running in lockstep. Same idea, vastly wider.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initSimdWidget } from '../widgets/simd.js';
+    mountSidebar({ manifest, currentSlug: 'simd' });
+    mountBreadcrumb({ manifest, currentTitle: 'SIMD & Vectorization' });
+    mountLessonNav({ manifest, currentSlug: 'simd' });
+    mountMenuToggle();
+    initSimdWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

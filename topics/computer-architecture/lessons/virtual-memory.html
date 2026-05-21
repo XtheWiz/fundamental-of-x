@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Virtual Memory — Fundamental of Computer Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 05</div>
+          <h1>Virtual Memory</h1>
+          <p class="blurb">
+            Every process on your machine thinks it owns all of memory,
+            starting at address 0. They can't all be right. Virtual memory
+            is the elegant lie that makes them all <em>seem</em> right at
+            once — and it's how process isolation works.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The trick</h2>
+          <p>
+            Each process has its own <strong>page table</strong>: a map
+            from virtual page numbers to physical frame numbers. Every
+            memory access goes through the <strong>MMU</strong>
+            (Memory Management Unit), which translates virtual → physical
+            on the fly.
+          </p>
+          <p>
+            Two processes can both have a pointer at virtual address
+            <code>0x4000</code>. The MMU's per-process page table sends
+            them to different physical pages. They cannot accidentally
+            see each other's memory.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>The TLB</h2>
+          <p>
+            Walking the page table on every memory access would be too
+            slow. The CPU has a tiny cache of recent translations called
+            the <strong>TLB</strong> (Translation Lookaside Buffer). TLB
+            hit: translation in 1 cycle. TLB miss: a full page-table walk,
+            which is 50–200 cycles — and the table itself is in memory.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Click any virtual address. Watch the TLB get checked, then the page table walked. Repeat: notice the TLB hit cuts the work.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Virtual memory enables <strong>isolation</strong> (processes can't read each other) and <strong>flexibility</strong> (the OS can swap, share, or grow memory transparently).</li>
+            <li>Page sizes are 4 KB by default. Bigger pages (2 MB, 1 GB) reduce TLB pressure for memory-heavy workloads (databases, ML).</li>
+            <li>Page faults — accessing memory that's not yet mapped to a frame — are how memory-mapped files and the OS's "RAM as cache for disk" work.</li>
+            <li>Spectre/Meltdown were attacks on the page-walk mechanism. Real security depends on this all being correct.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initVirtualMemoryWidget } from '../widgets/virtual-memory.js';
+    mountSidebar({ manifest, currentSlug: 'virtual-memory' });
+    mountBreadcrumb({ manifest, currentTitle: 'Virtual Memory' });
+    mountLessonNav({ manifest, currentSlug: 'virtual-memory' });
+    mountMenuToggle();
+    initVirtualMemoryWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

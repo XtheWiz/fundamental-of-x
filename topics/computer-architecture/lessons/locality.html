@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Memory Locality — Fundamental of Computer Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 04</div>
+          <h1>Memory Locality</h1>
+          <p class="blurb">
+            The CPU doesn't read individual bytes — it reads 64-byte
+            <strong>cache lines</strong> at a time. So the layout of your
+            data on a single read decides whether the next 63 bytes are
+            useful or wasted. Two programs with the same algorithm can
+            differ 10× because of this.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The two layouts</h2>
+          <ul>
+            <li><strong>Array of Structs (AoS)</strong> — the natural OOP layout. <code>[{x, y, z, w}, {x, y, z, w}, …]</code>. Each struct's fields are <em>together</em>.</li>
+            <li><strong>Struct of Arrays (SoA)</strong> — split each field into its own array. <code>{x: [...], y: [...], z: [...], w: [...]}</code>. All x's are together.</li>
+          </ul>
+          <p>Which is faster depends entirely on the access pattern:</p>
+          <ul>
+            <li><strong>"sum every x"</strong> — SoA wins. A single cache line holds 16 consecutive x values; AoS wastes 3/4 of every line on y, z, w.</li>
+            <li><strong>"compute on one whole struct"</strong> — AoS wins. One cache line gets you the whole struct.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Choose a query, choose a layout, watch how many cache lines actually had to be loaded.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li><strong>Spatial locality</strong> — bytes near each other on disk/in memory get loaded together. Sequential access is fast; random access is slow.</li>
+            <li><strong>Temporal locality</strong> — bytes accessed recently are likely to be accessed again soon. Caches exploit both kinds.</li>
+            <li>Choosing AoS vs SoA is a real design decision in game engines, databases, and data-processing systems. Many DBs (ClickHouse, DuckDB) are SoA at heart — that's also why column stores exist (recall Database lesson 3).</li>
+            <li>The same trade-off shows up at every level: cache lines, disk blocks, network packets, file formats. Anywhere you fetch in chunks, alignment to access pattern matters.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initLocalityWidget } from '../widgets/locality.js';
+    mountSidebar({ manifest, currentSlug: 'locality' });
+    mountBreadcrumb({ manifest, currentTitle: 'Memory Locality' });
+    mountLessonNav({ manifest, currentSlug: 'locality' });
+    mountMenuToggle();
+    initLocalityWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
