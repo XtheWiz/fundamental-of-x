@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Decorator &amp; Adapter — Fundamental of Design Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 05</div>
+          <h1>Decorator &amp; Adapter</h1>
+          <p class="blurb">
+            Both wrap existing objects. Decorator <em>adds behavior</em>
+            while preserving the interface; Adapter <em>changes the
+            interface</em> without altering behavior. Confused often,
+            actually doing different jobs.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>Decorator — same shape, extra behavior</h2>
+          <p>
+            Wrap an object in another object that implements the <em>same
+            interface</em>, but adds logging, caching, retries, encryption,
+            etc. before/after delegating to the wrapped one. Stack as many
+            as you like. The classic example is HTTP middleware:
+            <code>compress(log(auth(handler)))</code> — each layer wraps
+            the next.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Adapter — different shape, same behavior</h2>
+          <p>
+            You have a thing with one API; callers want a different API.
+            Adapter is the translator. Common when wrapping a third-party
+            library or upgrading providers.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Decorator preserves the interface — you can keep stacking. Adapter changes the interface — usually one layer.</li>
+            <li>Express middleware, Python decorators (the syntax), Rust's <code>tower</code> service layers — all are Decorator pattern with language sugar.</li>
+            <li>Adapters often hide ugly: legacy libraries, vendor SDKs, old code you can't change. They keep the rest of your code clean.</li>
+            <li>Don't over-decorate. Five layers of wrappers is hard to debug. Same with adapters wrapping adapters — that's an architecture smell.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initDecoratorAdapterWidget } from '../widgets/decorator-adapter.js';
+    mountSidebar({ manifest, currentSlug: 'decorator-adapter' });
+    mountBreadcrumb({ manifest, currentTitle: 'Decorator & Adapter' });
+    mountLessonNav({ manifest, currentSlug: 'decorator-adapter' });
+    mountMenuToggle();
+    initDecoratorAdapterWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

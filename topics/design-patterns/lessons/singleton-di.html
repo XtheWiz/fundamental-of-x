@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Singleton &amp; Dependency Injection — Fundamental of Design Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 06</div>
+          <h1>Singleton &amp; Dependency Injection</h1>
+          <p class="blurb">
+            Singleton is the GoF pattern most likely to start an argument.
+            It looks tidy — one global instance — but it's testability
+            poison. Dependency Injection is the modern alternative, and
+            it's not really a "pattern" so much as a habit.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The Singleton temptation</h2>
+          <p>
+            "There's only one logger / config / cache — surely it should
+            be a Singleton?" The argument feels right. The cost shows up
+            in tests, where every test starts up the same global instance,
+            shares state with every other test, and can't be substituted
+            for a fake.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Dependency Injection</h2>
+          <p>
+            Instead of <em>finding</em> your dependencies (singleton lookup,
+            global), have them <em>passed in</em>. The class takes its
+            collaborators as constructor arguments (or function arguments).
+            Production wires the real ones; tests pass fakes.
+          </p>
+          <p>
+            DI doesn't require a framework. "Just pass the thing as an
+            argument" is enough for most code. Frameworks (Spring, NestJS,
+            Dagger) automate the wiring at scale — useful but optional.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Same code with Singleton and with DI. Run the tests.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Singleton ≈ global variable with extra steps. Same problems: shared mutable state, test fragility, hidden dependencies.</li>
+            <li>DI says: <strong>explicit dependencies are testable dependencies</strong>. The function signature tells you what the function needs.</li>
+            <li>"There's only one of these" is a runtime decision (you instantiate it once), not a language enforcement. The composition root sets up your one instance.</li>
+            <li>Exceptions: stateless utilities (Math, Crypto), language-level singletons (modules), and certain framework constructs. For most app code, prefer DI.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initSingletonDIWidget } from '../widgets/singleton-di.js';
+    mountSidebar({ manifest, currentSlug: 'singleton-di' });
+    mountBreadcrumb({ manifest, currentTitle: 'Singleton & DI' });
+    mountLessonNav({ manifest, currentSlug: 'singleton-di' });
+    mountMenuToggle();
+    initSingletonDIWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

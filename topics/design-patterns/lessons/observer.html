@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Observer &amp; Pub-Sub — Fundamental of Design Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 03</div>
+          <h1>Observer &amp; Pub-Sub</h1>
+          <p class="blurb">
+            "When X happens, notify everyone who cares." Without knowing
+            who they are. The Observer pattern (and its big-cousin Pub-Sub)
+            powers every event-driven system you've ever used.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The shape</h2>
+          <ul>
+            <li>A <strong>subject</strong> (also called publisher) maintains a list of <strong>observers</strong> (subscribers).</li>
+            <li>Subscribers register via <code>subject.subscribe(fn)</code> — they get a callback.</li>
+            <li>When something happens, the subject calls each observer's callback with the event.</li>
+            <li>The subject doesn't know the observers' identities. Loose coupling.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Where you'll see it</h2>
+          <ul>
+            <li>DOM events: <code>element.addEventListener('click', …)</code></li>
+            <li>Node.js EventEmitter, browser CustomEvent, RxJS observables</li>
+            <li>UI frameworks: React's <code>useState</code> + re-render is observer-like; MobX/Svelte stores are direct</li>
+            <li>Message queues & event buses: Kafka, RabbitMQ, Redis pub/sub (distributed Observer)</li>
+            <li>Postgres LISTEN/NOTIFY, mongoDB change streams</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>A subject ("message-received") with three observers (badge, dropdown, page title). Publish events, see each react independently.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Observer decouples sender from receivers. Add a new reactor without touching the publisher.</li>
+            <li>Failure mode: observers run synchronously. A slow or throwing observer can block / break the publisher. Many real systems queue events and dispatch async.</li>
+            <li>Pub-Sub is Observer scaled: an event bus mediates between many publishers and many subscribers, often across processes/machines (Kafka).</li>
+            <li>Beware "spaghetti subscribers" — large apps with hundreds of unrelated reactors are hard to debug. Centralize event types (an event catalog) helps.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initObserverWidget } from '../widgets/observer.js';
+    mountSidebar({ manifest, currentSlug: 'observer' });
+    mountBreadcrumb({ manifest, currentTitle: 'Observer & Pub-Sub' });
+    mountLessonNav({ manifest, currentSlug: 'observer' });
+    mountMenuToggle();
+    initObserverWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

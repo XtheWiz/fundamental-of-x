@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>What is a Pattern? — Fundamental of Design Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 01</div>
+          <h1>What is a Pattern?</h1>
+          <p class="blurb">
+            "Design Pattern" sounds important. Let's take the religion out
+            of it: a pattern is a name for a solution to a recurring
+            problem. That's it. Shared vocabulary, not gospel.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The 1994 origin story</h2>
+          <p>
+            "Design Patterns: Elements of Reusable Object-Oriented
+            Software" (Gamma, Helm, Johnson, Vlissides — "the Gang of
+            Four") catalogued 23 patterns in 1994. The book gave us
+            shared vocabulary for things experienced devs were already
+            doing, so they could discuss design without having to
+            re-explain every time.
+          </p>
+          <p>That was the win. The unintended consequence:</p>
+          <div class="callout">
+            <strong>"Pattern hammering."</strong> Junior devs treating the
+            catalog as a checklist. Code stuffed with Factories,
+            Visitors, and Singletons solving problems the code didn't
+            have. <em>The point of patterns is to talk about solutions you
+            already needed — not to introduce solutions to problems you
+            don't.</em>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>Patterns that became language features</h2>
+          <p>
+            Many GoF patterns were workarounds for limitations of 1994's
+            mainstream languages (C++, Java). Modern languages often have
+            built-in equivalents:
+          </p>
+          <ul style="font-family: var(--font-mono); font-size: 0.92rem;">
+            <li><strong>Iterator</strong> → <code>for…of</code>, generators, ranges, streams</li>
+            <li><strong>Strategy</strong> → first-class functions / lambdas</li>
+            <li><strong>Command</strong> → functions-as-values, closures</li>
+            <li><strong>Observer</strong> → events, signals, reactive streams</li>
+            <li><strong>Visitor</strong> → pattern matching, sum types</li>
+            <li><strong>Singleton</strong> → module-level state, dependency injection</li>
+          </ul>
+          <p>That doesn't make the patterns obsolete — knowing them helps you understand legacy code and reach for the named solution when languages don't provide it natively.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Six everyday problems. Match each to the pattern that fits best.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>A pattern is <strong>a name</strong>. The value is shared vocabulary, not the mechanics.</li>
+            <li>"What pattern should I use?" is usually the wrong question. The right one is "what problem am I trying to solve?"</li>
+            <li>Modern languages erode some patterns. Knowing what got absorbed (Strategy → lambdas) sharpens your design instincts.</li>
+            <li>Spend equal energy on <strong>anti-patterns</strong> — God objects, deep inheritance, anemic models. Knowing what to avoid is half the skill.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initWhatIsPatternWidget } from '../widgets/what-is-a-pattern.js';
+    mountSidebar({ manifest, currentSlug: 'what-is-a-pattern' });
+    mountBreadcrumb({ manifest, currentTitle: 'What is a Pattern?' });
+    mountLessonNav({ manifest, currentSlug: 'what-is-a-pattern' });
+    mountMenuToggle();
+    initWhatIsPatternWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
