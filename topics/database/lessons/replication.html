@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Replication — Fundamental of Database</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 06</div>
+          <h1>Replication</h1>
+          <p class="blurb">
+            One copy of your database is a single point of failure. Replicate
+            it and you gain durability and read scaling — but you inherit a new
+            problem: <em>which copies have the latest write?</em>
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The idea</h2>
+          <p>
+            A <strong>primary</strong> (or "leader") accepts writes. Each write
+            is shipped to one or more <strong>replicas</strong> (or
+            "followers") which apply it locally. Reads can be served by any
+            replica — that's how databases scale read traffic.
+          </p>
+          <p>The tradeoff hinges on <em>when</em> the primary tells the client "your write succeeded":</p>
+          <ul>
+            <li><strong>Async</strong>: as soon as the primary writes locally. Fast, but if the primary crashes before the write ships, the write is lost.</li>
+            <li><strong>Sync</strong>: only after at least one replica has acked. Safer, but every write pays the round-trip cost.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Replication trades latency for durability and read scale. Sync is safer; async is faster.</li>
+            <li>If a replica is down or slow in <em>sync</em> mode, writes stall everywhere. Operators tune timeouts carefully.</li>
+            <li><strong>Replication lag</strong> means a read from a replica might see stale data. "Read your writes" needs special handling.</li>
+            <li>If the primary fails, a replica must be promoted — but only one that's caught up, or you lose data.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initReplicationWidget } from '../widgets/replication.js';
+    mountSidebar({ manifest, currentSlug: 'replication' });
+    mountBreadcrumb({ manifest, currentTitle: 'Replication' });
+    mountLessonNav({ manifest, currentSlug: 'replication' });
+    mountMenuToggle();
+    initReplicationWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

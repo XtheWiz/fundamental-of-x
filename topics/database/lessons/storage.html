@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Row vs Column Storage — Fundamental of Database</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 03</div>
+          <h1>Row vs Column Storage</h1>
+          <p class="blurb">
+            The same table can be laid out on disk in two very different ways.
+            That choice decides whether you're fast at "give me this whole row"
+            or "give me the sum of this one column across millions of rows."
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The intuition</h2>
+          <p>
+            Disk reads happen in <strong>pages</strong> (4–8KB chunks). The
+            database can't read just a single cell — it has to load the whole
+            page containing that cell. So the layout of data on those pages
+            decides how much <em>useless</em> data you drag along with the
+            useful bits.
+          </p>
+          <ul>
+            <li><strong>Row store</strong>: each page packs whole rows together. Great for "give me row #42, all columns."</li>
+            <li><strong>Column store</strong>: each page packs one column's values together. Great for "sum the price column across 10M rows."</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Pick a query. The cells the database has to read get highlighted; the ones it skips are hatched out.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li><strong>Row stores</strong> (Postgres, MySQL InnoDB) win for OLTP — short queries that touch many columns of a few rows.</li>
+            <li><strong>Column stores</strong> (ClickHouse, Redshift, Parquet) win for OLAP — aggregations that touch one column of many rows.</li>
+            <li>The same data; only the on-disk arrangement differs. There is no "better" — only "better for which workload."</li>
+            <li>Column stores also compress brilliantly: similar values sit next to each other.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initStorageWidget } from '../widgets/storage.js';
+    mountSidebar({ manifest, currentSlug: 'storage' });
+    mountBreadcrumb({ manifest, currentTitle: 'Row vs Column Storage' });
+    mountLessonNav({ manifest, currentSlug: 'storage' });
+    mountMenuToggle();
+    initStorageWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

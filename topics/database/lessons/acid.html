@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ACID Properties — Fundamental of Database</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 01</div>
+          <h1>ACID Properties</h1>
+          <p class="blurb">
+            ACID is a promise a database makes about transactions. Four
+            letters, four guarantees. Each one protects against a specific
+            kind of disaster — try breaking them yourself.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The four letters</h2>
+          <p>A <strong>transaction</strong> is a group of operations that should behave like a single one. ACID is what makes that "behave like one" claim believable:</p>
+          <ul>
+            <li><strong>A — Atomicity:</strong> All operations succeed, or none of them do. No half-done transactions.</li>
+            <li><strong>C — Consistency:</strong> The database moves from one valid state to another. Constraints are never violated.</li>
+            <li><strong>I — Isolation:</strong> Concurrent transactions don't trip over each other (full topic in Lesson 4).</li>
+            <li><strong>D — Durability:</strong> Once committed, a write survives crashes (full topic in Lesson 5).</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Pick a letter and run the demo. Try to break the guarantee — watch the database catch you.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>ACID is about transactions, not the whole database. A non-transactional write isn't protected.</li>
+            <li>Atomicity = "no half-done" — rollback brings you back to the pre-transaction state.</li>
+            <li>Consistency = "constraints held" — uniqueness, foreign keys, CHECKs are enforced.</li>
+            <li>Isolation and Durability are big enough topics to get their own lessons.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initAcidWidget } from '../widgets/acid.js';
+    mountSidebar({ manifest, currentSlug: 'acid' });
+    mountBreadcrumb({ manifest, currentTitle: 'ACID Properties' });
+    mountLessonNav({ manifest, currentSlug: 'acid' });
+    mountMenuToggle();
+    initAcidWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

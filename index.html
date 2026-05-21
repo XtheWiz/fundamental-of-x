@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fundamental of X — Visual, Interactive Deep-Dives</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/shell.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">Fundamental of <span class="accent">X</span></div>
+    <nav>
+      <a href="#subjects">Subjects</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <main class="hub">
+    <section class="intro">
+      <h1>Learn the foundations,<br>one <span class="x">X</span> at a time.</h1>
+      <p>
+        A visual, interactive companion for foundational topics that are usually
+        explained with walls of text. Every lesson is hands-on — you click,
+        drag, and watch the concept happen instead of just reading about it.
+      </p>
+    </section>
+
+    <section id="subjects">
+      <h2>Subjects</h2>
+      <div class="subject-grid">
+        <a class="subject-card" href="topics/database/index.html">
+          <span class="tag">LIVE</span>
+          <h3>Fundamental of <span class="x">Database</span></h3>
+          <p>ACID, B-Trees, replication, sharding, WAL, isolation levels, and
+             how SQL queries actually run — explained through interactive
+             widgets you can poke at.</p>
+          <div class="meta">8 lessons · interactive</div>
+        </a>
+
+        <div class="subject-card coming-soon" aria-disabled="true">
+          <span class="tag">SOON</span>
+          <h3>Fundamental of <span class="x">Backend</span></h3>
+          <p>HTTP, request lifecycles, proxies, load balancers, caching,
+             rate limiting, and the network layer beneath your APIs.</p>
+          <div class="meta">Coming soon</div>
+        </div>
+
+        <div class="subject-card coming-soon" aria-disabled="true">
+          <span class="tag">SOON</span>
+          <h3>Fundamental of <span class="x">Kafka</span></h3>
+          <p>Topics, partitions, consumer groups, offsets, log compaction —
+             learn the streaming model by watching events flow.</p>
+          <div class="meta">Coming soon</div>
+        </div>
+
+        <div class="subject-card coming-soon" aria-disabled="true">
+          <span class="tag">SOON</span>
+          <h3>Fundamental of <span class="x">Light</span></h3>
+          <p>Reflection, refraction, diffraction, wavelengths, color — the
+             physics of light through interactive optical experiments.</p>
+          <div class="meta">Coming soon</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" style="margin-top: 3rem; max-width: 720px;">
+      <h2>Why visual?</h2>
+      <p>
+        A picture of a B-Tree splitting is worth more than three paragraphs of
+        prose, and an animation of a transaction rolling back beats any bullet
+        list. This site is built for learners who want to <em>see</em> ideas
+        move, not just read about them.
+      </p>
+      <p>
+        Each subject is a self-contained module. Today only Database is shipped
+        — more subjects will follow.
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    Built with curiosity. Made for learners who think with pictures.
+  </footer>
+</body>
+</html>
