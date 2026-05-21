@@ -10,5 +10,5 @@
 // (broken) link.
 
 export const config = {
-  bmcUsername: '', // e.g. 'xthewiz' — leave '' to keep buttons in "preview" mode
+  bmcUsername: 'xthewiz', // → https://www.buymeacoffee.com/xthewiz
 };
