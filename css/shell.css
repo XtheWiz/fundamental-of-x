@@ -461,6 +461,79 @@ pre {
 }
 
 /* =========================
+   Mascot — X-sensei
+   ========================= */
+.mascot { display: inline-block; vertical-align: middle; overflow: visible; }
+
+.mascot-brand {
+  display: inline-block;
+  margin-right: 0.6rem;
+  vertical-align: middle;
+  transform: translateY(-2px);
+}
+
+.mascot-hello {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-top: 1.75rem;
+  max-width: 540px;
+}
+
+.mascot-hello-figure {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.mascot-hello-bubble {
+  position: relative;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  box-shadow: 4px 4px 0 var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+/* Speech bubble tail pointing to the mascot's head. */
+.mascot-hello-bubble::before,
+.mascot-hello-bubble::after {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 18px;
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-right-color: var(--ink);
+}
+.mascot-hello-bubble::after {
+  left: -10px;
+  border-right-color: var(--paper);
+}
+
+/* Key Takeaways: mascot pokes in from the top-right corner of the box. */
+.takeaways { position: relative; overflow: visible; }
+
+.mascot-takeaway {
+  position: absolute;
+  top: -38px;
+  right: -16px;
+  line-height: 0;
+  pointer-events: none;
+  transform: rotate(6deg);
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .mascot-hello { flex-direction: column; align-items: flex-start; }
+  .mascot-hello-bubble::before,
+  .mascot-hello-bubble::after { display: none; }
+  .mascot-takeaway { display: none; }
+}
+
+/* =========================
    Footer
    ========================= */
 .site-footer {

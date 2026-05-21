@@ -2,6 +2,9 @@
 // wires up the mobile menu toggle. Imported as an ES module by every
 // lesson/topic page so the React/Vite migration later is just a port.
 
+// Side-effect import: mascot.js auto-mounts X-sensei into well-known slots.
+import './mascot.js';
+
 export function mountSidebar({ manifest, currentSlug, mountSelector = '#sidebar' }) {
   const root = document.querySelector(mountSelector);
   if (!root) return;

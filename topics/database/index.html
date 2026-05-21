@@ -52,6 +52,7 @@
 
   <script type="module">
     import { manifest } from './manifest.js';
+    import '../../js/mascot.js';
     const grid = document.getElementById('lessons');
     grid.innerHTML = manifest.lessons.map((l, i) => `
       <a class="lesson-card" href="lessons/${l.slug}.html">
