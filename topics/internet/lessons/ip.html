@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IP &amp; Routing — Fundamental of Internet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 02</div>
+          <h1>IP &amp; Routing</h1>
+          <p class="blurb">
+            Once you know the destination's IP address, your packet has to
+            <em>get</em> there — hopping from one router to the next across an
+            ocean of networks that have never met. No central map. No
+            single owner. Just routers, gossiping.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The model</h2>
+          <p>
+            Every machine on the internet has an IP address. Routers sit at
+            the edges between networks (your home → ISP → backbone → cloud
+            provider → server). Each router has a <strong>routing table</strong>
+            that maps "if the destination matches this subnet, send to this
+            neighbor."
+          </p>
+          <ul>
+            <li>Packets are <strong>independent</strong>. Each one gets routed afresh; two packets from the same flow can take different paths.</li>
+            <li>Each packet has a <strong>TTL</strong> (Time To Live) — a hop counter that decrements at every router. If it hits zero, the packet is dropped. This prevents routing loops.</li>
+            <li>The path you actually take is the result of <em>thousands</em> of independent routing decisions. <code>traceroute</code> walks it.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Send a packet across a small network. Watch TTL tick down at each hop.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>IP is <strong>best-effort</strong> and <strong>connectionless</strong>. Each packet is independent. Reliability is TCP's job, one layer up.</li>
+            <li>Routers don't know the full path — only "the next hop closer to the destination."</li>
+            <li>TTL prevents infinite loops if the routing table is misconfigured.</li>
+            <li>BGP (Border Gateway Protocol) is how the world's networks announce reachability to each other. It's basically gossip at internet scale.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initIpWidget } from '../widgets/ip.js';
+    mountSidebar({ manifest, currentSlug: 'ip' });
+    mountBreadcrumb({ manifest, currentTitle: 'IP & Routing' });
+    mountLessonNav({ manifest, currentSlug: 'ip' });
+    mountMenuToggle();
+    initIpWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

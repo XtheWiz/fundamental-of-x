@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fundamental of Internet — Visual Crash Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/shell.css">
+  <link rel="stylesheet" href="../../css/widgets.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb">
+        <a href="../../index.html">Fundamental of X</a>
+        <span class="sep">›</span>
+        <span class="current">Internet</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="hub">
+    <section class="intro">
+      <div class="badge live">8 Lessons</div>
+      <h1>Fundamental of <span class="x">Internet</span></h1>
+      <p>
+        The plumbing under every URL. We start at "user types a URL" and
+        walk down the stack: DNS resolves the name, IP routes the packets,
+        TCP keeps them in order, TLS encrypts them, HTTP carries the
+        meaning. Each lesson is an interactive widget you can poke.
+      </p>
+      <p>
+        This topic owns the <em>transport</em> story. The HTTP semantics
+        (verbs, status codes, REST) live in <em>Fundamental of Backend</em>
+        when that ships.
+      </p>
+    </section>
+
+    <section>
+      <h2>Lessons</h2>
+      <div class="lesson-grid" id="lessons"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    Part of the <a href="../../index.html">Fundamental of X</a> series.
+  </footer>
+
+  <script type="module">
+    import { manifest } from './manifest.js';
+    import '../../js/mascot.js';
+    const grid = document.getElementById('lessons');
+    grid.innerHTML = manifest.lessons.map((l, i) => `
+      <a class="lesson-card" href="lessons/${l.slug}.html">
+        <span class="num">${String(i + 1).padStart(2, '0')}</span>
+        <h3>${l.title}</h3>
+        <p class="blurb">${l.blurb}</p>
+      </a>
+    `).join('');
+  </script>
+</body>
+</html>

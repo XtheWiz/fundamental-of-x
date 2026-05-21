@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TCP vs UDP — Fundamental of Internet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 05</div>
+          <h1>TCP vs UDP</h1>
+          <p class="blurb">
+            Two transport protocols, one network. TCP cares about every byte
+            arriving in order; UDP doesn't care if some go missing. The
+            tradeoff is reliability vs latency, and the right choice depends
+            entirely on what you're sending.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The two philosophies</h2>
+          <ul>
+            <li><strong>TCP</strong> — connection-oriented. Three-way handshake to start. Every segment is numbered, ACKed, and retransmitted if lost. Bytes always arrive in order. Pays latency for reliability.</li>
+            <li><strong>UDP</strong> — connectionless. Send a datagram, hope for the best. No ordering, no retry, no acks. If a packet drops, your app deals with it (or ignores it). Lowest possible overhead.</li>
+          </ul>
+          <p>Rule of thumb: anything that breaks if you lose a byte → TCP. Anything that breaks if you wait → UDP.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Send 10 packets over both. Crank the packet loss slider and watch how each protocol responds.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li><strong>TCP</strong> guarantees delivery and order at the cost of higher latency (waiting for retransmits) and per-connection state.</li>
+            <li><strong>UDP</strong> is "best effort." Lost packets are lost — but the protocol gets out of your way.</li>
+            <li>Use TCP for: web (HTTP/1, /2), file transfer, email, SSH — anything that requires every byte.</li>
+            <li>Use UDP for: DNS queries, real-time games, video calls (WebRTC), DNS, NTP — anything where late data is worse than missing data.</li>
+            <li>QUIC (HTTP/3) is built on UDP but adds its own reliability — best of both worlds, at the cost of complexity.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initTcpVsUdpWidget } from '../widgets/tcp-vs-udp.js';
+    mountSidebar({ manifest, currentSlug: 'tcp-vs-udp' });
+    mountBreadcrumb({ manifest, currentTitle: 'TCP vs UDP' });
+    mountLessonNav({ manifest, currentSlug: 'tcp-vs-udp' });
+    mountMenuToggle();
+    initTcpVsUdpWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

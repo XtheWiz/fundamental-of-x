@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TCP Handshake &amp; Flow — Fundamental of Internet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 04</div>
+          <h1>TCP Handshake &amp; Flow</h1>
+          <p class="blurb">
+            TCP turns IP's "best effort" into something you can actually
+            build on: every byte numbered, every segment ACKed, lost ones
+            retransmitted. The price is one round trip of handshake before
+            you can send anything.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The three-way handshake</h2>
+          <ol>
+            <li>Client → Server: <code>SYN seq=x</code> "let's talk, my starting number is x."</li>
+            <li>Server → Client: <code>SYN-ACK seq=y ack=x+1</code> "got it, my starting number is y."</li>
+            <li>Client → Server: <code>ACK ack=y+1</code> "we're connected."</li>
+          </ol>
+          <p>Now both sides agree on starting sequence numbers, and data can flow. Every byte sent counts up, every byte received is ACKed.</p>
+        </section>
+
+        <section class="section">
+          <h2>Sliding window &amp; retransmission</h2>
+          <p>
+            TCP doesn't send one packet and wait for an ACK before sending
+            the next — that'd be slow. It sends a <strong>window</strong> of
+            unacked segments, then slides forward as ACKs arrive. If an ACK
+            doesn't show up in time (the retransmission timeout), the sender
+            assumes loss and resends from the gap.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>The handshake is <strong>one full RTT</strong> before any data can flow. That's why TCP feels slow over high-latency links.</li>
+            <li>The sliding window lets TCP keep multiple segments in flight, dramatically improving throughput.</li>
+            <li>Lost ACKs cause retransmissions, which cause TCP to <strong>back off</strong> (slow start, congestion avoidance) — that's why one bad packet can stall a whole flow.</li>
+            <li>TCP teardown is similar: FIN / FIN-ACK / ACK to gracefully close.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initTcpWidget } from '../widgets/tcp.js';
+    mountSidebar({ manifest, currentSlug: 'tcp' });
+    mountBreadcrumb({ manifest, currentTitle: 'TCP Handshake & Flow' });
+    mountLessonNav({ manifest, currentSlug: 'tcp' });
+    mountMenuToggle();
+    initTcpWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
