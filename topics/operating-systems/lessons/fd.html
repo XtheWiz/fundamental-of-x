@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>File Descriptors &amp; Pipes — Fundamental of Operating Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 05</div>
+          <h1>File Descriptors &amp; Pipes</h1>
+          <p class="blurb">
+            "In Unix, everything is a file" is half true. The full truth is
+            "in Unix, everything is a <em>file descriptor</em>" — a small
+            integer indexing into a per-process table of open streams.
+            Files, sockets, pipes, terminals — same API.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The FD table</h2>
+          <p>Each process has a table. By convention:</p>
+          <ul style="font-family: var(--font-mono); font-size: 0.92rem;">
+            <li>fd <strong>0</strong> = stdin</li>
+            <li>fd <strong>1</strong> = stdout</li>
+            <li>fd <strong>2</strong> = stderr</li>
+            <li>fd 3, 4, 5… = whatever you open next</li>
+          </ul>
+          <p>
+            <code>open()</code> returns the lowest-numbered free FD.
+            <code>close()</code> frees that slot. <code>dup2(old, new)</code>
+            makes <code>new</code> point to the same underlying stream as
+            <code>old</code> — the trick that makes shell redirection
+            work.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Pipes are FDs too</h2>
+          <p>
+            <code>pipe()</code> creates two new FDs: a read end and a
+            write end. They share a kernel buffer. Two processes (parent
+            + forked child, typically) can communicate by writing to one
+            end and reading from the other.
+          </p>
+          <p>
+            <code>cat foo.txt | grep bar</code> is exactly this: the
+            shell forks <code>cat</code>, redirects its stdout (fd 1) to
+            the pipe's write end via dup2, forks <code>grep</code>,
+            redirects its stdin (fd 0) to the pipe's read end. Both
+            programs are oblivious — they think they're using stdin and
+            stdout normally.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Open files. Pipe two processes. Redirect stdin/stdout. Watch the FD table rewire.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>FDs are <strong>per-process</strong>. fd 3 in one process and fd 3 in another are unrelated.</li>
+            <li>FDs are inherited across <code>fork()</code> — that's how parent-child IPC works.</li>
+            <li>The same read/write API works for files, pipes, sockets, devices. That uniformity is one of Unix's biggest design wins.</li>
+            <li>Modern alternatives (Windows handles, io_uring fds) extend the idea but the basic model has survived 50 years for a reason.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initFdWidget } from '../widgets/fd.js';
+    mountSidebar({ manifest, currentSlug: 'fd' });
+    mountBreadcrumb({ manifest, currentTitle: 'File Descriptors & Pipes' });
+    mountLessonNav({ manifest, currentSlug: 'fd' });
+    mountMenuToggle();
+    initFdWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Processes vs Threads — Fundamental of Operating Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 01</div>
+          <h1>Processes vs Threads</h1>
+          <p class="blurb">
+            Both are units of execution. The difference is what they
+            <em>share</em>. Threads share an address space; processes don't.
+            That single distinction explains why threads are cheap to
+            create and dangerous to reason about — and why processes are
+            the opposite.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>What a process owns</h2>
+          <p>A Linux process owns:</p>
+          <ul>
+            <li>An <strong>address space</strong> (its own virtual memory layout).</li>
+            <li>One or more <strong>threads</strong> (with shared stacks-in-the-same-address-space).</li>
+            <li>A <strong>file descriptor table</strong> (open files, sockets, pipes).</li>
+            <li>A <strong>process ID</strong> (PID), parent PID, credentials, signal handlers.</li>
+            <li>Working directory, environment variables, controlling terminal.</li>
+          </ul>
+          <p>Threads within a process share <em>all</em> of those except their own stack and a few thread-local bits. That's the speed and the risk in one sentence.</p>
+        </section>
+
+        <section class="section">
+          <h2>fork(), exec(), and the family tree</h2>
+          <p>Unix has a beautifully minimal API for creating processes:</p>
+          <ul>
+            <li><strong><code>fork()</code></strong>: clone this process. Returns 0 in the child, the child's PID in the parent. Two processes, identical state, single line of code.</li>
+            <li><strong><code>exec()</code></strong>: replace this process's program with a different one. Same PID, same FDs (usually), entirely different code.</li>
+          </ul>
+          <p>"<code>fork</code> then <code>exec</code>" is how every shell launches every command. Modern Linux also has <code>clone()</code>, which lets you control exactly what to share (the basis of threads + containers).</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Fork some processes, spawn threads inside them, and see who shares what.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Processes are <strong>isolated</strong>; threads are <strong>shared</strong>. Pick threads when you need to share data fast; pick processes when you can't afford a crash to take down everything.</li>
+            <li>Creating a thread is ~10× cheaper than a process. fork() is fast because Linux uses copy-on-write — children only diverge from parents lazily.</li>
+            <li>Threads can corrupt each other's data via races (next lessons cover concurrency). Processes can't — at most they can leak FDs or kill each other with signals.</li>
+            <li>"Process" and "thread" are kernel concepts. Languages add their own: green threads, fibers, goroutines, coroutines — all built on top.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initProcessesWidget } from '../widgets/processes.js';
+    mountSidebar({ manifest, currentSlug: 'processes' });
+    mountBreadcrumb({ manifest, currentTitle: 'Processes vs Threads' });
+    mountLessonNav({ manifest, currentSlug: 'processes' });
+    mountMenuToggle();
+    initProcessesWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

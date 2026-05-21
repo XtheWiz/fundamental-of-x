@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>IPC — Fundamental of Operating Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 07</div>
+          <h1>Inter-Process Communication</h1>
+          <p class="blurb">
+            Processes are isolated by design — but real applications need
+            them to coordinate. Unix offers half a dozen ways for processes
+            to talk, each with very different speed, scope, and
+            ergonomics.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The menu</h2>
+          <ul>
+            <li><strong>Pipe / named pipe (FIFO)</strong> — byte stream, parent↔child or via filesystem. Simple, slow-ish (kernel buffer).</li>
+            <li><strong>Unix domain socket</strong> — like a TCP socket but local. Datagram or stream. Used by Docker, X11, dbus, container runtimes.</li>
+            <li><strong>Shared memory</strong> — a region of memory mapped into both processes' address spaces. Fastest possible IPC; needs your own synchronization.</li>
+            <li><strong>Message queue (POSIX)</strong> — kernel-managed mailbox. Discrete messages, priorities. Less common now.</li>
+            <li><strong>Signals</strong> — tiny async notifications (one of ~30 numbered signals). For control, not data.</li>
+            <li><strong>TCP loopback</strong> — same protocol as remote networking, just on 127.0.0.1. Works everywhere; slowest local option.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Pick a mechanism, see relative throughput, when to reach for it, and what a small message exchange looks like.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Shared memory is the fastest but the most dangerous — no kernel mediation means you must synchronize yourself (last lesson's mutexes).</li>
+            <li>Unix domain sockets are the modern default for "two processes on the same box need to talk." Docker, gRPC, browsers all use them.</li>
+            <li>Signals are not a data channel — they're an interrupt. Use them to say "shut down" or "reload config," not "here's a request."</li>
+            <li>If your two "processes" are actually two threads, just use shared memory (your variables) plus a mutex. The IPC menu is for when you can't.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initIpcWidget } from '../widgets/ipc.js';
+    mountSidebar({ manifest, currentSlug: 'ipc' });
+    mountBreadcrumb({ manifest, currentTitle: 'Inter-Process Communication' });
+    mountLessonNav({ manifest, currentSlug: 'ipc' });
+    mountMenuToggle();
+    initIpcWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

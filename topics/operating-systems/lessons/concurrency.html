@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Concurrency Primitives — Fundamental of Operating Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 06</div>
+          <h1>Concurrency Primitives</h1>
+          <p class="blurb">
+            Two threads, one variable. They take turns incrementing it.
+            Sometimes they collide and the variable loses a write. This
+            is the bug at the heart of every "we have a race condition"
+            postmortem.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The race</h2>
+          <p>The instruction <code>counter++</code> is actually three steps:</p>
+          <ol>
+            <li>Load <code>counter</code> into a register</li>
+            <li>Add 1</li>
+            <li>Store back to memory</li>
+          </ol>
+          <p>If thread A finishes step 1 (sees 5), then thread B does all three (sets it to 6), then A continues with step 3 (writes 6 back) — one increment was lost. The classic <strong>read-modify-write race</strong>.</p>
+        </section>
+
+        <section class="section">
+          <h2>The primitives</h2>
+          <ul>
+            <li><strong>Mutex</strong> (mutual exclusion lock) — only one thread inside the critical section at a time. The basic tool.</li>
+            <li><strong>Semaphore</strong> — count of available "permits"; threads acquire/release. Generalizes mutex (semaphore with capacity=1).</li>
+            <li><strong>Condition variable</strong> — wait until some condition becomes true, signalled by another thread. Pairs with a mutex.</li>
+            <li><strong>Atomic operation</strong> — single CPU instruction does load+modify+store as one indivisible step. Faster than a mutex for simple cases.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>The next bug: deadlock</h2>
+          <p>
+            Now you have two mutexes. Thread A locks M1, then M2. Thread B
+            locks M2, then M1. If both grab their first lock at the same
+            time, they each wait forever for the other's. Welcome to
+            <strong>deadlock</strong>.
+          </p>
+          <p>Standard avoidance: <strong>always acquire locks in a consistent global order</strong>. Easy to say, hard to enforce in a large codebase.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Run two threads racing on a counter. Toggle a mutex. Then try the two-mutex deadlock scenario.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Race conditions are silent — your code "mostly works" until it doesn't. Reproducing them is famously hard.</li>
+            <li>Mutexes are the right default. Lock-free / atomic-based code is faster but much harder to write correctly.</li>
+            <li>Deadlock has four required conditions (Coffman): mutual exclusion, hold-and-wait, no preemption, circular wait. Break any one and deadlock is impossible.</li>
+            <li>Modern languages offer higher-level escape hatches: channels (Go, Rust), actors (Erlang), structured concurrency (Swift, Python's asyncio), CSP-style coordination.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initConcurrencyWidget } from '../widgets/concurrency.js';
+    mountSidebar({ manifest, currentSlug: 'concurrency' });
+    mountBreadcrumb({ manifest, currentTitle: 'Concurrency Primitives' });
+    mountLessonNav({ manifest, currentSlug: 'concurrency' });
+    mountMenuToggle();
+    initConcurrencyWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
