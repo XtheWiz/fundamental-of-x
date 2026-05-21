@@ -534,6 +534,110 @@ pre {
 }
 
 /* =========================
+   Buy Me a Coffee (tip jar)
+   ========================= */
+.bmc-footer-wrap {
+  margin-top: 0.8rem;
+  text-align: center;
+}
+
+.bmc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: white;
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 0.45em 1em;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  box-shadow: 4px 4px 0 var(--ink);
+  text-decoration: none;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.bmc-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+  color: white;
+}
+
+.bmc-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--ink);
+}
+
+.bmc-btn .bmc-cup {
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+.bmc-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 0.85rem 1.1rem;
+  box-shadow: 4px 4px 0 var(--ink);
+  text-decoration: none;
+  color: var(--ink);
+  margin: 1.25rem 0 0;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.bmc-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--ink);
+  color: var(--ink);
+}
+
+.bmc-card-mascot {
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.bmc-card-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bmc-card-text strong {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  font-size: 1.2rem;
+  color: var(--ink);
+}
+
+.bmc-card-text span {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin-top: 0.15rem;
+}
+
+.bmc-card-cta {
+  flex-shrink: 0;
+  background: var(--accent);
+  color: white;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  font-size: 1rem;
+  padding: 0.4em 0.9em;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  align-self: center;
+}
+
+@media (max-width: 540px) {
+  .bmc-card { flex-direction: column; text-align: center; }
+  .bmc-card-text { align-items: center; }
+}
+
+/* =========================
    Footer
    ========================= */
 .site-footer {

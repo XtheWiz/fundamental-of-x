@@ -1,6 +1,7 @@
 // X-sensei — the Fundamental of X mascot. Inline SVG, no external assets.
-// Three poses share head + body; only the right arm differs.
-// Colors come from CSS variables so the mascot inherits the page theme.
+// Four poses share head + body; only the arms (and a coffee mug, in
+// 'coffee') differ. Colors come from CSS variables so the mascot
+// inherits the page theme.
 //
 // Usage:
 //   import { mascot, mountMascot } from './mascot.js';
@@ -9,6 +10,9 @@
 // Importing this module also auto-mounts the mascot into well-known spots
 // (.site-header .brand, .hub .intro, .takeaways) so existing pages
 // pick it up without per-page edits.
+//
+// Side-effect import: support.js auto-mounts the Buy Me a Coffee buttons.
+import './support.js';
 
 const C = {
   ink: 'var(--ink, #1a1a1a)',
@@ -63,16 +67,18 @@ function body(rightArm) {
     <!-- scarf tail (right side) -->
     <path d="M 76 90 Q 84 96 80 108 L 72 104 Z" fill="${C.accent}" stroke="${C.ink}" stroke-width="2" stroke-linejoin="round"/>
 
-    <!-- left arm (tucked) -->
-    <path d="M 28 98 Q 22 114 27 130" stroke="${C.ink}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <circle cx="27" cy="130" r="3.5" fill="${C.paper}" stroke="${C.ink}" stroke-width="2"/>
-
     ${rightArm}
   `;
 }
 
+const tuckedLeftArm = `
+  <!-- left arm (tucked) -->
+  <path d="M 28 98 Q 22 114 27 130" stroke="${C.ink}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <circle cx="27" cy="130" r="3.5" fill="${C.paper}" stroke="${C.ink}" stroke-width="2"/>
+`;
+
 const arms = {
-  wave: `
+  wave: tuckedLeftArm + `
     <!-- right arm raised -->
     <path d="M 72 98 Q 84 80 82 60" stroke="${C.ink}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
     <circle cx="82" cy="56" r="5.5" fill="${C.paper}" stroke="${C.ink}" stroke-width="2"/>
@@ -81,17 +87,36 @@ const arms = {
     <path d="M 90 58 L 97 58" stroke="${C.ink}" stroke-width="1.5" stroke-linecap="round"/>
     <path d="M 90 64 L 95 66" stroke="${C.ink}" stroke-width="1.5" stroke-linecap="round"/>
   `,
-  point: `
+  point: tuckedLeftArm + `
     <!-- right arm extended, pointing -->
     <path d="M 72 100 Q 86 96 96 96" stroke="${C.ink}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
     <circle cx="96" cy="96" r="4.5" fill="${C.paper}" stroke="${C.ink}" stroke-width="2"/>
     <!-- finger -->
     <path d="M 100 96 L 106 96" stroke="${C.ink}" stroke-width="2" stroke-linecap="round"/>
   `,
-  idle: `
+  idle: tuckedLeftArm + `
     <!-- right arm relaxed -->
     <path d="M 72 98 Q 78 114 73 130" stroke="${C.ink}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
     <circle cx="73" cy="130" r="3.5" fill="${C.paper}" stroke="${C.ink}" stroke-width="2"/>
+  `,
+  coffee: `
+    <!-- left arm up, gripping mug -->
+    <path d="M 28 98 Q 32 90 40 88" stroke="${C.ink}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- right arm up, gripping mug -->
+    <path d="M 72 98 Q 68 90 60 88" stroke="${C.ink}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- mug body -->
+    <rect x="38" y="78" width="24" height="16" rx="2" fill="${C.paper}" stroke="${C.ink}" stroke-width="2"/>
+    <!-- coffee surface -->
+    <rect x="40" y="80" width="20" height="3.5" fill="${C.ink}"/>
+    <!-- mug handle -->
+    <path d="M 62 83 Q 70 83 70 89 Q 70 93 62 93" stroke="${C.ink}" stroke-width="2" fill="none"/>
+    <!-- hands gripping mug -->
+    <circle cx="40" cy="88" r="3.5" fill="${C.paper}" stroke="${C.ink}" stroke-width="2"/>
+    <circle cx="60" cy="88" r="3.5" fill="${C.paper}" stroke="${C.ink}" stroke-width="2"/>
+    <!-- steam -->
+    <path d="M 44 74 Q 46 70 44 66" stroke="${C.ink}" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 50 74 Q 52 70 50 66" stroke="${C.ink}" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 56 74 Q 58 70 56 66" stroke="${C.ink}" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
   `,
 };
 
