@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Dead Letter Queues &amp; Retries — Fundamental of Messaging</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 07</div>
+          <h1>Dead Letter Queues &amp; Retries</h1>
+          <p class="blurb">
+            A consumer crashes on the same message every time. Retry
+            forever and the queue stops draining. Skip silently and lose
+            data. The grown-up answer is exponential backoff plus a
+            <strong>dead letter queue</strong> — quarantine the poison
+            message and keep the line moving.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>Why retry?</h2>
+          <p>
+            Most failures are <em>transient</em>: a network blip, a DB
+            momentarily unavailable, a downstream service in the middle
+            of a deploy. Retrying after a short wait fixes them
+            transparently.
+          </p>
+          <p>
+            But some failures are <em>permanent</em>: a malformed message,
+            a bug in the consumer code, a referenced record that no longer
+            exists. No amount of retrying will help — and worse, an
+            unbounded retry blocks every message behind the poison one.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>The pattern</h2>
+          <ol>
+            <li>On failure, increment a retry count and wait <strong>exponentially longer</strong> each time (1s → 2s → 4s → …).</li>
+            <li>Add a <strong>jitter</strong> (random ±25%) to avoid retry stampedes when many consumers fail at once.</li>
+            <li>After N retries, give up. Send the message to a <strong>dead letter queue</strong> (DLQ) for human review.</li>
+            <li>Alert on DLQ growth — it's almost always a sign of a bug or upstream issue.</li>
+          </ol>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Process a stream where one message is poisonous. Configure retry count + backoff and watch outcomes diverge.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li><strong>Always cap retries.</strong> Unbounded retry is how systems wedge themselves.</li>
+            <li>Exponential backoff + jitter is the standard. Linear backoff causes thundering herds; constant backoff is too aggressive.</li>
+            <li>The DLQ is a triage tool, not a graveyard. If it grows, something needs investigating — alert on it.</li>
+            <li>Some brokers (SQS, RabbitMQ) have DLQs built in. Kafka requires you to write to a separate topic — same idea, more wiring.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initDlqWidget } from '../widgets/dlq-retries.js';
+    mountSidebar({ manifest, currentSlug: 'dlq-retries' });
+    mountBreadcrumb({ manifest, currentTitle: 'Dead Letter Queues & Retries' });
+    mountLessonNav({ manifest, currentSlug: 'dlq-retries' });
+    mountMenuToggle();
+    initDlqWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

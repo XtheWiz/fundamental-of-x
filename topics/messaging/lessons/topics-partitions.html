@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Topics, Partitions & Consumer Groups — Fundamental of Messaging</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 02</div>
+          <h1>Topics, Partitions &amp; Consumer Groups</h1>
+          <p class="blurb">
+            The Kafka mental model. A <strong>topic</strong> is a named
+            stream of messages. A topic is split into <strong>partitions</strong>
+            for parallelism. A <strong>consumer group</strong> divides
+            those partitions among its members. Three concepts, most of
+            modern streaming.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>Topics</h2>
+          <p>A topic is just a named append-only log. Producers append messages; consumers read in order. Topics don't dictate <em>who</em> reads them — many consumers can read the same topic independently.</p>
+        </section>
+
+        <section class="section">
+          <h2>Partitions — the parallelism unit</h2>
+          <p>
+            A single log can only be appended sequentially. To scale, Kafka splits a topic into N <strong>partitions</strong>. Each partition is its own log. Messages are routed to a partition by key (same key always → same partition) or by round-robin (no key).
+          </p>
+          <p>This is the same idea as <a href="../../database/lessons/sharding.html">database sharding</a> — split data to parallelize.</p>
+        </section>
+
+        <section class="section">
+          <h2>Consumer groups — the work-sharing unit</h2>
+          <p>
+            Multiple consumers can join a group. Kafka assigns each partition to exactly one consumer in the group. If you have 4 partitions and 4 consumers, each gets one. 4 partitions and 2 consumers, each gets 2. 4 partitions and 8 consumers, 4 idle.
+          </p>
+          <p>
+            <strong>Different groups</strong> on the same topic each get the full stream — fan-out. <strong>Same group</strong> = load-balanced — fan-out one-of.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Tune number of partitions, consumers per group, and number of groups. See how messages distribute.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li><strong>Partition count = max parallelism.</strong> Adding consumers past partition count gets you idle consumers, not more throughput.</li>
+            <li>Partition by the right key. Same user's events on the same partition = guaranteed ordering for that user.</li>
+            <li>You can add consumers to a group at runtime; Kafka rebalances partition assignment.</li>
+            <li>Different consumer groups = independent consumption. Analytics + email service + audit log can all consume "orders" without affecting each other.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initTopicsPartitionsWidget } from '../widgets/topics-partitions.js';
+    mountSidebar({ manifest, currentSlug: 'topics-partitions' });
+    mountBreadcrumb({ manifest, currentTitle: 'Topics, Partitions & Consumer Groups' });
+    mountLessonNav({ manifest, currentSlug: 'topics-partitions' });
+    mountMenuToggle();
+    initTopicsPartitionsWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

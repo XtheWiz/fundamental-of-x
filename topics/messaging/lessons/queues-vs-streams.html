@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Queues vs Streams — Fundamental of Messaging</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 05</div>
+          <h1>Queues vs Streams</h1>
+          <p class="blurb">
+            "Messaging" hides two different shapes underneath. A
+            <strong>work queue</strong> (RabbitMQ, SQS) is for distributing
+            tasks. A <strong>stream</strong> (Kafka, Kinesis) is an
+            append-only log replayable by many readers. Same word, very
+            different mechanics.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>Work queue: "do this task"</h2>
+          <ul>
+            <li>Each message is a unit of work to be done by <em>one</em> worker.</li>
+            <li>Workers compete for messages; once consumed, it's gone.</li>
+            <li>Used for: email sending, image resizing, payment processing — anything where exactly one worker should do the job.</li>
+            <li>Failure: message returns to the queue (or to a DLQ — lesson 7).</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Stream: "here's what happened, in order"</h2>
+          <ul>
+            <li>Messages are events on a log. Many independent readers can consume the same log.</li>
+            <li>Reading doesn't delete; consumers track their own <strong>offset</strong> (which position they've reached).</li>
+            <li>Used for: event sourcing, analytics, change data capture, stream processing.</li>
+            <li>You can rewind. Add a new consumer six months later — it starts from the beginning.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>The blurred middle</h2>
+          <p>Modern brokers don't strictly fit one mold:</p>
+          <ul>
+            <li><strong>RabbitMQ Streams</strong>: log-style on top of queue infrastructure.</li>
+            <li><strong>Kafka Queues (KIP-932)</strong>: work-queue-style competing consumers on top of a log.</li>
+            <li><strong>SQS</strong>: pure work queue, no replay.</li>
+            <li><strong>Redis Streams</strong>: hybrid; readers consume by group (work-queue) or independently (log).</li>
+          </ul>
+          <p>The mental model still helps: are you distributing tasks or recording events?</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Run the same 10 messages through both shapes. See how consumption differs.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>If only one consumer should ever process a message: queue. If many independent readers care: stream.</li>
+            <li>Streams give you replay for free — invaluable for analytics and debugging. Queues don't.</li>
+            <li>Streams use more disk (retention) but cheaper per message. Queues drop messages as soon as they're acked.</li>
+            <li>Don't pick a tool because it's trendy. Pick the shape that matches the data flow you actually have.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initQueuesStreamsWidget } from '../widgets/queues-vs-streams.js';
+    mountSidebar({ manifest, currentSlug: 'queues-vs-streams' });
+    mountBreadcrumb({ manifest, currentTitle: 'Queues vs Streams' });
+    mountLessonNav({ manifest, currentSlug: 'queues-vs-streams' });
+    mountMenuToggle();
+    initQueuesStreamsWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
