@@ -159,6 +159,6 @@ if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', mountMascot);
   } else {
-    mountMascot();
+    setTimeout(mountMascot, 0);
   }
 }

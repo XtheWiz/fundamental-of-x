@@ -70,6 +70,8 @@ if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', mountSupport);
   } else {
-    mountSupport();
+    // Defer to next macrotask so the (circular) mascot.js import chain
+    // finishes initializing before we call mascot() from inside cardButton.
+    setTimeout(mountSupport, 0);
   }
 }
