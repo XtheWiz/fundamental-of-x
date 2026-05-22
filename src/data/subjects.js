@@ -16,7 +16,7 @@ export const CATEGORIES = [
     key: 'software',
     label: 'Software & Systems',
     subjects: [
-      C('Database', 'Where does your SELECT * actually go? Step inside the engine — ACID, B-Trees, replication, query planning — all live.', 'database'),
+      C('Database', 'Where does your SELECT * actually go? Step inside the engine — ACID, B-Trees, replication, query planning — all live.', 'database', true),
       C('Internet', 'Type a URL, hit Enter. Watch packets leave your machine and find their way back. IP, TCP, DNS, TLS — all animated.', 'internet'),
       C('Backend', 'Once a request lands on your server, what happens next? Routing, middleware, caching, rate limiting — every step lit up.', 'backend'),
       C('Messaging', 'Brokers, queues, topics, partitions — drag messages around and see how Kafka, RabbitMQ, SQS actually differ.', 'messaging'),
