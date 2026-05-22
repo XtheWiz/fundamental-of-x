@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Demand Response — Fundamental of Energy Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 07</div>
+          <h1>Demand Response</h1>
+          <p class="blurb">Instead of building peakers to cover a 100-hour-a-year spike, pay big consumers to shed load. Aluminum smelters, cement kilns, data centers, EV fleets, and even water heaters can all flex. Demand response is the cheapest 'plant' on the system.</p>
+        </div>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Configure a heat-wave hour and dispatch DR vs peakers — see what each costs.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>DR competes with peakers — and wins on cost in most ISO capacity auctions.</li>
+            <li>Industrial DR: smelters can drop 200 MW with one phone call.</li>
+            <li>Residential DR: smart thermostats, EV charging shifted by an hour.</li>
+            <li>Total US DR capacity is now ~30 GW — bigger than the entire nuclear fleet of South Korea.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initDemandResponseWidget } from '../widgets/demand-response.js';
+    mountSidebar({ manifest, currentSlug: 'demand-response' });
+    mountBreadcrumb({ manifest, currentTitle: "Demand Response" });
+    mountLessonNav({ manifest, currentSlug: 'demand-response' });
+    mountMenuToggle();
+    initDemandResponseWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
