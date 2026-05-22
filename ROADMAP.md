@@ -12,8 +12,8 @@ workflow picks 1–2 winners per day based on request volume and ships them
 automatically.
 
 **Prerequisites before designing this:** finish the React migration
-(Phases 2 + 3). All topics need to be React-native first so the
-generation pipeline produces files in a single, well-understood shape.
+(Phase 3 polish). All 18 topics are now React-native, but Phase 3
+cleanup is pending.
 
 **Open questions for that discussion:**
 - Submission surface: GitHub Issues (free, low friction, public), a
@@ -38,32 +38,53 @@ on fundamentals." Letting the audience nominate next subjects compounds
 that — the library grows in the directions learners actually want, and
 the AI loop keeps cost-per-topic low enough to justify the long tail.
 
-## Migration progress (live tracker)
+## Migration progress
 
 - **Phase 0** — done. Vite + React + react-router-dom + Framer Motion
-  scaffold. Home page in React. Vanilla pages survive in `/topics/*`.
+  scaffold. Home page in React. Vanilla pages survived in `/topics/*`.
 - **Phase 1** — done. Compilers ported (8 lessons, 8 widgets, Framer
   Motion accents on each).
-- **Phase 2** — in progress. One topic per session.
-  - [x] Genetics
-  - [x] Machine Learning
-  - [x] Database
-  - [ ] backend
-  - [ ] computer-architecture
-  - [ ] cryptography
-  - [ ] design-patterns
-  - [ ] distributed-systems
-  - [ ] electric-vehicles
-  - [ ] energy-systems
-  - [ ] internet
-  - [ ] light
-  - [ ] messaging
-  - [ ] operating-systems
-  - [ ] quantum-computing
-  - [ ] solar-cell
-  - [ ] transformers
-- **Phase 3** — pending. Delete remaining vanilla `topics/<name>/`
-  folders; remove unused shared `/js/*.js` (`mascot.js`, `shell.js`,
-  `support.js`, `i18n.js`) once nothing imports them; re-enable the
-  language switcher (`SWITCHER_ENABLED = true`) when i18n dictionaries
-  cover the React-native UI.
+- **Phase 2** — **DONE.** All 18 topics now React-native.
+  - [x] Compilers (Phase 1; native React widgets w/ Framer Motion)
+  - [x] Genetics (native React widgets w/ Framer Motion)
+  - [x] Machine Learning (native React widgets w/ Framer Motion)
+  - [x] Database (legacy-widget wrapper)
+  - [x] Internet, Backend, Messaging, Distributed Systems, Cryptography
+        (legacy-widget wrapper, generic TopicIndex/TopicLessonRoute scaffold)
+  - [x] Design Patterns, Operating Systems, Computer Architecture
+        (legacy-widget wrapper)
+  - [x] Transformers, Quantum Computing
+        (legacy-widget wrapper — both are R3F candidates for future polish)
+  - [x] Light, Solar Cell, Energy Systems, Electric Vehicles
+        (legacy-widget wrapper)
+- **Phase 3** — pending. Polish:
+  - Code-split per topic with `React.lazy` so the home page doesn't
+    download every widget (current bundle ~178 KB gzipped).
+  - Convert remaining legacy-widget topics to native React on demand
+    (when a widget needs Framer Motion or R3F treatment).
+  - Re-enable the language switcher (`SWITCHER_ENABLED = true`) once
+    i18n dictionaries cover the React-native UI.
+  - Add R3F to Quantum (Bloch sphere) and Light (3D ray tracing) as
+    showcase 3D widgets.
+
+## Architectural notes
+
+**Generic vs bespoke routes.** The four topics I touched first (Compilers,
+Genetics, ML, Database) have dedicated `<TopicName>Index.jsx` and
+`<TopicName>Lesson.jsx` route components in `src/routes/<topic>/`. Every
+other topic uses the generic `TopicIndex` and `TopicLessonRoute` in
+`src/components/`, driven entirely by the per-topic data file. New topics
+should prefer the generic path unless they need bespoke React widgets.
+
+**LegacyWidget pattern.** `src/widgets/database/LegacyWidget.jsx` is a
+small wrapper that mounts a vanilla `init<Name>Widget(rootEl)` function
+into a React-managed div. Used by every topic ported via "lift the
+existing JS into `src/widgets/<topic>/legacy/`". Trade-off: not idiomatic
+React, but 100% behavioural fidelity with no rewrite effort. Convert to
+native React per widget when there's a reason (animation polish, state
+that should be lifted, etc.).
+
+**Publish flow.** `npm run publish` resets `index.html` from the pristine
+`index.html.template`, wipes the previous build's `/assets/`, runs Vite
+into `dist/`, and copies the output back to repo root so GitHub Pages
+serves it from main without any settings change.
