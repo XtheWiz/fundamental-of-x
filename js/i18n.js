@@ -21,6 +21,11 @@ const SUPPORTED = [
   { code: 'th', label: 'Thai',     native: 'ไทย'       },
 ];
 
+// Feature flag: when false the switcher UI is hidden, URL/localStorage
+// language hints are ignored, and the site renders only the default
+// language. Flip to true to re-expose all SUPPORTED languages.
+const SWITCHER_ENABLED = false;
+
 const STORAGE_KEY = 'fox-lang';
 const DEFAULT_LANG = 'en';
 
@@ -30,6 +35,7 @@ let currentLang = DEFAULT_LANG;
 let i18nRoot = '';  // relative path prefix (e.g., '../../' from a lesson page)
 
 function detectLang() {
+  if (!SWITCHER_ENABLED) return DEFAULT_LANG;
   const url = new URLSearchParams(location.search).get('lang');
   if (url && SUPPORTED.some((l) => l.code === url)) return url;
   const stored = localStorage.getItem(STORAGE_KEY);
@@ -120,6 +126,7 @@ export function applyI18n(root = document) {
 // since most visitors won't change language.
 export function mountLangSwitcher(el) {
   if (!el) return;
+  if (!SWITCHER_ENABLED) return;  // hidden until i18n is ready for public use
   el.classList.add('lang-switcher');
   el.innerHTML = `
     <button class="lang-toggle" type="button" aria-label="Change language" aria-haspopup="menu" aria-expanded="false">
