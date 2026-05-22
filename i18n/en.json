@@ -28,13 +28,18 @@
   },
   "home": {
     "hero": {
-      "title": "Learn the foundations,<br>one <span class=\"x\">X</span> at a time.",
-      "body": "A visual, interactive companion for foundational topics that are usually explained with walls of text. Every lesson is hands-on — you click, drag, and watch the concept happen instead of just reading about it."
+      "title": "Foundations you can <em>poke at</em>.<br>One <span class=\"x\">X</span> at a time.",
+      "body": "We took the heavyweight topics — compilers, qubits, DNA, the internet — and turned each one into a playground. You click, you drag, you watch. The intuition shows up on its own. No wall of text required."
     },
     "about": {
       "heading": "Why visual?",
-      "p1": "A picture of a B-Tree splitting is worth more than three paragraphs of prose, and an animation of a transaction rolling back beats any bullet list. This site is built for learners who want to <em>see</em> ideas move, not just read about them.",
-      "p2": "Each subject is a self-contained module."
+      "p1": "Honestly? Because pictures move. A B-Tree splitting is one diagram instead of three paragraphs; a transaction rolling back is one animation instead of a bullet list. You learn faster when you can <em>see</em> the thing happen — that's the whole pitch.",
+      "p2": "Every subject is a self-contained playground. Start anywhere. Click around. If something feels weird, that's usually where the interesting bit is hiding."
+    },
+    "categories": {
+      "software": "Software & Systems",
+      "cs": "Computer Science",
+      "science": "Science & Engineering"
     }
   },
   "compilers": {
@@ -44,7 +49,7 @@
     "intro": "Eight passes between the file you wrote and the bytes the CPU runs. Lexer, parser, AST, type checker, IR, optimizer, register allocator, code generator — each step throws information away on purpose, and each step has a widget you can poke at.",
     "card": {
       "title": "Fundamental of <span class=\"x\">Compilers</span>",
-      "body": "Lexer, parser, AST, type checker, IR, optimizer, register allocation, code generation — eight passes between the file you wrote and the bytes the CPU runs."
+      "body": "How does the file you wrote become bytes the CPU runs? Lexer, parser, AST, IR, optimization, codegen — every pass, interactive."
     },
     "lessons": {
       "lexer":        { "title": "Lexer & Tokens",        "blurb": "A stream of characters becomes a stream of tokens. The first transformation: text → atoms with meaning." },
