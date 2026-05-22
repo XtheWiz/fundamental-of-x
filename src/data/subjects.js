@@ -24,6 +24,7 @@ export const CATEGORIES = [
       C('Cryptography', "What's really happening inside a TLS handshake? Hashing, signatures, key exchange, certificates — animated step by step.", 'cryptography'),
       C('Design Patterns', 'Strategy, Observer, Factory, DI, CQRS — names for refactoring intent. The GoF classics, plus the patterns the book missed.', 'design-patterns'),
       C('Operating Systems', "What's the kernel actually doing under your code? Processes, threads, syscalls, memory, IPC, containers — all visible.", 'operating-systems'),
+      C('Threads', 'OS threads, green threads, Java virtual threads (Project Loom), Go goroutines, async/await — the application-level concurrency story.', 'threads'),
     ],
   },
   {
@@ -35,6 +36,7 @@ export const CATEGORIES = [
       C('Machine Learning', 'Watch gradient descent climb. Train a tiny neural net one frame at a time. Regression, classification, k-means — all live.', 'machine-learning'),
       { ...C('Transformers & LLMs', 'Tokens go in, attention happens, words come out. See exactly what a transformer does to your prompt — one matmul at a time.', 'transformers'), title: 'Transformers & LLMs' },
       C('Quantum Computing', 'Spin a qubit on the Bloch sphere. Make two of them entangle. Gates, circuits, Grover, Shor — the math made tangible.', 'quantum-computing'),
+      C('Algorithms', "Sorting, searching, graph traversal, dynamic programming, randomised. The classics — watch each one run on the same data.", 'algorithms'),
     ],
   },
   {

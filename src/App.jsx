@@ -28,6 +28,8 @@ import { manifest as light } from './data/light.jsx';
 import { manifest as solarCell } from './data/solar-cell.jsx';
 import { manifest as energySystems } from './data/energy-systems.jsx';
 import { manifest as electricVehicles } from './data/electric-vehicles.jsx';
+import { manifest as algorithms } from './data/algorithms.jsx';
+import { manifest as threads } from './data/threads.jsx';
 
 // Topics that share the generic TopicIndex / TopicLessonRoute scaffolding.
 // (The four already-React-native topics use bespoke route components.)
@@ -36,6 +38,7 @@ const GENERIC_TOPICS = [
   designPatterns, operatingSystems, computerArchitecture,
   transformers, quantumComputing,
   light, solarCell, energySystems, electricVehicles,
+  algorithms, threads,
 ];
 
 export default function App() {

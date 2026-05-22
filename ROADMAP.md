@@ -44,7 +44,21 @@ the AI loop keeps cost-per-topic low enough to justify the long tail.
   scaffold. Home page in React. Vanilla pages survived in `/topics/*`.
 - **Phase 1** — done. Compilers ported (8 lessons, 8 widgets, Framer
   Motion accents on each).
-- **Phase 2** — **DONE.** All 18 topics now React-native.
+## New topics shipped post-migration
+
+- **Algorithms** (Software/CS) — 8 native React widgets with Framer Motion
+  potential: Big-O bars, sorting race, binary vs linear search,
+  BFS/DFS graph traversal, Dijkstra vs A* on a grid, edit-distance DP
+  table fill, coin-change greedy-vs-DP comparison, Bloom filter.
+- **Threads** (Software/CS) — 8 native React widgets: concurrency vs
+  parallelism, OS thread cost, the classic green-thread blocking trap,
+  Java virtual threads (Loom), Go work-stealing scheduler, async/await
+  in JS vs Python vs Rust, sync primitives explorer, deadlock/livelock/
+  starvation scenarios.
+
+## Migration progress
+
+- **Phase 2** — **DONE.** All 18 original topics now React-native, plus 2 brand-new topics (Algorithms, Threads) = 20 total.
   - [x] Compilers (Phase 1; native React widgets w/ Framer Motion)
   - [x] Genetics (native React widgets w/ Framer Motion)
   - [x] Machine Learning (native React widgets w/ Framer Motion)
