@@ -36,8 +36,8 @@ export const manifest = {
     { slug: 'repository-uow', number: '07', title: 'Repository & Unit of Work', blurb: 'Data-access patterns.', Widget: W(initRepositoryUoWWidget),
       intro: <>Repository abstracts data access — caller doesn\'t know if it\'s SQL, NoSQL, or in-memory. Unit of Work batches changes for atomic commit.</>, sections: [],
       takeaways: ['Repository: interface for "get/save entity by ID" — implementations vary.', 'Unit of Work: collect mutations, commit them together.', 'Together they let "business logic" be tested without a real database.', 'Most ORMs (Entity Framework, SQLAlchemy, ActiveRecord) bake this in.'] },
-    { slug: 'modern-architecture', number: '08', title: 'Modern Architecture Patterns', blurb: 'MVC / MVVM, CQRS, Event Sourcing, Circuit Breaker, Saga.', Widget: W(initModernArchWidget),
-      intro: <>The GoF book ended in 1994. Networked systems brought a new generation: separation of reads from writes, event logs as the source of truth, distributed transactions via compensation.</>, sections: [],
-      takeaways: ['CQRS: read model ≠ write model. Scale them independently.', 'Event Sourcing: append-only log of facts; current state is a fold of the log.', 'Circuit Breaker: stop calling a failing dependency before it cascades.', 'Saga: long-running distributed transaction with compensating actions.'] },
+    { slug: 'modern-architecture', number: '08', title: 'Modern Architecture Patterns', blurb: 'MVC / MVVM, CQRS, Event Sourcing, Circuit Breaker, Saga, Outbox.', Widget: W(initModernArchWidget),
+      intro: <>The GoF book ended in 1994. Networked systems brought a new generation: separation of reads from writes, event logs as the source of truth, distributed transactions via compensation, reliable publishing across services.</>, sections: [],
+      takeaways: ['CQRS: read model ≠ write model. Scale them independently.', 'Event Sourcing: append-only log of facts; current state is a fold of the log.', 'Circuit Breaker: stop calling a failing dependency before it cascades.', 'Saga: long-running distributed transaction with compensating actions.', 'Outbox: write the event to the same DB transaction as the business state — covered in detail in the Messaging topic.'] },
   ],
 };

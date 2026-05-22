@@ -1,4 +1,5 @@
 import LegacyWidget from '../widgets/database/LegacyWidget.jsx';
+import OutboxWidget from '../widgets/messaging/OutboxWidget.jsx';
 import { initWhyWidget } from '../widgets/messaging/legacy/why.js';
 import { initTopicsPartitionsWidget } from '../widgets/messaging/legacy/topics-partitions.js';
 import { initDeliveryWidget } from '../widgets/messaging/legacy/delivery.js';
@@ -39,5 +40,32 @@ export const manifest = {
     { slug: 'architectures', number: '08', title: 'Architectures in Practice', blurb: 'Kafka, RabbitMQ, SQS, NATS, Redis Streams — how the same primitives compose into very different products.', Widget: W(initMsgArchitecturesWidget),
       intro: <>Five popular brokers, five different sweet spots. Knowing which one fits the workload up-front saves you from a re-platform later.</>, sections: [],
       takeaways: ['Kafka: high throughput, replay, durable. Heavy ops.', 'RabbitMQ: flexible routing, smaller scale, easy to start.', 'SQS: fully managed, simple, AWS-locked.', 'NATS: low latency, lightweight. Redis Streams: in-memory speed but not durable by default.'] },
+    { slug: 'outbox', number: '09', title: 'Transactional Outbox', blurb: 'How to update a database AND publish a message reliably when there\'s no distributed transaction between them.',
+      Widget: OutboxWidget,
+      intro: <>You wrote the row, then tried to publish — and the broker was down. Now the database has the order, nobody knows. The transactional outbox solves this by writing the event to the <em>same DB transaction</em> as the business state change. A separate relay reads from the outbox and publishes.</>,
+      sections: [{
+        heading: 'The dual-write problem',
+        body: (
+          <>
+            <p>Two systems, two writes. There&apos;s no atomic transaction spanning your DB and your message broker, so failure of one after success of the other leaves them inconsistent. Retries help, but the service might crash between the two writes, so even retry isn&apos;t enough.</p>
+            <p>The outbox flips the problem: only one transaction, on the DB. The event sits in an <code>outbox</code> table next to the business data, atomically committed. A relay (a poller or change-data-capture stream) drains it.</p>
+          </>
+        ),
+      }, {
+        heading: 'Implementation flavours',
+        body: (
+          <ul>
+            <li><strong>Polling relay</strong> — the relay queries <code>SELECT * FROM outbox WHERE published_at IS NULL</code> on a tight loop, publishes, marks done. Simple, ~seconds of latency, hits the DB hard.</li>
+            <li><strong>CDC stream</strong> — Debezium, Postgres logical replication, or a CDC product reads the WAL and emits one event per outbox insert. Lower latency, no extra DB query load, more moving parts.</li>
+            <li><strong>Transactional broker</strong> — Kafka transactions or RabbitMQ confirms let you coordinate, but the broker must be available at write time. Outbox decouples that.</li>
+          </ul>
+        ),
+      }],
+      takeaways: [
+        "Outbox is the standard answer to \"how do I update a DB AND publish a message reliably?\"",
+        "Trade-off: you get at-least-once delivery, not exactly-once. Consumers must be idempotent — see the Ordering & Idempotency lesson.",
+        "The relay is the single point of failure to monitor. Watch outbox row age; it shouldn't keep growing.",
+        "Debezium + Postgres logical replication is the production-grade combo. Polling works fine to start.",
+      ] },
   ],
 };

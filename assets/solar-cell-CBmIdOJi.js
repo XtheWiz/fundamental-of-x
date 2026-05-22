@@ -1,4 +1,4 @@
-import{j as h}from"./main-BMJeqOcY.js";import{L}from"./LegacyWidget-BJxFD61r.js";const M=[{name:"Germanium",gap:.67},{name:"Silicon",gap:1.12},{name:"GaAs",gap:1.43},{name:"Perovskite",gap:1.55},{name:"CdTe",gap:1.5},{name:"GaP",gap:2.26}];function D(n){let e=1;n.innerHTML=`
+import{j as h}from"./main-BHRJeYOh.js";import{L}from"./LegacyWidget-Di7ysmDJ.js";const M=[{name:"Germanium",gap:.67},{name:"Silicon",gap:1.12},{name:"GaAs",gap:1.43},{name:"Perovskite",gap:1.55},{name:"CdTe",gap:1.5},{name:"GaP",gap:2.26}];function D(n){let e=1;n.innerHTML=`
     <div class="widget">
       <div class="widget-title">Bandgap → absorbable wavelengths</div>
 

@@ -1,4 +1,4 @@
-import{j as x}from"./main-BMJeqOcY.js";import{L as j}from"./LegacyWidget-BJxFD61r.js";function D(s){const e={mode:"cp",partitioned:!1,a:{value:"v0"},b:{value:"v0"},seq:0,log:[]};s.innerHTML=`
+import{j as x}from"./main-BHRJeYOh.js";import{L as j}from"./LegacyWidget-Di7ysmDJ.js";function D(s){const e={mode:"cp",partitioned:!1,a:{value:"v0"},b:{value:"v0"},seq:0,log:[]};s.innerHTML=`
     <div class="widget">
       <div class="widget-title">Two replicas, one network</div>
 

@@ -1,4 +1,4 @@
-import{j as r}from"./main-BMJeqOcY.js";import{L as ne}from"./LegacyWidget-BJxFD61r.js";function re(t){t.innerHTML=`
+import{j as r}from"./main-BHRJeYOh.js";import{L as ne}from"./LegacyWidget-Di7ysmDJ.js";function re(t){t.innerHTML=`
     <div class="widget">
       <div class="widget-title">The Four Guarantees</div>
       <div class="controls">

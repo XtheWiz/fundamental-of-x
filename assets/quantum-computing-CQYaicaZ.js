@@ -1,4 +1,4 @@
-import{j as g}from"./main-BMJeqOcY.js";import{L}from"./LegacyWidget-BJxFD61r.js";function E(t){let e=Math.PI/2,i=0;t.innerHTML=`
+import{j as g}from"./main-BHRJeYOh.js";import{L}from"./LegacyWidget-Di7ysmDJ.js";function E(t){let e=Math.PI/2,i=0;t.innerHTML=`
     <div class="widget">
       <div class="widget-title">Bloch sphere (front view)</div>
 
