@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Next-Token Training — Fundamental of Transformers &amp; LLMs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 06</div>
+          <h1>Next-Token Training</h1>
+          <p class="blurb">
+            One objective, applied a trillion times: <strong>predict the
+            next token</strong>. Take a sequence, run it through the
+            model, compare the predicted distribution to the actual next
+            token, take a step of gradient descent. Repeat until the
+            model has read most of the internet.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The loss</h2>
+          <p>
+            At every position, the model outputs a distribution over the
+            entire vocabulary (50k–200k tokens). The training loss is
+            <strong>cross-entropy</strong>: how surprising was the actual
+            next token? Confident-and-right = low loss. Confident-and-wrong
+            = high loss. The model learns to be probabilistically calibrated.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Why this is enough</h2>
+          <p>
+            "Predict the next token" sounds limited, but to do it well
+            you need:
+          </p>
+          <ul>
+            <li>Knowledge of grammar (predict the right part of speech)</li>
+            <li>Knowledge of facts ("the capital of France is …")</li>
+            <li>Reasoning chains (predicting the next step of a proof)</li>
+            <li>Style imitation, code structure, math, dialogue norms</li>
+          </ul>
+          <p>
+            All of this is in the training data, encoded as "what token comes next?" The model has to absorb it all to lower its loss.
+          </p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Watch a model predict each next token in a sentence. See per-token loss and the cumulative training signal.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Pre-training is just this loss, on the entire internet. Modern runs see trillions of tokens, costing tens of millions of dollars in compute.</li>
+            <li>The model's "knowledge" emerges as a side effect of getting the next token right. No explicit knowledge graph; just weights.</li>
+            <li>Post-training (RLHF, DPO, etc.) refines the base model into a chat assistant by additional training on human-preferred outputs.</li>
+            <li>Loss is measured in nats (or bits) per token. Lower = better. Modern LLMs hit around 1.5–2.0 nats per token on diverse text.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initTrainingWidget } from '../widgets/training.js';
+    mountSidebar({ manifest, currentSlug: 'training' });
+    mountBreadcrumb({ manifest, currentTitle: 'Next-Token Training' });
+    mountLessonNav({ manifest, currentSlug: 'training' });
+    mountMenuToggle();
+    initTrainingWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>The Transformer Block — Fundamental of Transformers &amp; LLMs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 04</div>
+          <h1>The Transformer Block</h1>
+          <p class="blurb">
+            One transformer block: attention plus a feed-forward network,
+            with residuals and layer norm wrapped around both. Stack 32
+            of these and you have Llama 7B; 96 and you have GPT-3. The
+            block is the unit; the network is the repetition.
+          </p>
+        </div>
+
+        <section class="section">
+          <h2>The data flow</h2>
+          <ol>
+            <li>Input: a sequence of embeddings.</li>
+            <li><strong>LayerNorm</strong> → normalize each token's vector.</li>
+            <li><strong>Multi-head attention</strong> → tokens mix information across positions.</li>
+            <li><strong>Residual connection</strong>: add the attention output back to the input.</li>
+            <li><strong>LayerNorm</strong> again.</li>
+            <li><strong>Feed-forward network</strong>: a two-layer MLP applied independently to each token (no mixing).</li>
+            <li><strong>Residual connection</strong>: add the FFN output back.</li>
+          </ol>
+          <p>That's one block. Output goes into the next block's input. Repeat N times.</p>
+        </section>
+
+        <section class="section">
+          <h2>What each part does</h2>
+          <ul>
+            <li><strong>Attention</strong>: information sharing across positions. The horizontal layer.</li>
+            <li><strong>FFN</strong>: per-token compute, expanding then contracting the representation. The vertical layer. Believed to store much of the model's "facts."</li>
+            <li><strong>Residuals</strong>: allow the original signal to pass through unchanged if needed. Critical for training deep stacks.</li>
+            <li><strong>LayerNorm</strong>: keeps activations from drifting in scale. Stabilizes training.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <p>Walk a token's embedding through one block, step by step.</p>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>The block is intentionally repeatable. The same shape stacks deep — that's what makes scaling cheap to engineer (more compute, more layers, same code).</li>
+            <li>"Pre-norm" (LayerNorm before each sub-block, as shown) is the modern default; "post-norm" was the original 2017 design. Pre-norm trains more stably.</li>
+            <li>The FFN typically expands dimension 4× (e.g., 768 → 3072 → 768) — that "hidden expansion" is where much capacity lives.</li>
+            <li>About 30–50% of a model's parameters live in the FFNs; another 30–40% in attention; the rest in embeddings + the output head.</li>
+          </ul>
+        </div>
+
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initBlockWidget } from '../widgets/transformer-block.js';
+    mountSidebar({ manifest, currentSlug: 'transformer-block' });
+    mountBreadcrumb({ manifest, currentTitle: 'The Transformer Block' });
+    mountLessonNav({ manifest, currentSlug: 'transformer-block' });
+    mountMenuToggle();
+    initBlockWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
