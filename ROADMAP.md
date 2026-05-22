@@ -124,6 +124,11 @@ the AI loop keeps cost-per-topic low enough to justify the long tail.
     generic ports route through a single `<LazyTopicIndex />` /
     `<LazyTopicLesson />` that uses `import.meta.glob` to map slugs to
     chunks. Suspense fallback is a small spinner.
+  - [x] **Analytics wiring.** Cloudflare Web Analytics beacon, JS-injected
+    only when `VITE_CF_ANALYTICS_TOKEN` is set in `.env.production`. No
+    token = no script = no analytics. Privacy-friendly, no cookies, no
+    consent banner needed in most jurisdictions. SPA route changes
+    tracked automatically by the beacon's own pushState observer.
   - [ ] Convert remaining legacy-widget topics to native React on demand
     (when a widget needs Framer Motion or R3F treatment).
   - [ ] Re-enable the language switcher (`SWITCHER_ENABLED = true`) once
