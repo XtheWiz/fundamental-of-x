@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>MPPT — Fundamental of Solar Cell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 07</div>
+          <h1>MPPT</h1>
+          <p class="blurb">A solar panel's current-voltage curve has one point where power (V × I) is highest. That maximum power point shifts with light level and temperature — so the inverter actively hunts for it. This is MPPT, Maximum Power Point Tracking, and it adds 10–30% real-world output vs naive operation.</p>
+        </div>
+        <section class="section">
+          <h2>The IV curve</h2>
+          <p>Short-circuit current is the y-axis intercept; open-circuit voltage is the x-axis. The curve bends sharply in between — and the bend is where power is max. As irradiance and temperature change, the curve and the optimum move.</p>
+        </section>
+        <section class="section">
+          <h2>Hill climbing</h2>
+          <p>Common algorithm: 'perturb and observe.' Try a slightly higher voltage; if power increased, keep going; if it dropped, reverse. Cheap, simple, doesn't need to know panel characteristics.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>MPPT is essentially free 10–30% — should be in every inverter.</li>
+            <li>Per-panel MPPT (microinverters, optimizers) helps a lot under partial shading vs string inverters.</li>
+            <li>Modern algorithms add tricks (sweep + perturb) to avoid getting stuck on local maxima caused by shading.</li>
+            <li>MPPT trackers also apply in EV battery charging and other power-electronics contexts.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initMpptWidget } from '../widgets/mppt.js';
+    mountSidebar({ manifest, currentSlug: 'mppt' });
+    mountBreadcrumb({ manifest, currentTitle: "MPPT" });
+    mountLessonNav({ manifest, currentSlug: 'mppt' });
+    mountMenuToggle();
+    initMpptWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

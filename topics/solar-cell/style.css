@@ -1,0 +1,7 @@
+/* Solar Cell topic styling. */
+.lesson-card { display: block; padding: 1.2rem 1.4rem; background: var(--paper); border: 2px solid var(--ink); border-radius: var(--radius); box-shadow: 4px 4px 0 var(--ink); transition: transform 0.12s ease, box-shadow 0.12s ease; position: relative; }
+.lesson-card:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); color: var(--ink); }
+.lesson-card .num { position: absolute; top: -10px; left: -10px; background: var(--accent); color: white; font-family: var(--font-display); font-size: 0.9rem; width: 32px; height: 32px; border: 2px solid var(--ink); border-radius: 50%; display: flex; align-items: center; justify-content: center; transform: rotate(-6deg); }
+.lesson-card h3 { margin: 0 0 0.3em; font-size: 1.3rem; }
+.lesson-card .blurb { color: var(--ink-soft); font-size: 0.95rem; margin: 0; }
+.lesson-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0; }

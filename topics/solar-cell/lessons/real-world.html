@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Real-World Efficiency — Fundamental of Solar Cell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 08</div>
+          <h1>Real-World Efficiency</h1>
+          <p class="blurb">A datasheet says 22% efficiency. Your roof never gets that. Why? Temperature, angle, dust, aging, mismatch, inverter losses, soiling, snow. Each percentage point matters when you're paying upfront for 25 years of output.</p>
+        </div>
+        <section class="section">
+          <h2>Loss breakdown</h2>
+          <ul><li><strong>Temperature</strong> — efficiency drops ~0.4% per °C above 25°C. A hot rooftop runs at 60°C → ~14% loss.</li><li><strong>Angle/orientation</strong> — flat roof gets ~15% less than optimal tilt.</li><li><strong>Soiling</strong> — dust, bird droppings, pollen → 2–5% typical, more in dry climates.</li><li><strong>Mismatch + string losses</strong> — 2–5%.</li><li><strong>Inverter</strong> — ~3% loss in DC→AC conversion.</li><li><strong>Aging</strong> — ~0.5% per year for silicon.</li></ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>A 22% panel typically delivers 15–17% under real conditions.</li>
+            <li>Cleaning panels is undervalued — 5% extra output for free, often.</li>
+            <li>Bifacial panels (catch reflected light from behind too) add 5–15% in the right environments.</li>
+            <li>These losses are why a system's 'capacity factor' (annual energy ÷ peak × hours/year) is only ~15–25%, not 100%.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initRealWorldWidget } from '../widgets/real-world.js';
+    mountSidebar({ manifest, currentSlug: 'real-world' });
+    mountBreadcrumb({ manifest, currentTitle: "Real-World Efficiency" });
+    mountLessonNav({ manifest, currentSlug: 'real-world' });
+    mountMenuToggle();
+    initRealWorldWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

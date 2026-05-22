@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Materials — Fundamental of Solar Cell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 05</div>
+          <h1>Materials</h1>
+          <p class="blurb">Different photovoltaic technologies trade off efficiency, cost, weight, manufacturing complexity, and lifetime. Silicon dominates the market because it is good enough and cheap. The frontier is moving toward perovskite-silicon tandems.</p>
+        </div>
+        <section class="section">
+          <h2>The lineup</h2>
+          <ul><li><strong>Crystalline silicon</strong> — 90% of installed panels. ~22% efficient. Mature.</li><li><strong>Thin-film (CdTe, CIGS)</strong> — cheaper per watt, slightly lower efficiency, lighter.</li><li><strong>Perovskite</strong> — emerging. Cheap to make, tunable bandgap, but degrades fast. Lab record: ~26%.</li><li><strong>III-V (GaAs etc.)</strong> — expensive, very efficient (>30% single-junction). Used in satellites.</li><li><strong>Tandems</strong> — perovskite on silicon. Lab: ~34%. The most likely commercial future.</li></ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Silicon is the boring, reliable, cheap workhorse. Hard to beat on $/watt.</li>
+            <li>Perovskite is exciting but lifetime is the open problem — current best ~10 years vs silicon's 25–40.</li>
+            <li>Multi-junction tandems are the future of utility-scale generation if perovskite stability gets solved.</li>
+            <li>Manufacturing scale and supply chain matter as much as efficiency: China's silicon dominance is geopolitical.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initMaterialsWidget } from '../widgets/materials.js';
+    mountSidebar({ manifest, currentSlug: 'materials' });
+    mountBreadcrumb({ manifest, currentTitle: "Materials" });
+    mountLessonNav({ manifest, currentSlug: 'materials' });
+    mountMenuToggle();
+    initMaterialsWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

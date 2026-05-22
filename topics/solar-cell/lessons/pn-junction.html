@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>The P-N Junction — Fundamental of Solar Cell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 03</div>
+          <h1>The P-N Junction</h1>
+          <p class="blurb">Pure silicon doesn't make a solar cell by itself — there's nothing to push the freed electrons in any direction. The trick is doping: add a tiny bit of phosphorus (extra electrons → N-type) on one side, boron (missing electrons → P-type) on the other. At the boundary, a built-in electric field forms — and that's the cell's engine.</p>
+        </div>
+        <section class="section">
+          <h2>The depletion region</h2>
+          <p>When N and P meet, free electrons from N drift across into P and recombine with holes. This leaves charged ions behind: positive on the N side, negative on the P side. The resulting electric field stops the drift. Now the layer is depleted of free carriers — and when a photon creates an electron-hole pair inside that field, the field pulls them in opposite directions through the external circuit.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Without the P-N junction's built-in field, photon-generated electrons would just diffuse around and recombine.</li>
+            <li>Cell voltage is determined by the bandgap and the junction — typically ~0.6V for silicon.</li>
+            <li>Modern cells have more sophisticated structures (PERC, TOPCon, heterojunction) all built on the same principle.</li>
+            <li>The diode behavior of the junction also lets you check a cell — it should pass current one way only.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initPNJunctionWidget } from '../widgets/pn-junction.js';
+    mountSidebar({ manifest, currentSlug: 'pn-junction' });
+    mountBreadcrumb({ manifest, currentTitle: "The P-N Junction" });
+    mountLessonNav({ manifest, currentSlug: 'pn-junction' });
+    mountMenuToggle();
+    initPNJunctionWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Bandgap — Fundamental of Solar Cell</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 01</div>
+          <h1>Bandgap</h1>
+          <p class="blurb">Electrons in a solid live at discrete energy levels grouped into bands. Between the filled (valence) band and the empty (conduction) band is a forbidden gap. Whether the material conducts depends on the size of that gap.</p>
+        </div>
+        <section class="section">
+          <h2>Three kinds of materials</h2>
+          <ul><li><strong>Conductors</strong> (metals) — bands overlap. Electrons freely flow. Bandgap ≈ 0.</li><li><strong>Insulators</strong> — bandgap > ~3 eV. Almost nothing crosses without serious help.</li><li><strong>Semiconductors</strong> (silicon, GaAs, perovskite) — bandgap ~1–2 eV. Just right: a visible-light photon has enough energy to lift an electron across.</li></ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Silicon bandgap: 1.12 eV. Corresponds to ~1100 nm light (near-IR) — anything more energetic can excite an electron.</li>
+            <li>Photons less energetic than the bandgap just pass through (transparent at those wavelengths).</li>
+            <li>Photons more energetic excite an electron but waste the excess as heat.</li>
+            <li>Choosing bandgap material is choosing which wavelengths to harvest.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initBandgapWidget } from '../widgets/bandgap.js';
+    mountSidebar({ manifest, currentSlug: 'bandgap' });
+    mountBreadcrumb({ manifest, currentTitle: "Bandgap" });
+    mountLessonNav({ manifest, currentSlug: 'bandgap' });
+    mountMenuToggle();
+    initBandgapWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
