@@ -530,8 +530,132 @@
   color: var(--ink-soft);
   text-decoration: underline;
   text-underline-offset: 3px;
+  cursor: pointer;
 }
 .lesson-feedback a:hover { color: var(--accent); }
+
+/* ============================================================
+   Modal + forms (request topic / feedback)
+   ============================================================ */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.55);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: modal-fade-in 0.18s ease-out;
+}
+@keyframes modal-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  position: relative;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 1.6rem 1.6rem 1.4rem;
+  width: min(560px, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  animation: modal-pop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes modal-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to   { opacity: 1; transform: none; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.6rem;
+  background: transparent;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2em 0.45em;
+  border-radius: 3px;
+}
+.modal-close:hover { color: var(--accent); background: var(--paper-deep); }
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.03em;
+  margin: 0 0 0.6rem;
+  padding-right: 2rem;
+}
+
+.modal-form { display: flex; flex-direction: column; gap: 0.9rem; }
+.form-intro {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin: 0 0 0.3rem;
+}
+.modal-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+.modal-form label > span em {
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 600;
+  margin-left: 0.4em;
+}
+.modal-form input,
+.modal-form textarea,
+.modal-form select {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--paper-deep);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  padding: 0.45em 0.6em;
+  width: 100%;
+}
+.modal-form textarea { resize: vertical; min-height: 60px; font-family: var(--font-body); }
+.modal-form input:focus,
+.modal-form textarea:focus,
+.modal-form select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+.form-error {
+  padding: 0.5rem 0.7rem;
+  background: #fde2e2;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.form-success {
+  text-align: center;
+  padding: 1rem 0.5rem 0.5rem;
+}
+.form-success strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.form-success p { margin: 0 0 1rem; color: var(--ink-soft); }
 
 /* ============================================================
    ML plot primitives (used by every Machine Learning widget)

@@ -8,23 +8,23 @@ in each section are met.
 
 ### v0 — shipped
 
-Submission surface in place via GitHub Issues, zero new infra:
+Custom in-page forms via Tally (tally.so), wrapped in our manga-styled
+modal so the UX feels native to the site. Tally hosts the form,
+collects submissions, handles spam (their honeypot + reCAPTCHA).
 
-- `.github/ISSUE_TEMPLATE/topic-request.yml` — structured form for new
-  subject suggestions. Labelled `topic-request`. 👍 reactions = votes.
-- `.github/ISSUE_TEMPLATE/feedback.yml` — bug / typo / suggestion form
-  for existing lessons. Labelled `feedback`. URL field pre-filled when
-  reached from a lesson page.
-- `.github/ISSUE_TEMPLATE/config.yml` — disables blank issues, links
-  the existing-requests browse view.
-- Home page "Help shape what's next" section with two CTA cards.
-- Per-lesson "Found a bug? Tell us" footer link in `LessonShell`
-  that pre-fills the issue template title + URL.
+- `src/data/contact.js` — single source of truth for form URLs. If
+  blanked out, CTAs fall back to GitHub Issues.
+- `src/components/TallyModal.jsx` — iframe embed of a Tally form
+  inside our `<Modal>`. Listens for `Tally.FormHeight` postMessages
+  for dynamic resize. Accepts `prefill` props for field auto-fill.
+- Per-lesson feedback link prefills `Topic`, `Lesson`, `Page URL`
+  so the reporter only has to type what's wrong.
+- GitHub Issue templates kept as the fallback path and as a public
+  browse view of historical requests.
 
-Validation step: triage incoming issues by hand for a couple of weeks.
-If the queue stays empty, lower the submission friction (custom form,
-no GitHub login) before bothering with the AI loop. If it fills up,
-move to v1.
+Validation step: triage incoming Tally submissions for a couple of
+weeks. If the queue stays empty, the submission friction wasn't the
+problem (revisit topic selection). If it fills up, move to v1.
 
 ### v1 — deferred (build when v0 has signal)
 

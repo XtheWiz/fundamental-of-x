@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SiteHeader from './SiteHeader.jsx';
 import { MascotTakeaway } from './Mascot.jsx';
+import TallyModal from './TallyModal.jsx';
+import { TALLY_FORMS, useFeedbackForm, githubFeedbackUrl } from '../data/contact.js';
 
 export default function LessonShell({ topic, lesson }) {
   const navigate = useNavigate();
@@ -116,21 +118,33 @@ export default function LessonShell({ topic, lesson }) {
 }
 
 function FeedbackLink({ topic, lesson }) {
-  // Pre-fill the GitHub feedback issue with the current URL so the reporter
-  // doesn't have to copy it themselves.
+  const [open, setOpen] = useState(false);
   const url = typeof window !== 'undefined'
     ? window.location.href
     : `https://fundamentalofx.com/topics/${topic.slug}/lessons/${lesson.slug}`;
-  const href = 'https://github.com/xthewiz/fundamental-of-x/issues/new?'
-    + new URLSearchParams({
-      template: 'feedback.yml',
-      title: `[feedback] ${topic.title} · ${lesson.title}`,
-      url,
-    }).toString();
+  const href = githubFeedbackUrl({ topicTitle: topic.title, lessonTitle: lesson.title, url });
+
+  function onClick(e) {
+    if (useFeedbackForm) { e.preventDefault(); setOpen(true); }
+  }
+
   return (
-    <div className="lesson-feedback">
-      Found a bug or have an idea for this lesson?{' '}
-      <a href={href} target="_blank" rel="noopener noreferrer">Tell us</a>.
-    </div>
+    <>
+      <div className="lesson-feedback">
+        Found a bug or have an idea for this lesson?{' '}
+        <a href={href} target="_blank" rel="noopener noreferrer" onClick={onClick}>Tell us</a>.
+      </div>
+      <TallyModal
+        open={open}
+        onClose={() => setOpen(false)}
+        title={`Feedback · ${lesson.title}`}
+        formUrl={TALLY_FORMS.feedback}
+        prefill={{
+          Topic: topic.title,
+          Lesson: lesson.title,
+          'Page URL': url,
+        }}
+      />
+    </>
   );
 }

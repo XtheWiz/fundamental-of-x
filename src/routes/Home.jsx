@@ -1,7 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SiteHeader from '../components/SiteHeader.jsx';
 import { MascotHello } from '../components/Mascot.jsx';
+import TallyModal from '../components/TallyModal.jsx';
 import { CATEGORIES } from '../data/subjects.js';
+import {
+  TALLY_FORMS, useTopicForm, useFeedbackForm,
+  githubTopicUrl, githubFeedbackUrl,
+} from '../data/contact.js';
 
 function SubjectCard({ subject }) {
   const inner = (
@@ -20,6 +26,17 @@ function SubjectCard({ subject }) {
 }
 
 export default function Home() {
+  const [showRequest, setShowRequest] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+
+  function openRequest(e) {
+    if (useTopicForm) { e.preventDefault(); setShowRequest(true); }
+    // else: let the <a> navigate to GitHub Issues
+  }
+  function openFeedback(e) {
+    if (useFeedbackForm) { e.preventDefault(); setShowFeedback(true); }
+  }
+
   return (
     <>
       <SiteHeader />
@@ -70,22 +87,22 @@ export default function Home() {
           <div className="cta-grid">
             <a
               className="cta-card"
-              href="https://github.com/xthewiz/fundamental-of-x/issues/new?template=topic-request.yml"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={githubTopicUrl()}
+              target="_blank" rel="noopener noreferrer"
+              onClick={openRequest}
             >
               <div className="cta-icon" aria-hidden="true">＋</div>
               <strong>Request a topic</strong>
               <span>
                 Tell us what the next <span className="x">Fundamental&nbsp;of&nbsp;X</span> should
-                cover. Other folks 👍 to vote up the queue.
+                cover. Popular requests get drafted and shipped.
               </span>
             </a>
             <a
               className="cta-card"
-              href="https://github.com/xthewiz/fundamental-of-x/issues/new?template=feedback.yml"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={githubFeedbackUrl()}
+              target="_blank" rel="noopener noreferrer"
+              onClick={openFeedback}
             >
               <div className="cta-icon" aria-hidden="true">✎</div>
               <strong>Report a bug or send feedback</strong>
@@ -97,6 +114,19 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      <TallyModal
+        open={showRequest}
+        onClose={() => setShowRequest(false)}
+        title="Request a topic"
+        formUrl={TALLY_FORMS.topicRequest}
+      />
+      <TallyModal
+        open={showFeedback}
+        onClose={() => setShowFeedback(false)}
+        title="Send feedback"
+        formUrl={TALLY_FORMS.feedback}
+      />
 
       <footer className="site-footer">
         Built with curiosity. Made for learners who think with pictures.
