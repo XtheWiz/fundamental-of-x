@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" href="/favicon-180.png">
+  <title>Shor & Post-Quantum — Fundamental of Quantum Computing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 07</div>
+          <h1>Shor & Post-Quantum</h1>
+          <p class="blurb">Shor's algorithm factors integers in polynomial time — something classical computers cannot do (and RSA's security depends on them not being able to). When large fault-tolerant quantum computers exist, current public-key crypto breaks.</p>
+        </div>
+        <section class="section">
+          <h2>What Shor does</h2>
+          <p>Given N = p × q, find p and q. Classical best: sub-exponential. Shor: polynomial in log(N). Uses the quantum Fourier transform to find the period of a function, which leads to the factors.</p>
+        </section>
+        <section class="section">
+          <h2>Crypto fallout</h2>
+          <ul><li><strong>RSA</strong> — broken.</li><li><strong>ECC</strong> (elliptic curve) — also broken via a similar discrete-log algorithm.</li><li><strong>Diffie-Hellman</strong> — broken.</li><li><strong>Symmetric crypto</strong> (AES) — just needs bigger keys (Grover, not Shor).</li><li><strong>Hashes</strong> — mostly fine.</li></ul>
+        </section>
+        <section class="section">
+          <h2>Post-quantum crypto</h2>
+          <p>NIST has standardized lattice-based replacements: ML-KEM (Kyber) for key exchange, ML-DSA (Dilithium) for signatures. Already rolling out in TLS, SSH, PGP.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Shor is the headline result — quantum computers can break the math current crypto depends on.</li>
+            <li>But: we need millions of <em>logical</em> qubits with low error rates. Today's machines have ~1000 noisy qubits.</li>
+            <li>'Harvest now, decrypt later' attacks are already considered — record encrypted traffic today, decrypt when quantum arrives.</li>
+            <li>Post-quantum migration is happening now (years before the threat is real) because the lead time is long.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initShorWidget } from '../widgets/shor.js';
+    mountSidebar({ manifest, currentSlug: 'shor' });
+    mountBreadcrumb({ manifest, currentTitle: "Shor & Post-Quantum" });
+    mountLessonNav({ manifest, currentSlug: 'shor' });
+    mountMenuToggle();
+    initShorWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
