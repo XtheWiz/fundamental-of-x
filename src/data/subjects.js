@@ -45,7 +45,7 @@ export const CATEGORIES = [
       C('Solar Cell', 'How does a photon turn into electricity? Bandgaps, P-N junctions, Shockley-Queisser — physics behind every rooftop panel.', 'solar-cell'),
       C('Energy Systems', 'Watch a power grid balance supply and demand in real time. The duck curve, storage arbitrage, frequency — by the numbers.', 'energy-systems'),
       C('Electric Vehicles', 'Strip a Tesla or BYD down to principles. Battery chemistry, BMS, motors, regen, charging curves — electrons to motion.', 'electric-vehicles'),
-      C('Genetics', "DNA's molecular machinery — replication, transcription, translation, mutations, sequencing, CRISPR. Life as a program in four letters.", 'genetics'),
+      C('Genetics', "DNA's molecular machinery — replication, transcription, translation, mutations, sequencing, CRISPR. Life as a program in four letters.", 'genetics', true),
     ],
   },
 ];
