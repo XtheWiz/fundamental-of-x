@@ -13,6 +13,7 @@
 //
 // Side-effect import: support.js auto-mounts the Buy Me a Coffee buttons.
 import './support.js';
+import { applyI18n } from './i18n.js';
 
 const C = {
   ink: 'var(--ink, #1a1a1a)',
@@ -140,7 +141,7 @@ export function mountMascot() {
     heroIntro.insertAdjacentHTML('beforeend', `
       <div class="mascot-hello">
         <div class="mascot-hello-figure">${mascot('wave', { size: 110 })}</div>
-        <div class="mascot-hello-bubble">
+        <div class="mascot-hello-bubble" data-i18n-html="shared.mascotIntro">
           <strong>Hi! I'm X-sensei.</strong><br>
           I'll point at the important bits while you learn.
         </div>
@@ -153,6 +154,13 @@ export function mountMascot() {
     if (el.querySelector('.mascot')) return;
     el.insertAdjacentHTML('beforeend', `<div class="mascot-takeaway">${mascot('point', { size: 70 })}</div>`);
   });
+
+  // Translate anything we just injected.
+  applyI18n(document);
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('i18n:changed', () => applyI18n(document));
 }
 
 if (typeof document !== 'undefined') {

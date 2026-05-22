@@ -1,0 +1,100 @@
+{
+  "site": {
+    "brand": "Fundamental of <span class=\"accent\">X</span>",
+    "title": "Fundamental of X — 시각적이고 인터랙티브한 심화 학습",
+    "nav": {
+      "subjects": "주제",
+      "about": "소개"
+    },
+    "footer": "호기심으로 만들었습니다. 그림으로 생각하는 학습자를 위해.",
+    "topicFooter": "<a href=\"{{homeHref}}\">Fundamental of X</a> 시리즈의 일부입니다."
+  },
+  "shared": {
+    "live": "공개됨",
+    "lessonsCount": "{{count}}개 레슨 · 인터랙티브",
+    "lessonsHeading": "레슨",
+    "tryIt": "직접 해보기",
+    "keyTakeaways": "핵심 요약",
+    "prev": "← 이전",
+    "next": "다음 →",
+    "menu": "메뉴",
+    "mascotIntro": "<strong>안녕! 난 X-선생이야.</strong><br>배우는 동안 중요한 부분을 짚어줄게.",
+    "support": {
+      "compactLabel": "X-선생에게 커피 한 잔",
+      "cardTitle": "도움이 되셨나요?",
+      "cardBody": "커피 한 잔으로 사이트를 광고 없이 유지하는 데 도와주세요.",
+      "cardCta": "팁 ☕"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "기초를 배우자,<br>하나의 <span class=\"x\">X</span>씩.",
+      "body": "보통 길고 긴 글로 설명되는 기초 주제들을 위한 시각적이고 인터랙티브한 학습 사이트. 모든 레슨은 직접 만져보는 형태입니다 — 읽기만 하는 게 아니라 클릭하고 끌어보면서 개념이 움직이는 것을 봅니다."
+    },
+    "about": {
+      "heading": "왜 시각적인가?",
+      "p1": "B-트리가 분할되는 그림 한 장은 세 단락의 설명보다 값집니다. 트랜잭션이 롤백되는 애니메이션은 어떤 글머리 목록보다 낫습니다. 이 사이트는 아이디어를 단지 읽는 게 아니라 <em>움직이는 것을 보고 싶은</em> 학습자를 위해 만들어졌습니다.",
+      "p2": "각 주제는 독립된 모듈입니다."
+    }
+  },
+  "compilers": {
+    "title": "컴파일러",
+    "tagline": "소스 코드가 CPU에서 실행되는 무언가가 되는 과정.",
+    "metaTitle": "Fundamental of 컴파일러 — 시각적 속성 강의",
+    "intro": "여러분이 쓴 파일과 CPU가 실행하는 바이트 사이에는 8개의 패스가 있습니다. 어휘 분석기, 파서, AST, 타입 검사기, IR, 최적화기, 레지스터 할당기, 코드 생성기 — 각 단계는 의도적으로 정보를 버리며, 각 단계마다 직접 만져볼 수 있는 위젯이 있습니다.",
+    "card": {
+      "title": "Fundamental of <span class=\"x\">컴파일러</span>",
+      "body": "어휘 분석, 파싱, AST, 타입 검사, IR, 최적화, 레지스터 할당, 코드 생성 — 여러분의 소스 코드가 CPU의 바이트가 되기까지의 8개 패스."
+    },
+    "lessons": {
+      "lexer":        { "title": "어휘 분석과 토큰",         "blurb": "문자의 흐름이 토큰의 흐름이 된다. 첫 번째 변환: 텍스트 → 의미를 가진 원자." },
+      "parser":       { "title": "파싱과 문법",              "blurb": "토큰에 형태가 생긴다. 우선순위, 결합성, 그리고 문법이 \"1+2*3\"을 트리로 만드는 방법." },
+      "ast":          { "title": "추상 구문 트리",           "blurb": "구문은 버리고 의미는 남긴다. 이후 모든 패스가 실제로 순회하는 모양." },
+      "types":        { "title": "타입 검사",                "blurb": "트리를 순회하며 타입을 붙이고, 거짓말하는 프로그램을 거부한다. 추론 vs 어노테이션." },
+      "ir":           { "title": "IR과 SSA 형식",            "blurb": "고수준 트리가 저수준 명령이 된다. 모든 변수는 정확히 한 번만 할당된다." },
+      "optimization": { "title": "최적화 패스",              "blurb": "상수 폴딩, 죽은 코드 제거, 공통 부분식 제거. 각 패스는 여러분이 쓰는 속도보다 빠르게 코드를 버린다." },
+      "regalloc":     { "title": "레지스터 할당",            "blurb": "무한한 가상 레지스터 → 16개의 실제 레지스터. 생존 구간, 간섭 그래프, 그래프 컬러링." },
+      "codegen":      { "title": "코드 생성",                "blurb": "IR이 x86 / ARM / RISC-V가 된다. 명령어 선택, 호출 규약, 최종 출력." }
+    },
+    "lexer": {
+      "lessonNum": "레슨 01",
+      "title": "어휘 분석과 토큰",
+      "blurb": "소스 코드는 그저 평평한 문자열입니다. 컴파일러의 첫 번째 작업은 이를 <em>토큰</em>으로 자르는 것입니다 — <code>let</code>, <code>x</code>, <code>=</code>, <code>42</code> 같은 원자 단위로. 그리고 각각이 어떤 종류인지 태그합니다. 공백과 주석은 버려집니다.",
+      "section1Title": "어휘 분석기가 하는 일",
+      "section1Body": "어휘 분석기는 작은 상태 기계로 왼쪽에서 오른쪽으로 스캔하며 패턴을 인식합니다. 문자면 식별자나 키워드, 숫자면 숫자 리터럴, 따옴표면 문자열. 매칭마다 토큰이 만들어집니다. 이 단계에서는 프로그램의 <em>의미</em>는 관심사가 아닙니다 — 문자의 모양만 봅니다.",
+      "section1Bullets": {
+        "kw":    "<strong>키워드</strong>: 예약어(<code>let</code>, <code>if</code>, <code>return</code>).",
+        "id":    "<strong>식별자</strong>: 여러분이 고른 이름(<code>x</code>, <code>total</code>).",
+        "lit":   "<strong>리터럴</strong>: 숫자, 문자열, 불 값.",
+        "ops":   "<strong>연산자와 구두점</strong>: <code>+ - * / = ( ) { } ;</code>"
+      },
+      "takeaways": {
+        "t1": "어휘 분석기의 출력은 평평한 시퀀스 — 아직 구조는 없고, 그저 라벨이 붙은 원자들뿐.",
+        "t2": "공백과 주석은 보통 여기서 버려진다. 위치 정보는 에러 메시지를 위해 유지된다.",
+        "t3": "실제 어휘 분석기는 정규표현식 같은 규칙으로 생성되거나(flex, ANTLR) 속도를 위해 손으로 작성된다.",
+        "t4": "키워드는 단지 예약된 식별자일 뿐 — 어휘 분석기가 특별 취급할 뿐이다."
+      },
+      "widget": {
+        "title": "소스를 입력 → 토큰을 얻기",
+        "sample1": "샘플 1",
+        "sample2": "샘플 2",
+        "sample3": "샘플 3",
+        "legendKw": "키워드",
+        "legendId": "식별자",
+        "legendNum": "숫자",
+        "legendOp": "연산자",
+        "legendPunct": "구두점",
+        "legendStr": "문자열",
+        "empty": "토큰 없음 — 입력해 보세요",
+        "count": "<strong>{{n}}</strong>개 토큰 — {{summary}}"
+      }
+    },
+    "parser":       { "lessonNum": "레슨 02", "title": "파싱과 문법", "blurb": "토큰에는 구조가 없습니다 — 그저 평평한 리스트. 파서는 <em>문법</em>에 따라 그 안에 숨겨진 트리를 찾아냅니다. 연산자 우선순위와 결합성이 어떤 트리가 될지 결정합니다." },
+    "ast":          { "lessonNum": "레슨 03", "title": "추상 구문 트리" },
+    "types":        { "lessonNum": "레슨 04", "title": "타입 검사" },
+    "ir":           { "lessonNum": "레슨 05", "title": "IR과 SSA 형식" },
+    "optimization": { "lessonNum": "레슨 06", "title": "최적화 패스" },
+    "regalloc":     { "lessonNum": "레슨 07", "title": "레지스터 할당" },
+    "codegen":      { "lessonNum": "레슨 08", "title": "코드 생성" }
+  }
+}

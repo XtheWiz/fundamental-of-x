@@ -1,0 +1,122 @@
+{
+  "site": {
+    "brand": "Fundamental of <span class=\"accent\">X</span>",
+    "title": "Fundamental of X — Visual, Interactive Deep-Dives",
+    "nav": {
+      "subjects": "Subjects",
+      "about": "About"
+    },
+    "footer": "Built with curiosity. Made for learners who think with pictures.",
+    "topicFooter": "Part of the <a href=\"{{homeHref}}\">Fundamental of X</a> series."
+  },
+  "shared": {
+    "live": "LIVE",
+    "lessonsCount": "{{count}} lessons · interactive",
+    "lessonsHeading": "Lessons",
+    "tryIt": "Try it",
+    "keyTakeaways": "Key takeaways",
+    "prev": "← prev",
+    "next": "next →",
+    "menu": "Menu",
+    "mascotIntro": "<strong>Hi! I'm X-sensei.</strong><br>I'll point at the important bits while you learn.",
+    "support": {
+      "compactLabel": "Buy X-sensei a coffee",
+      "cardTitle": "Found this useful?",
+      "cardBody": "Buy X-sensei a coffee and keep the site ad-free.",
+      "cardCta": "Tip ☕"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "Learn the foundations,<br>one <span class=\"x\">X</span> at a time.",
+      "body": "A visual, interactive companion for foundational topics that are usually explained with walls of text. Every lesson is hands-on — you click, drag, and watch the concept happen instead of just reading about it."
+    },
+    "about": {
+      "heading": "Why visual?",
+      "p1": "A picture of a B-Tree splitting is worth more than three paragraphs of prose, and an animation of a transaction rolling back beats any bullet list. This site is built for learners who want to <em>see</em> ideas move, not just read about them.",
+      "p2": "Each subject is a self-contained module."
+    }
+  },
+  "compilers": {
+    "title": "Compilers",
+    "tagline": "How source code becomes something a CPU can run.",
+    "metaTitle": "Fundamental of Compilers — Visual Crash Course",
+    "intro": "Eight passes between the file you wrote and the bytes the CPU runs. Lexer, parser, AST, type checker, IR, optimizer, register allocator, code generator — each step throws information away on purpose, and each step has a widget you can poke at.",
+    "card": {
+      "title": "Fundamental of <span class=\"x\">Compilers</span>",
+      "body": "Lexer, parser, AST, type checker, IR, optimizer, register allocation, code generation — eight passes between the file you wrote and the bytes the CPU runs."
+    },
+    "lessons": {
+      "lexer":        { "title": "Lexer & Tokens",        "blurb": "A stream of characters becomes a stream of tokens. The first transformation: text → atoms with meaning." },
+      "parser":       { "title": "Parsing & Grammar",     "blurb": "Tokens get shape. Precedence, associativity, and how a grammar turns \"1+2*3\" into a tree." },
+      "ast":          { "title": "Abstract Syntax Tree",  "blurb": "Strip the syntax, keep the meaning. The shape every later pass actually walks." },
+      "types":        { "title": "Type Checking",         "blurb": "Walk the tree, decorate it with types, reject the programs that lie. Inference vs annotation." },
+      "ir":           { "title": "IR & SSA Form",         "blurb": "High-level trees become low-level instructions. Every variable assigned exactly once." },
+      "optimization": { "title": "Optimization Passes",   "blurb": "Constant folding, dead code, common subexpressions. Each pass throws code away faster than you write it." },
+      "regalloc":     { "title": "Register Allocation",   "blurb": "Infinite virtual registers → 16 real ones. Live ranges, interference graphs, graph coloring." },
+      "codegen":      { "title": "Code Generation",       "blurb": "IR becomes x86 / ARM / RISC-V. Instruction selection, calling conventions, the final emit." }
+    },
+    "lexer": {
+      "lessonNum": "Lesson 01",
+      "title": "Lexer & Tokens",
+      "blurb": "Source code is a flat string. The first job of a compiler is to chop it into <em>tokens</em> — atomic units like <code>let</code>, <code>x</code>, <code>=</code>, <code>42</code> — and tag each one with what kind of thing it is. Whitespace and comments get thrown away.",
+      "section1Title": "What the lexer does",
+      "section1Body": "It scans left-to-right with a tiny state machine, recognising patterns: a letter starts an identifier or keyword, a digit starts a number, a quote starts a string. Each match becomes a token. The lexer doesn't care what the program <em>means</em> yet — only what shapes the characters form.",
+      "section1Bullets": {
+        "kw":    "<strong>Keywords</strong>: reserved words (<code>let</code>, <code>if</code>, <code>return</code>).",
+        "id":    "<strong>Identifiers</strong>: names you chose (<code>x</code>, <code>total</code>).",
+        "lit":   "<strong>Literals</strong>: numbers, strings, booleans.",
+        "ops":   "<strong>Operators &amp; punctuation</strong>: <code>+ - * / = ( ) { } ;</code>"
+      },
+      "takeaways": {
+        "t1": "The lexer's output is a flat sequence — no structure yet, just labelled atoms.",
+        "t2": "Whitespace and comments are usually discarded here. Position info is kept for error messages.",
+        "t3": "Most real lexers are generated from regex-like rules (flex, ANTLR) or hand-written for speed.",
+        "t4": "Keywords are just identifiers that happen to be reserved — the lexer treats them specially."
+      },
+      "widget": {
+        "title": "Type source, get tokens",
+        "sample1": "Sample 1",
+        "sample2": "Sample 2",
+        "sample3": "Sample 3",
+        "legendKw": "keyword",
+        "legendId": "ident",
+        "legendNum": "number",
+        "legendOp": "operator",
+        "legendPunct": "punct",
+        "legendStr": "string",
+        "empty": "no tokens — try typing",
+        "count": "<strong>{{n}}</strong> tokens — {{summary}}"
+      }
+    },
+    "parser": {
+      "lessonNum": "Lesson 02",
+      "title": "Parsing & Grammar",
+      "blurb": "Tokens have no structure — just a flat list. The parser takes that list and discovers the tree hidden inside, guided by a <em>grammar</em>. Operator precedence and associativity decide which tree."
+    },
+    "ast": {
+      "lessonNum": "Lesson 03",
+      "title": "Abstract Syntax Tree"
+    },
+    "types": {
+      "lessonNum": "Lesson 04",
+      "title": "Type Checking"
+    },
+    "ir": {
+      "lessonNum": "Lesson 05",
+      "title": "IR & SSA Form"
+    },
+    "optimization": {
+      "lessonNum": "Lesson 06",
+      "title": "Optimization Passes"
+    },
+    "regalloc": {
+      "lessonNum": "Lesson 07",
+      "title": "Register Allocation"
+    },
+    "codegen": {
+      "lessonNum": "Lesson 08",
+      "title": "Code Generation"
+    }
+  }
+}

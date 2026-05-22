@@ -6,10 +6,10 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="apple-touch-icon" href="/favicon-180.png">
-  <title>Fundamental of Compilers — Visual Crash Course</title>
+  <title data-i18n="compilers.metaTitle">Fundamental of Compilers — Visual Crash Course</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Reggae+One&family=Black+Han+Sans&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/shell.css">
   <link rel="stylesheet" href="../../css/widgets.css">
   <link rel="stylesheet" href="style.css">
@@ -17,20 +17,21 @@
 <body>
   <header class="site-header">
     <div>
-      <div class="brand"><a href="../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="brand"><a href="../../index.html" data-i18n-html="site.brand">Fundamental of <span class="accent">X</span></a></div>
       <div class="breadcrumb">
         <a href="../../index.html">Fundamental of X</a>
         <span class="sep">›</span>
-        <span class="current">Compilers</span>
+        <span class="current" data-i18n="compilers.title">Compilers</span>
       </div>
     </div>
+    <span id="lang-switcher"></span>
   </header>
 
   <main class="hub">
     <section class="intro">
-      <div class="badge live">8 Lessons</div>
-      <h1>Fundamental of <span class="x">Compilers</span></h1>
-      <p>
+      <div class="badge live">8 <span data-i18n="shared.lessonsHeading">Lessons</span></div>
+      <h1 data-i18n-html="compilers.card.title">Fundamental of <span class="x">Compilers</span></h1>
+      <p data-i18n="compilers.intro">
         Eight passes between the file you wrote and the bytes the CPU runs.
         Lexer, parser, AST, type checker, IR, optimizer, register allocator,
         code generator — each step throws information away on purpose, and
@@ -39,26 +40,35 @@
     </section>
 
     <section>
-      <h2>Lessons</h2>
+      <h2 data-i18n="shared.lessonsHeading">Lessons</h2>
       <div class="lesson-grid" id="lessons"></div>
     </section>
   </main>
 
   <footer class="site-footer">
-    Part of the <a href="../../index.html">Fundamental of X</a> series.
+    <span data-i18n-html="site.topicFooter">Part of the <a href="../../index.html">Fundamental of X</a> series.</span>
   </footer>
 
   <script type="module">
-    import { manifest } from './manifest.js';
-    import '../../js/shell.js';
-    const grid = document.getElementById('lessons');
-    grid.innerHTML = manifest.lessons.map((l, i) => `
-      <a class="lesson-card" href="lessons/${l.slug}.html">
-        <span class="num">${String(i + 1).padStart(2, '0')}</span>
-        <h3>${l.title}</h3>
-        <p class="blurb">${l.blurb}</p>
-      </a>
-    `).join('');
+    import { initI18n, mountLangSwitcher, t } from '../../js/i18n.js';
+    await initI18n({ relRoot: '../../' });
+    mountLangSwitcher(document.getElementById('lang-switcher'));
+
+    const { manifest } = await import('./manifest.js');
+    await import('../../js/shell.js');
+
+    function renderLessonGrid() {
+      const grid = document.getElementById('lessons');
+      grid.innerHTML = manifest.lessons.map((l, i) => `
+        <a class="lesson-card" href="lessons/${l.slug}.html">
+          <span class="num">${String(i + 1).padStart(2, '0')}</span>
+          <h3>${t(l.titleKey) === l.titleKey ? l.title : t(l.titleKey)}</h3>
+          <p class="blurb">${t(l.blurbKey) === l.blurbKey ? l.blurb : t(l.blurbKey)}</p>
+        </a>
+      `).join('');
+    }
+    renderLessonGrid();
+    window.addEventListener('i18n:changed', renderLessonGrid);
   </script>
 </body>
 </html>

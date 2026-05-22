@@ -1,5 +1,7 @@
 // Lexer widget: type code, see it tokenized live.
 
+import { t } from '../../../js/i18n.js';
+
 const KEYWORDS = new Set(['let', 'const', 'if', 'else', 'while', 'return', 'function', 'true', 'false']);
 
 function tokenize(src) {
@@ -50,6 +52,7 @@ function tokenize(src) {
 }
 
 const CLASS = { KEYWORD: 'tok-kw', IDENT: 'tok-id', NUMBER: 'tok-num', OP: 'tok-op', PUNCT: 'tok-punct', STRING: 'tok-str', UNKNOWN: '' };
+const LABEL_KEY = { KEYWORD: 'compilers.lexer.widget.legendKw', IDENT: 'compilers.lexer.widget.legendId', NUMBER: 'compilers.lexer.widget.legendNum', OP: 'compilers.lexer.widget.legendOp', PUNCT: 'compilers.lexer.widget.legendPunct', STRING: 'compilers.lexer.widget.legendStr' };
 const SAMPLES = [
   `let x = 42;\nlet name = "Ada";\nif (x > 10) {\n  return x * 2;\n}`,
   `function add(a, b) {\n  return a + b;\n}\n// trailing comment`,
@@ -57,49 +60,55 @@ const SAMPLES = [
 ];
 
 export function initLexerWidget(root) {
-  root.innerHTML = `
-    <div class="widget">
-      <div class="widget-title">Type source, get tokens</div>
-      <div class="controls">
-        <button class="btn" data-sample="0">Sample 1</button>
-        <button class="btn" data-sample="1">Sample 2</button>
-        <button class="btn" data-sample="2">Sample 3</button>
-      </div>
-      <textarea id="lex-src" spellcheck="false" style="width:100%;min-height:120px;font-family:var(--font-mono);font-size:0.9rem;padding:0.7rem;border:2px solid var(--ink);border-radius:var(--radius);background:var(--paper-deep);resize:vertical;"></textarea>
-      <div style="display:flex;gap:1.2rem;flex-wrap:wrap;margin:0.8rem 0;font-size:0.8rem;color:var(--ink-soft);">
-        <span><span class="token tok-kw">keyword</span></span>
-        <span><span class="token tok-id">ident</span></span>
-        <span><span class="token tok-num">number</span></span>
-        <span><span class="token tok-op">operator</span></span>
-        <span><span class="token tok-punct">punct</span></span>
-        <span><span class="token tok-str">string</span></span>
-      </div>
-      <div class="widget-stage" id="lex-out" style="min-height:120px;"></div>
-      <div class="callout" id="lex-count"></div>
-    </div>
-  `;
-
-  const ta = root.querySelector('#lex-src');
-  const out = root.querySelector('#lex-out');
-  const count = root.querySelector('#lex-count');
-
   function render() {
-    const toks = tokenize(ta.value);
-    out.innerHTML = toks.map((t) => {
-      const cls = CLASS[t.type] || '';
-      const v = t.value.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '\\n');
-      return `<span class="token ${cls}" title="${t.type}">${v}</span>`;
-    }).join('') || '<em style="color:var(--ink-faint);">no tokens — try typing</em>';
-    const counts = {};
-    toks.forEach((t) => counts[t.type] = (counts[t.type] || 0) + 1);
-    count.innerHTML = `<strong>${toks.length}</strong> tokens — ` + Object.entries(counts).map(([k, v]) => `${v} ${k.toLowerCase()}`).join(', ');
+    root.innerHTML = `
+      <div class="widget">
+        <div class="widget-title">${t('compilers.lexer.widget.title')}</div>
+        <div class="controls">
+          <button class="btn" data-sample="0">${t('compilers.lexer.widget.sample1')}</button>
+          <button class="btn" data-sample="1">${t('compilers.lexer.widget.sample2')}</button>
+          <button class="btn" data-sample="2">${t('compilers.lexer.widget.sample3')}</button>
+        </div>
+        <textarea id="lex-src" spellcheck="false" style="width:100%;min-height:120px;font-family:var(--font-mono);font-size:0.9rem;padding:0.7rem;border:2px solid var(--ink);border-radius:var(--radius);background:var(--paper-deep);resize:vertical;"></textarea>
+        <div style="display:flex;gap:1.2rem;flex-wrap:wrap;margin:0.8rem 0;font-size:0.8rem;color:var(--ink-soft);">
+          <span><span class="token tok-kw">${t('compilers.lexer.widget.legendKw')}</span></span>
+          <span><span class="token tok-id">${t('compilers.lexer.widget.legendId')}</span></span>
+          <span><span class="token tok-num">${t('compilers.lexer.widget.legendNum')}</span></span>
+          <span><span class="token tok-op">${t('compilers.lexer.widget.legendOp')}</span></span>
+          <span><span class="token tok-punct">${t('compilers.lexer.widget.legendPunct')}</span></span>
+          <span><span class="token tok-str">${t('compilers.lexer.widget.legendStr')}</span></span>
+        </div>
+        <div class="widget-stage" id="lex-out" style="min-height:120px;"></div>
+        <div class="callout" id="lex-count"></div>
+      </div>
+    `;
+
+    const ta = root.querySelector('#lex-src');
+    const out = root.querySelector('#lex-out');
+    const count = root.querySelector('#lex-count');
+
+    function update() {
+      const toks = tokenize(ta.value);
+      out.innerHTML = toks.map((tok) => {
+        const cls = CLASS[tok.type] || '';
+        const v = tok.value.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '\\n');
+        return `<span class="token ${cls}" title="${tok.type}">${v}</span>`;
+      }).join('') || `<em style="color:var(--ink-faint);">${t('compilers.lexer.widget.empty')}</em>`;
+      const counts = {};
+      toks.forEach((tok) => counts[tok.type] = (counts[tok.type] || 0) + 1);
+      const summary = Object.entries(counts).map(([k, v]) => `${v} ${LABEL_KEY[k] ? t(LABEL_KEY[k]) : k.toLowerCase()}`).join(', ');
+      count.innerHTML = t('compilers.lexer.widget.count', { n: toks.length, summary });
+    }
+
+    ta.addEventListener('input', update);
+    root.querySelectorAll('[data-sample]').forEach((b) => b.addEventListener('click', () => {
+      ta.value = SAMPLES[+b.dataset.sample];
+      update();
+    }));
+    ta.value = SAMPLES[0];
+    update();
   }
 
-  ta.addEventListener('input', render);
-  root.querySelectorAll('[data-sample]').forEach((b) => b.addEventListener('click', () => {
-    ta.value = SAMPLES[+b.dataset.sample];
-    render();
-  }));
-  ta.value = SAMPLES[0];
   render();
+  window.addEventListener('i18n:changed', render);
 }

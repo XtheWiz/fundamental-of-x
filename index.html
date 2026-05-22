@@ -6,25 +6,26 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="apple-touch-icon" href="/favicon-180.png">
-  <title>Fundamental of X — Visual, Interactive Deep-Dives</title>
+  <title data-i18n="site.title">Fundamental of X — Visual, Interactive Deep-Dives</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Reggae+One&family=Black+Han+Sans&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/shell.css">
 </head>
 <body>
   <header class="site-header">
-    <div class="brand">Fundamental of <span class="accent">X</span></div>
+    <div class="brand" data-i18n-html="site.brand">Fundamental of <span class="accent">X</span></div>
     <nav>
-      <a href="#subjects">Subjects</a>
-      <a href="#about">About</a>
+      <a href="#subjects" data-i18n="site.nav.subjects">Subjects</a>
+      <a href="#about" data-i18n="site.nav.about">About</a>
+      <span id="lang-switcher"></span>
     </nav>
   </header>
 
   <main class="hub">
     <section class="intro">
-      <h1>Learn the foundations,<br>one <span class="x">X</span> at a time.</h1>
-      <p>
+      <h1 data-i18n-html="home.hero.title">Learn the foundations,<br>one <span class="x">X</span> at a time.</h1>
+      <p data-i18n="home.hero.body">
         A visual, interactive companion for foundational topics that are usually
         explained with walls of text. Every lesson is hands-on — you click,
         drag, and watch the concept happen instead of just reading about it.
@@ -32,10 +33,10 @@
     </section>
 
     <section id="subjects">
-      <h2>Subjects</h2>
+      <h2 data-i18n="site.nav.subjects">Subjects</h2>
       <div class="subject-grid">
         <a class="subject-card" href="topics/database/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Database</span></h3>
           <p>ACID, B-Trees, replication, sharding, WAL, isolation levels, and
              how SQL queries actually run — explained through interactive
@@ -44,7 +45,7 @@
         </a>
 
         <a class="subject-card" href="topics/internet/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Internet</span></h3>
           <p>How bytes get from one machine to another. IP, TCP, UDP, DNS,
              TLS handshakes, HTTP versions, latency — the plumbing under
@@ -53,7 +54,7 @@
         </a>
 
         <a class="subject-card" href="topics/backend/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Backend</span></h3>
           <p>HTTP verbs, status codes, headers, cookies, REST, request
              lifecycles, proxies, load balancers, caching, rate limiting —
@@ -62,7 +63,7 @@
         </a>
 
         <a class="subject-card" href="topics/messaging/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Messaging</span></h3>
           <p>Brokers, topics, partitions, consumer groups, delivery
              semantics, DLQs — the patterns behind Kafka, RabbitMQ, SQS,
@@ -71,7 +72,7 @@
         </a>
 
         <a class="subject-card" href="topics/distributed-systems/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Distributed Systems</span></h3>
           <p>Consensus (Raft), the CAP theorem, leader election, vector
              clocks, gossip, two-phase commit — watch nodes argue, vote,
@@ -80,7 +81,7 @@
         </a>
 
         <a class="subject-card" href="topics/cryptography/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Cryptography</span></h3>
           <p>Hashing, symmetric vs asymmetric, digital signatures, key
              exchange, certificates — animated step-by-step so you
@@ -89,7 +90,7 @@
         </a>
 
         <a class="subject-card" href="topics/quantum-computing/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Quantum Computing</span></h3>
           <p>Qubits on the Bloch sphere, superposition, entanglement,
              gates and circuits, Grover &amp; Shor, NISQ — the math +
@@ -98,7 +99,7 @@
         </a>
 
         <a class="subject-card" href="topics/design-patterns/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Design Patterns</span></h3>
           <p>Strategy, Observer, Factory, Decorator, DI, Repository, CQRS —
              vocabulary for refactoring intent. Classic GoF where it still
@@ -107,7 +108,7 @@
         </a>
 
         <a class="subject-card" href="topics/operating-systems/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Operating Systems</span></h3>
           <p>Processes vs threads, the scheduler, memory allocation,
              syscalls, file descriptors, concurrency primitives, IPC,
@@ -116,7 +117,7 @@
         </a>
 
         <a class="subject-card" href="topics/computer-architecture/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Computer Architecture</span></h3>
           <p>CPU pipelines, branch prediction, cache lines, the memory
              hierarchy, MMU, SIMD — why two semantically identical
@@ -125,7 +126,7 @@
         </a>
 
         <a class="subject-card" href="topics/machine-learning/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Machine Learning</span></h3>
           <p>Linear regression, gradient descent, classification, neural
              networks, backprop, k-means, overfitting — the math of
@@ -134,7 +135,7 @@
         </a>
 
         <a class="subject-card" href="topics/transformers/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Transformers &amp; LLMs</span></h3>
           <p>Tokens, embeddings, attention heads, sampling, scaling laws
              — watch how a transformer turns "Hello" into a coherent
@@ -143,7 +144,7 @@
         </a>
 
         <a class="subject-card" href="topics/light/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Light</span></h3>
           <p>Spectrum, reflection, refraction, lenses, diffraction,
              polarization, color, photons — the physics of light through
@@ -152,7 +153,7 @@
         </a>
 
         <a class="subject-card" href="topics/solar-cell/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Solar Cell</span></h3>
           <p>How a photon becomes electricity. Bandgaps, P-N junctions,
              Shockley-Queisser limit, MPPT, real-world losses — physics
@@ -161,7 +162,7 @@
         </a>
 
         <a class="subject-card" href="topics/energy-systems/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Energy Systems</span></h3>
           <p>Generation mix, the duck curve, grid frequency, storage
              arbitrage, LCOE, demand response — how supply and demand
@@ -170,7 +171,7 @@
         </a>
 
         <a class="subject-card" href="topics/electric-vehicles/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Electric Vehicles</span></h3>
           <p>Battery chemistry, BMS, electric motors, regenerative
              braking, charging curves, range estimation, and the autonomy
@@ -179,16 +180,16 @@
         </a>
 
         <a class="subject-card" href="topics/compilers/index.html">
-          <span class="tag">LIVE</span>
-          <h3>Fundamental of <span class="x">Compilers</span></h3>
-          <p>Lexer, parser, AST, type checker, IR, optimizer, register
+          <span class="tag" data-i18n="shared.live">LIVE</span>
+          <h3 data-i18n-html="compilers.card.title">Fundamental of <span class="x">Compilers</span></h3>
+          <p data-i18n="compilers.card.body">Lexer, parser, AST, type checker, IR, optimizer, register
              allocation, code generation — eight passes between the file
              you wrote and the bytes the CPU runs.</p>
           <div class="meta">8 lessons · interactive</div>
         </a>
 
         <a class="subject-card" href="topics/genetics/index.html">
-          <span class="tag">LIVE</span>
+          <span class="tag" data-i18n="shared.live">LIVE</span>
           <h3>Fundamental of <span class="x">Genetics</span></h3>
           <p>DNA's double helix, replication, transcription, translation,
              mutations, sequencing, alignment, and CRISPR — the molecular
@@ -199,24 +200,29 @@
     </section>
 
     <section id="about" style="margin-top: 3rem; max-width: 720px;">
-      <h2>Why visual?</h2>
-      <p>
+      <h2 data-i18n="home.about.heading">Why visual?</h2>
+      <p data-i18n-html="home.about.p1">
         A picture of a B-Tree splitting is worth more than three paragraphs of
         prose, and an animation of a transaction rolling back beats any bullet
         list. This site is built for learners who want to <em>see</em> ideas
         move, not just read about them.
       </p>
-      <p>
-        Each subject is a self-contained module. Today only Database is shipped
-        — more subjects will follow.
+      <p data-i18n="home.about.p2">
+        Each subject is a self-contained module.
       </p>
     </section>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer" data-i18n="site.footer">
     Built with curiosity. Made for learners who think with pictures.
   </footer>
 
-  <script type="module" src="js/mascot.js"></script>
+  <script type="module">
+    import { initI18n, mountLangSwitcher } from './js/i18n.js';
+    await initI18n({ relRoot: '' });
+    mountLangSwitcher(document.getElementById('lang-switcher'));
+    // Defer mascot until after i18n so the bubble text is correct on first paint.
+    import('./js/mascot.js');
+  </script>
 </body>
 </html>

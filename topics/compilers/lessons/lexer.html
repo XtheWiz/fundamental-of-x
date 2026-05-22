@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>Lexer & Tokens — Fundamental of Compilers</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Reggae+One&family=Black+Han+Sans&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../../css/shell.css">
   <link rel="stylesheet" href="../../../css/widgets.css">
   <link rel="stylesheet" href="../style.css">
@@ -13,10 +13,11 @@
 <body>
   <header class="site-header">
     <div>
-      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="brand"><a href="../../../index.html" data-i18n-html="site.brand">Fundamental of <span class="accent">X</span></a></div>
       <div class="breadcrumb" id="breadcrumb"></div>
     </div>
-    <button class="menu-toggle" id="menu-toggle">Menu</button>
+    <span id="lang-switcher"></span>
+    <button class="menu-toggle" id="menu-toggle" data-i18n="shared.menu">Menu</button>
   </header>
 
   <div class="layout">
@@ -24,34 +25,34 @@
     <main class="main">
       <div class="container">
         <div class="lesson-header">
-          <div class="lesson-num">Lesson 01</div>
-          <h1>Lexer &amp; Tokens</h1>
-          <p class="blurb">Source code is a flat string. The first job of a compiler is to chop it into <em>tokens</em> — atomic units like <code>let</code>, <code>x</code>, <code>=</code>, <code>42</code> — and tag each one with what kind of thing it is. Whitespace and comments get thrown away.</p>
+          <div class="lesson-num" data-i18n="compilers.lexer.lessonNum">Lesson 01</div>
+          <h1 data-i18n="compilers.lexer.title">Lexer &amp; Tokens</h1>
+          <p class="blurb" data-i18n-html="compilers.lexer.blurb">Source code is a flat string. The first job of a compiler is to chop it into <em>tokens</em> — atomic units like <code>let</code>, <code>x</code>, <code>=</code>, <code>42</code> — and tag each one with what kind of thing it is. Whitespace and comments get thrown away.</p>
         </div>
 
         <section class="section">
-          <h2>What the lexer does</h2>
-          <p>It scans left-to-right with a tiny state machine, recognising patterns: a letter starts an identifier or keyword, a digit starts a number, a quote starts a string. Each match becomes a token. The lexer doesn't care what the program <em>means</em> yet — only what shapes the characters form.</p>
+          <h2 data-i18n="compilers.lexer.section1Title">What the lexer does</h2>
+          <p data-i18n-html="compilers.lexer.section1Body">It scans left-to-right with a tiny state machine, recognising patterns: a letter starts an identifier or keyword, a digit starts a number, a quote starts a string. Each match becomes a token. The lexer doesn't care what the program <em>means</em> yet — only what shapes the characters form.</p>
           <ul>
-            <li><strong>Keywords</strong>: reserved words (<code>let</code>, <code>if</code>, <code>return</code>).</li>
-            <li><strong>Identifiers</strong>: names you chose (<code>x</code>, <code>total</code>).</li>
-            <li><strong>Literals</strong>: numbers, strings, booleans.</li>
-            <li><strong>Operators &amp; punctuation</strong>: <code>+ - * / = ( ) { } ;</code></li>
+            <li data-i18n-html="compilers.lexer.section1Bullets.kw"><strong>Keywords</strong>: reserved words (<code>let</code>, <code>if</code>, <code>return</code>).</li>
+            <li data-i18n-html="compilers.lexer.section1Bullets.id"><strong>Identifiers</strong>: names you chose (<code>x</code>, <code>total</code>).</li>
+            <li data-i18n-html="compilers.lexer.section1Bullets.lit"><strong>Literals</strong>: numbers, strings, booleans.</li>
+            <li data-i18n-html="compilers.lexer.section1Bullets.ops"><strong>Operators &amp; punctuation</strong>: <code>+ - * / = ( ) { } ;</code></li>
           </ul>
         </section>
 
         <section class="section">
-          <h2>Try it</h2>
+          <h2 data-i18n="shared.tryIt">Try it</h2>
           <div id="widget-root"></div>
         </section>
 
         <div class="takeaways">
-          <h3>Key takeaways</h3>
+          <h3 data-i18n="shared.keyTakeaways">Key takeaways</h3>
           <ul>
-            <li>The lexer's output is a flat sequence — no structure yet, just labelled atoms.</li>
-            <li>Whitespace and comments are usually discarded here. Position info is kept for error messages.</li>
-            <li>Most real lexers are generated from regex-like rules (flex, ANTLR) or hand-written for speed.</li>
-            <li>Keywords are just identifiers that happen to be reserved — the lexer treats them specially.</li>
+            <li data-i18n="compilers.lexer.takeaways.t1">The lexer's output is a flat sequence — no structure yet, just labelled atoms.</li>
+            <li data-i18n="compilers.lexer.takeaways.t2">Whitespace and comments are usually discarded here. Position info is kept for error messages.</li>
+            <li data-i18n="compilers.lexer.takeaways.t3">Most real lexers are generated from regex-like rules (flex, ANTLR) or hand-written for speed.</li>
+            <li data-i18n="compilers.lexer.takeaways.t4">Keywords are just identifiers that happen to be reserved — the lexer treats them specially.</li>
           </ul>
         </div>
         <nav class="lesson-nav" id="lesson-nav"></nav>
@@ -60,11 +61,15 @@
   </div>
 
   <script type="module">
-    import { manifest } from '../manifest.js';
-    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
-    import { initLexerWidget } from '../widgets/lexer.js';
+    import { initI18n, mountLangSwitcher } from '../../../js/i18n.js';
+    await initI18n({ relRoot: '../../../' });
+    mountLangSwitcher(document.getElementById('lang-switcher'));
+
+    const { manifest } = await import('../manifest.js');
+    const { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } = await import('../../../js/shell.js');
+    const { initLexerWidget } = await import('../widgets/lexer.js');
     mountSidebar({ manifest, currentSlug: 'lexer' });
-    mountBreadcrumb({ manifest, currentTitle: 'Lexer & Tokens' });
+    mountBreadcrumb({ manifest, currentSlug: 'lexer' });
     mountLessonNav({ manifest, currentSlug: 'lexer' });
     mountMenuToggle();
     initLexerWidget(document.getElementById('widget-root'));

@@ -1,0 +1,100 @@
+{
+  "site": {
+    "brand": "Fundamental of <span class=\"accent\">X</span>",
+    "title": "Fundamental of X — 可视化、可互动的深度学习",
+    "nav": {
+      "subjects": "主题",
+      "about": "关于"
+    },
+    "footer": "出于好奇而构建。为用图像思考的学习者制作。",
+    "topicFooter": "<a href=\"{{homeHref}}\">Fundamental of X</a> 系列的一部分。"
+  },
+  "shared": {
+    "live": "已上线",
+    "lessonsCount": "{{count}} 课 · 可互动",
+    "lessonsHeading": "课程",
+    "tryIt": "试试看",
+    "keyTakeaways": "要点总结",
+    "prev": "← 上一课",
+    "next": "下一课 →",
+    "menu": "菜单",
+    "mascotIntro": "<strong>你好,我是 X 老师!</strong><br>边学边为你指出重点。",
+    "support": {
+      "compactLabel": "请 X 老师喝杯咖啡",
+      "cardTitle": "觉得有用吗?",
+      "cardBody": "请 X 老师喝杯咖啡,保持网站无广告。",
+      "cardCta": "打赏 ☕"
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "一次学一个 <span class=\"x\">X</span>,<br>从基础开始。",
+      "body": "一个为通常用大段文字解释的基础主题而生的可视化、可互动伙伴。每一课都可以动手 — 你点击、拖动、亲眼看着概念发生,而不是只读文字。"
+    },
+    "about": {
+      "heading": "为什么要可视化?",
+      "p1": "一张 B 树分裂的图,胜过三段文字;一段事务回滚的动画,胜过任何项目符号列表。这个网站是为想<em>看见</em>想法运动,而不只是阅读它们的学习者而做的。",
+      "p2": "每个主题都是一个独立模块。"
+    }
+  },
+  "compilers": {
+    "title": "编译器",
+    "tagline": "源代码如何变成 CPU 能跑的东西。",
+    "metaTitle": "Fundamental of 编译器 — 可视化速成课",
+    "intro": "从你写下的文件到 CPU 运行的字节之间,有 8 个阶段。词法分析器、语法分析器、AST、类型检查器、IR、优化器、寄存器分配器、代码生成器 — 每一步都有意地丢弃信息,而每一步都配有一个你可以动手把玩的小部件。",
+    "card": {
+      "title": "Fundamental of <span class=\"x\">编译器</span>",
+      "body": "词法分析、语法分析、AST、类型检查、IR、优化、寄存器分配、代码生成 — 从你写的源代码到 CPU 字节之间的 8 个阶段。"
+    },
+    "lessons": {
+      "lexer":        { "title": "词法分析与词法单元",       "blurb": "字符流变成词法单元流。第一次变换:文本 → 有意义的原子。" },
+      "parser":       { "title": "语法分析与文法",           "blurb": "词法单元获得结构。优先级、结合性,以及文法如何把 \"1+2*3\" 变成一棵树。" },
+      "ast":          { "title": "抽象语法树",               "blurb": "丢掉语法,保留含义。后续所有阶段实际遍历的形状。" },
+      "types":        { "title": "类型检查",                 "blurb": "遍历树,标注类型,拒绝说谎的程序。类型推断 vs 类型注解。" },
+      "ir":           { "title": "IR 与 SSA 形式",           "blurb": "高级树变成低级指令。每个变量恰好被赋值一次。" },
+      "optimization": { "title": "优化阶段",                 "blurb": "常量折叠、死代码、公共子表达式。每一个阶段都比你写代码更快地丢掉代码。" },
+      "regalloc":     { "title": "寄存器分配",               "blurb": "无穷的虚拟寄存器 → 16 个真实寄存器。生存区间、干扰图、图着色。" },
+      "codegen":      { "title": "代码生成",                 "blurb": "IR 变成 x86 / ARM / RISC-V。指令选择、调用约定、最终输出。" }
+    },
+    "lexer": {
+      "lessonNum": "第 01 课",
+      "title": "词法分析与词法单元",
+      "blurb": "源代码只是一个扁平的字符串。编译器的第一项工作就是把它切成<em>词法单元</em> — 像 <code>let</code>、<code>x</code>、<code>=</code>、<code>42</code> 这样的原子单位 — 并标注每个单元的种类。空白和注释都被丢弃。",
+      "section1Title": "词法分析器在做什么",
+      "section1Body": "它用一个小小的状态机从左到右扫描,识别模式:字母开始一个标识符或关键字,数字开始一个数值,引号开始一个字符串。每次匹配产生一个词法单元。这个阶段词法分析器还不关心程序<em>意味着</em>什么 — 只关心字符的形状。",
+      "section1Bullets": {
+        "kw":    "<strong>关键字</strong>:保留字(<code>let</code>、<code>if</code>、<code>return</code>)。",
+        "id":    "<strong>标识符</strong>:你选的名字(<code>x</code>、<code>total</code>)。",
+        "lit":   "<strong>字面量</strong>:数字、字符串、布尔值。",
+        "ops":   "<strong>运算符与标点</strong>:<code>+ - * / = ( ) { } ;</code>"
+      },
+      "takeaways": {
+        "t1": "词法分析器的输出是一个扁平序列 — 还没有结构,只是被打了标签的原子。",
+        "t2": "空白和注释通常在这里被丢弃。位置信息保留下来用于错误提示。",
+        "t3": "大多数实际的词法分析器是由类正则规则生成的(flex、ANTLR),或者为了速度手写。",
+        "t4": "关键字只是恰好被保留的标识符 — 词法分析器只是特别对待它们。"
+      },
+      "widget": {
+        "title": "输入源代码,得到词法单元",
+        "sample1": "样例 1",
+        "sample2": "样例 2",
+        "sample3": "样例 3",
+        "legendKw": "关键字",
+        "legendId": "标识符",
+        "legendNum": "数字",
+        "legendOp": "运算符",
+        "legendPunct": "标点",
+        "legendStr": "字符串",
+        "empty": "没有词法单元 — 试着输入点东西",
+        "count": "<strong>{{n}}</strong> 个词法单元 — {{summary}}"
+      }
+    },
+    "parser":       { "lessonNum": "第 02 课", "title": "语法分析与文法", "blurb": "词法单元没有结构 — 只是一个扁平列表。语法分析器在<em>文法</em>的引导下,发现其中隐藏的树。运算符优先级和结合性决定了是哪棵树。" },
+    "ast":          { "lessonNum": "第 03 课", "title": "抽象语法树" },
+    "types":        { "lessonNum": "第 04 课", "title": "类型检查" },
+    "ir":           { "lessonNum": "第 05 课", "title": "IR 与 SSA 形式" },
+    "optimization": { "lessonNum": "第 06 课", "title": "优化阶段" },
+    "regalloc":     { "lessonNum": "第 07 课", "title": "寄存器分配" },
+    "codegen":      { "lessonNum": "第 08 课", "title": "代码生成" }
+  }
+}

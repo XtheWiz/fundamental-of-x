@@ -16,9 +16,50 @@
   --radius: 4px;
   --max-content: 1080px;
   --sidebar-w: 260px;
-  --font-display: 'Bangers', 'Anton', 'Impact', sans-serif;
-  --font-body: 'Inter', 'Source Sans 3', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+  --font-display: 'Bangers', 'Anton', 'Impact', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', sans-serif;
+  --font-body: 'Inter', 'Source Sans 3', 'Noto Sans JP', 'Noto Sans KR', 'Noto Sans SC', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', 'Noto Sans Mono CJK JP', monospace;
+}
+
+/* CJK display font swap: Bangers is Latin-only, so headings in JA/KO/ZH
+   fall back to a weighty CJK display face that keeps the manga energy. */
+html[lang="ja"] {
+  --font-display: 'Reggae One', 'Yusei Magic', 'Noto Sans JP', 'Bangers', sans-serif;
+  --font-body: 'Noto Sans JP', 'Inter', system-ui, sans-serif;
+}
+html[lang="ko"] {
+  --font-display: 'Black Han Sans', 'Jua', 'Noto Sans KR', 'Bangers', sans-serif;
+  --font-body: 'Noto Sans KR', 'Inter', system-ui, sans-serif;
+}
+html[lang="zh"] {
+  --font-display: 'ZCOOL KuaiLe', 'Long Cang', 'Noto Sans SC', 'Bangers', sans-serif;
+  --font-body: 'Noto Sans SC', 'Inter', system-ui, sans-serif;
+}
+
+/* Language switcher in the site header. */
+.lang-switcher {
+  display: inline-flex;
+  gap: 0.25rem;
+  margin-left: 0.8rem;
+  align-items: center;
+}
+.lang-btn {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1.5px solid transparent;
+  border-radius: 3px;
+  padding: 0.2em 0.55em;
+  cursor: pointer;
+  transition: background 0.1s ease, color 0.1s ease, border-color 0.1s ease;
+}
+.lang-btn:hover { color: var(--ink); border-color: var(--ink-faint); }
+.lang-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
 }
 
 * { box-sizing: border-box; }
