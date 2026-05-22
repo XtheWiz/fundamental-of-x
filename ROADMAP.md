@@ -46,6 +46,7 @@ the AI loop keeps cost-per-topic low enough to justify the long tail.
   Motion accents on each).
 - **Phase 2** — in progress. One topic per session.
   - [x] Genetics
+  - [x] Machine Learning
   - [ ] backend
   - [ ] computer-architecture
   - [ ] cryptography
@@ -56,7 +57,6 @@ the AI loop keeps cost-per-topic low enough to justify the long tail.
   - [ ] energy-systems
   - [ ] internet
   - [ ] light
-  - [ ] machine-learning
   - [ ] messaging
   - [ ] operating-systems
   - [ ] quantum-computing

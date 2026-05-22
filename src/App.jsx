@@ -4,6 +4,8 @@ import CompilersIndex from './routes/compilers/CompilersIndex.jsx';
 import CompilersLesson from './routes/compilers/CompilersLesson.jsx';
 import GeneticsIndex from './routes/genetics/GeneticsIndex.jsx';
 import GeneticsLesson from './routes/genetics/GeneticsLesson.jsx';
+import MachineLearningIndex from './routes/ml/MachineLearningIndex.jsx';
+import MachineLearningLesson from './routes/ml/MachineLearningLesson.jsx';
 import NotFound from './routes/NotFound.jsx';
 
 export default function App() {
@@ -18,6 +20,10 @@ export default function App() {
       <Route path="/topics/genetics/" element={<GeneticsIndex />} />
       <Route path="/topics/genetics/index.html" element={<GeneticsIndex />} />
       <Route path="/topics/genetics/lessons/*" element={<GeneticsLesson />} />
+      <Route path="/topics/machine-learning" element={<MachineLearningIndex />} />
+      <Route path="/topics/machine-learning/" element={<MachineLearningIndex />} />
+      <Route path="/topics/machine-learning/index.html" element={<MachineLearningIndex />} />
+      <Route path="/topics/machine-learning/lessons/*" element={<MachineLearningLesson />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

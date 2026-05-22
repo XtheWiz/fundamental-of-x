@@ -32,7 +32,7 @@ export const CATEGORIES = [
     subjects: [
       C('Computer Architecture', 'Why are two identical programs 10× different in speed? CPU pipelines, caches, branch prediction — the silicon underneath.', 'computer-architecture'),
       C('Compilers', 'How does the file you wrote become bytes the CPU runs? Lexer, parser, AST, IR, optimization, codegen — every pass, interactive.', 'compilers', true),
-      C('Machine Learning', 'Watch gradient descent climb. Train a tiny neural net one frame at a time. Regression, classification, k-means — all live.', 'machine-learning'),
+      C('Machine Learning', 'Watch gradient descent climb. Train a tiny neural net one frame at a time. Regression, classification, k-means — all live.', 'machine-learning', true),
       { ...C('Transformers & LLMs', 'Tokens go in, attention happens, words come out. See exactly what a transformer does to your prompt — one matmul at a time.', 'transformers'), title: 'Transformers & LLMs' },
       C('Quantum Computing', 'Spin a qubit on the Bloch sphere. Make two of them entangle. Gates, circuits, Grover, Shor — the math made tangible.', 'quantum-computing'),
     ],
