@@ -18,6 +18,7 @@ const SUPPORTED = [
   { code: 'ja', label: 'Japanese', native: '日本語'    },
   { code: 'ko', label: 'Korean',   native: '한국어'    },
   { code: 'zh', label: 'Chinese',  native: '中文'      },
+  { code: 'th', label: 'Thai',     native: 'ไทย'       },
 ];
 
 const STORAGE_KEY = 'fox-lang';

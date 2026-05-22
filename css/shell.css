@@ -35,6 +35,10 @@ html[lang="zh"] {
   --font-display: 'ZCOOL KuaiLe', 'Long Cang', 'Noto Sans SC', 'Bangers', sans-serif;
   --font-body: 'Noto Sans SC', 'Inter', system-ui, sans-serif;
 }
+html[lang="th"] {
+  --font-display: 'Mitr', 'Noto Sans Thai', 'Bangers', sans-serif;
+  --font-body: 'Noto Sans Thai', 'Inter', system-ui, sans-serif;
+}
 
 /* Language switcher in the site header — manga-styled dropdown. */
 .lang-switcher { display: inline-flex; align-items: center; margin-left: 0.8rem; }
