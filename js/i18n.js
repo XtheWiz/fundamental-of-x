@@ -114,18 +114,25 @@ export function applyI18n(root = document) {
   });
 }
 
-// Drop a language switcher into a container.
+// Drop a language switcher into a container. Renders as a manga-styled
+// <select> so it stays compact and looks native on mobile.
 export function mountLangSwitcher(el) {
   if (!el) return;
   el.classList.add('lang-switcher');
-  el.innerHTML = SUPPORTED.map((l) =>
-    `<button type="button" data-lang="${l.code}" class="lang-btn${l.code === currentLang ? ' active' : ''}" aria-label="${l.label}">${l.native}</button>`
-  ).join('');
-  el.addEventListener('click', async (e) => {
-    const btn = e.target.closest('[data-lang]');
-    if (!btn) return;
-    await setLang(btn.dataset.lang);
-    el.querySelectorAll('.lang-btn').forEach((b) => b.classList.toggle('active', b.dataset.lang === currentLang));
+  el.innerHTML = `
+    <label class="lang-select-wrap" aria-label="Language">
+      <span class="lang-select-icon" aria-hidden="true">🌐</span>
+      <select class="lang-select">
+        ${SUPPORTED.map((l) =>
+          `<option value="${l.code}"${l.code === currentLang ? ' selected' : ''}>${l.native}</option>`
+        ).join('')}
+      </select>
+      <span class="lang-select-caret" aria-hidden="true">▾</span>
+    </label>
+  `;
+  const sel = el.querySelector('.lang-select');
+  sel.addEventListener('change', async () => {
+    await setLang(sel.value);
   });
 }
 
