@@ -116,14 +116,19 @@ the AI loop keeps cost-per-topic low enough to justify the long tail.
         (legacy-widget wrapper — both are R3F candidates for future polish)
   - [x] Light, Solar Cell, Energy Systems, Electric Vehicles
         (legacy-widget wrapper)
-- **Phase 3** — pending. Polish:
-  - Code-split per topic with `React.lazy` so the home page doesn't
-    download every widget (current bundle ~178 KB gzipped).
-  - Convert remaining legacy-widget topics to native React on demand
+- **Phase 3** — in progress. Polish:
+  - [x] **Code-split per topic with React.lazy.** Home-page bundle went
+    from 354 KB gzipped to ~83 KB gzipped (-77%). Each topic loads its
+    own ~10-20 KB chunk on first visit. Bespoke ports (Compilers,
+    Genetics, ML, Database) each have a dedicated lazy route component;
+    generic ports route through a single `<LazyTopicIndex />` /
+    `<LazyTopicLesson />` that uses `import.meta.glob` to map slugs to
+    chunks. Suspense fallback is a small spinner.
+  - [ ] Convert remaining legacy-widget topics to native React on demand
     (when a widget needs Framer Motion or R3F treatment).
-  - Re-enable the language switcher (`SWITCHER_ENABLED = true`) once
+  - [ ] Re-enable the language switcher (`SWITCHER_ENABLED = true`) once
     i18n dictionaries cover the React-native UI.
-  - Add R3F to Quantum (Bloch sphere) and Light (3D ray tracing) as
+  - [ ] Add R3F to Quantum (Bloch sphere) and Light (3D ray tracing) as
     showcase 3D widgets.
 
 ## Architectural notes

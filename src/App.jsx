@@ -1,76 +1,62 @@
+import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './routes/Home.jsx';
 import NotFound from './routes/NotFound.jsx';
+import Loading from './components/Loading.jsx';
+import { LazyTopicIndex, LazyTopicLesson } from './components/LazyTopic.jsx';
 
-import CompilersIndex from './routes/compilers/CompilersIndex.jsx';
-import CompilersLesson from './routes/compilers/CompilersLesson.jsx';
-import GeneticsIndex from './routes/genetics/GeneticsIndex.jsx';
-import GeneticsLesson from './routes/genetics/GeneticsLesson.jsx';
-import MachineLearningIndex from './routes/ml/MachineLearningIndex.jsx';
-import MachineLearningLesson from './routes/ml/MachineLearningLesson.jsx';
-import DatabaseIndex from './routes/database/DatabaseIndex.jsx';
-import DatabaseLesson from './routes/database/DatabaseLesson.jsx';
+// Bespoke React-native ports (richer per-lesson prose + native widgets +
+// Framer Motion accents). Each is its own chunk — visiting one topic only
+// downloads that topic's manifest + widgets.
+const CompilersIndex      = lazy(() => import('./routes/compilers/CompilersIndex.jsx'));
+const CompilersLesson     = lazy(() => import('./routes/compilers/CompilersLesson.jsx'));
+const GeneticsIndex       = lazy(() => import('./routes/genetics/GeneticsIndex.jsx'));
+const GeneticsLesson      = lazy(() => import('./routes/genetics/GeneticsLesson.jsx'));
+const MachineLearningIndex  = lazy(() => import('./routes/ml/MachineLearningIndex.jsx'));
+const MachineLearningLesson = lazy(() => import('./routes/ml/MachineLearningLesson.jsx'));
+const DatabaseIndex       = lazy(() => import('./routes/database/DatabaseIndex.jsx'));
+const DatabaseLesson      = lazy(() => import('./routes/database/DatabaseLesson.jsx'));
 
-import TopicIndex from './components/TopicIndex.jsx';
-import TopicLessonRoute from './components/TopicLessonRoute.jsx';
+// Generic, legacy-widget-wrapped topics — routed by :slug. The dynamic
+// loader in LazyTopic.jsx pulls in the right data file (and its widget
+// chunk) on first visit.
 
-import { manifest as backend } from './data/backend.jsx';
-import { manifest as internet } from './data/internet.jsx';
-import { manifest as messaging } from './data/messaging.jsx';
-import { manifest as distributedSystems } from './data/distributed-systems.jsx';
-import { manifest as cryptography } from './data/cryptography.jsx';
-import { manifest as designPatterns } from './data/design-patterns.jsx';
-import { manifest as operatingSystems } from './data/operating-systems.jsx';
-import { manifest as computerArchitecture } from './data/computer-architecture.jsx';
-import { manifest as transformers } from './data/transformers.jsx';
-import { manifest as quantumComputing } from './data/quantum-computing.jsx';
-import { manifest as light } from './data/light.jsx';
-import { manifest as solarCell } from './data/solar-cell.jsx';
-import { manifest as energySystems } from './data/energy-systems.jsx';
-import { manifest as electricVehicles } from './data/electric-vehicles.jsx';
-import { manifest as algorithms } from './data/algorithms.jsx';
-import { manifest as threads } from './data/threads.jsx';
-
-// Topics that share the generic TopicIndex / TopicLessonRoute scaffolding.
-// (The four already-React-native topics use bespoke route components.)
-const GENERIC_TOPICS = [
-  backend, internet, messaging, distributedSystems, cryptography,
-  designPatterns, operatingSystems, computerArchitecture,
-  transformers, quantumComputing,
-  light, solarCell, energySystems, electricVehicles,
-  algorithms, threads,
-];
+function S({ children }) {
+  return <Suspense fallback={<Loading />}>{children}</Suspense>;
+}
 
 export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
 
-      {/* React-native ports — dedicated route components per topic */}
-      <Route path="/topics/compilers" element={<CompilersIndex />} />
-      <Route path="/topics/compilers/" element={<CompilersIndex />} />
-      <Route path="/topics/compilers/index.html" element={<CompilersIndex />} />
-      <Route path="/topics/compilers/lessons/*" element={<CompilersLesson />} />
-      <Route path="/topics/genetics" element={<GeneticsIndex />} />
-      <Route path="/topics/genetics/" element={<GeneticsIndex />} />
-      <Route path="/topics/genetics/index.html" element={<GeneticsIndex />} />
-      <Route path="/topics/genetics/lessons/*" element={<GeneticsLesson />} />
-      <Route path="/topics/machine-learning" element={<MachineLearningIndex />} />
-      <Route path="/topics/machine-learning/" element={<MachineLearningIndex />} />
-      <Route path="/topics/machine-learning/index.html" element={<MachineLearningIndex />} />
-      <Route path="/topics/machine-learning/lessons/*" element={<MachineLearningLesson />} />
-      <Route path="/topics/database" element={<DatabaseIndex />} />
-      <Route path="/topics/database/" element={<DatabaseIndex />} />
-      <Route path="/topics/database/index.html" element={<DatabaseIndex />} />
-      <Route path="/topics/database/lessons/*" element={<DatabaseLesson />} />
+      {/* Bespoke ports — explicit routes win over the :slug catch-all below */}
+      <Route path="/topics/compilers"             element={<S><CompilersIndex /></S>} />
+      <Route path="/topics/compilers/"            element={<S><CompilersIndex /></S>} />
+      <Route path="/topics/compilers/index.html"  element={<S><CompilersIndex /></S>} />
+      <Route path="/topics/compilers/lessons/*"   element={<S><CompilersLesson /></S>} />
 
-      {/* Legacy-widget ports — generic route scaffolding, manifest-driven */}
-      {GENERIC_TOPICS.flatMap((m) => [
-        <Route key={`i-${m.slug}`} path={`/topics/${m.slug}`} element={<TopicIndex manifest={m} />} />,
-        <Route key={`i-${m.slug}/`} path={`/topics/${m.slug}/`} element={<TopicIndex manifest={m} />} />,
-        <Route key={`ih-${m.slug}`} path={`/topics/${m.slug}/index.html`} element={<TopicIndex manifest={m} />} />,
-        <Route key={`l-${m.slug}`} path={`/topics/${m.slug}/lessons/*`} element={<TopicLessonRoute manifest={m} />} />,
-      ])}
+      <Route path="/topics/genetics"              element={<S><GeneticsIndex /></S>} />
+      <Route path="/topics/genetics/"             element={<S><GeneticsIndex /></S>} />
+      <Route path="/topics/genetics/index.html"   element={<S><GeneticsIndex /></S>} />
+      <Route path="/topics/genetics/lessons/*"    element={<S><GeneticsLesson /></S>} />
+
+      <Route path="/topics/machine-learning"             element={<S><MachineLearningIndex /></S>} />
+      <Route path="/topics/machine-learning/"            element={<S><MachineLearningIndex /></S>} />
+      <Route path="/topics/machine-learning/index.html"  element={<S><MachineLearningIndex /></S>} />
+      <Route path="/topics/machine-learning/lessons/*"   element={<S><MachineLearningLesson /></S>} />
+
+      <Route path="/topics/database"             element={<S><DatabaseIndex /></S>} />
+      <Route path="/topics/database/"            element={<S><DatabaseIndex /></S>} />
+      <Route path="/topics/database/index.html"  element={<S><DatabaseIndex /></S>} />
+      <Route path="/topics/database/lessons/*"   element={<S><DatabaseLesson /></S>} />
+
+      {/* Generic ports — dynamic chunk loaded by slug. React Router prefers
+          the literal routes above when a slug matches them. */}
+      <Route path="/topics/:slug"                element={<LazyTopicIndex />} />
+      <Route path="/topics/:slug/"               element={<LazyTopicIndex />} />
+      <Route path="/topics/:slug/index.html"     element={<LazyTopicIndex />} />
+      <Route path="/topics/:slug/lessons/*"      element={<LazyTopicLesson />} />
 
       <Route path="*" element={<NotFound />} />
     </Routes>
