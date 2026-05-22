@@ -7,8 +7,8 @@
 // GitHub Issues, so the site never has a broken submit path.
 
 export const TALLY_FORMS = {
-  topicRequest: 'https://tally.so/r/Bz27L4',
-  feedback:     'https://tally.so/r/eqYRNJ',
+  topicRequest: 'https://tally.so/r/eqYRNJ',
+  feedback:     'https://tally.so/r/Bz27L4',
 };
 
 // Convert a tally.so/r/<id> page URL into the embeddable variant.
