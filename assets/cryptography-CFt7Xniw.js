@@ -1,4 +1,4 @@
-import{j as b}from"./main-Ds-YDU3R.js";import{L as I}from"./LegacyWidget-xvrQRn42.js";const P=["SHA-1","SHA-256","SHA-512"];function D(e){let i="SHA-256",n=null;e.innerHTML=`
+import{j as b}from"./main-BMJeqOcY.js";import{L as I}from"./LegacyWidget-BJxFD61r.js";const P=["SHA-1","SHA-256","SHA-512"];function D(e){let i="SHA-256",n=null;e.innerHTML=`
     <div class="widget">
       <div class="widget-title">SHA in real time</div>
       <p class="widget-hint">Type anything below. The hash updates on every keystroke.</p>

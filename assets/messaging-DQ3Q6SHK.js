@@ -1,4 +1,4 @@
-import{j as b}from"./main-Ds-YDU3R.js";import{L as R}from"./LegacyWidget-xvrQRn42.js";function D(s){const e={mode:"direct",consumerSpeedMs:300,sent:0,succeeded:0,failed:0,queued:0,queue:[],running:!1};s.innerHTML=`
+import{j as b}from"./main-BMJeqOcY.js";import{L as R}from"./LegacyWidget-BJxFD61r.js";function D(s){const e={mode:"direct",consumerSpeedMs:300,sent:0,succeeded:0,failed:0,queued:0,queue:[],running:!1};s.innerHTML=`
     <div class="widget">
       <div class="widget-title">Producer → Consumer, with and without a broker</div>
 

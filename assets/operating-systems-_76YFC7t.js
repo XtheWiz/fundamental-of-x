@@ -1,4 +1,4 @@
-import{j as b}from"./main-Ds-YDU3R.js";import{L as D}from"./LegacyWidget-xvrQRn42.js";let q=100,T=1;function I(a){const r={processes:[{pid:1,ppid:0,prog:"init",addr:"AS-1",fdTable:["stdin","stdout","stderr"],threads:[{tid:1}]}],log:[],selected:1};a.innerHTML=`
+import{j as b}from"./main-BMJeqOcY.js";import{L as D}from"./LegacyWidget-BJxFD61r.js";let q=100,T=1;function I(a){const r={processes:[{pid:1,ppid:0,prog:"init",addr:"AS-1",fdTable:["stdin","stdout","stderr"],threads:[{tid:1}]}],log:[],selected:1};a.innerHTML=`
     <div class="widget">
       <div class="widget-title">Process &amp; thread tree</div>
       <p class="widget-hint">Click a process to select it; fork it, exec into something else, or spawn a thread.</p>

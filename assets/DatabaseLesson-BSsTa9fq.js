@@ -1,0 +1,1 @@
+import{u as n,j as t,N as l,L as u}from"./main-BMJeqOcY.js";import{manifest as a}from"./database-BXDU0vxF.js";import"./LegacyWidget-BJxFD61r.js";function f(){const s=n(),e=(s["*"]||s.slug||"").replace(/\.html$/,"").replace(/\/$/,""),o=a.lessons.find(r=>r.slug===e);return o?t.jsx(u,{topic:a,lesson:o}):t.jsx(l,{})}export{f as default};
