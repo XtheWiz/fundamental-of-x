@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fundamental of X</title>
+  <script>
+    // SPA redirect shim for GitHub Pages + BrowserRouter.
+    // Captures the path of an unknown URL and bounces back to / with the
+    // path encoded into a query param; index.html below reads it and
+    // restores the URL via history.replaceState before React Router boots.
+    (function () {
+      var path = window.location.pathname + window.location.search + window.location.hash;
+      var target = '/?spa=' + encodeURIComponent(path);
+      window.location.replace(target);
+    })();
+  </script>
+</head>
+<body>Redirecting…</body>
+</html>

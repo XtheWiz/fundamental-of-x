@@ -3,222 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="apple-touch-icon" href="/favicon-180.png">
-  <title data-i18n="site.title">Fundamental of X — Visual, Interactive Deep-Dives</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon-BzOPNX7A.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32-CQTp5zmy.png">
+  <link rel="apple-touch-icon" href="/assets/favicon-180-FYqOhzRK.png">
+  <title>Fundamental of X — Visual, Interactive Deep-Dives</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Latin fonts: load first so the manga theme appears immediately. -->
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <!-- CJK fonts: separate request so a slow load can't stall the Latin styling. -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Sans+Thai:wght@400;500;700;900&family=Reggae+One&family=Black+Han+Sans&family=ZCOOL+KuaiLe&family=Mitr:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/shell.css">
+  <script>
+    // Decode the 404.html SPA shim's ?spa=... query and restore the
+    // original URL before React Router mounts.
+    (function () {
+      var p = new URLSearchParams(window.location.search).get('spa');
+      if (p) history.replaceState(null, '', p);
+    })();
+  </script>
+  <script type="module" crossorigin src="/assets/main-DoCbKUn6.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-DPEwLw6V.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand" data-i18n-html="site.brand">Fundamental of <span class="accent">X</span></div>
-    <nav>
-      <a href="#subjects" data-i18n="site.nav.subjects">Subjects</a>
-      <a href="#about" data-i18n="site.nav.about">About</a>
-      <span id="lang-switcher"></span>
-    </nav>
-  </header>
-
-  <main class="hub">
-    <section class="intro">
-      <h1 data-i18n-html="home.hero.title">Foundations you can <em>poke at</em>.<br>One <span class="x">X</span> at a time.</h1>
-      <p data-i18n="home.hero.body">
-        We took the heavyweight topics — compilers, qubits, DNA, the internet —
-        and turned each one into a playground. You click, you drag, you watch.
-        The intuition shows up on its own. No wall of text required.
-      </p>
-    </section>
-
-    <section id="subjects">
-      <h2 data-i18n="site.nav.subjects">Subjects</h2>
-
-      <h3 class="category-heading" data-i18n="home.categories.software">Software &amp; Systems</h3>
-      <div class="subject-grid">
-        <a class="subject-card" href="topics/database/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Database</span></h3>
-          <p>Where does your <code>SELECT *</code> actually go? Step inside the
-             engine — ACID, B-Trees, replication, query planning — all live.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/internet/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Internet</span></h3>
-          <p>Type a URL, hit Enter. Watch packets leave your machine and find
-             their way back. IP, TCP, DNS, TLS — all animated.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/backend/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Backend</span></h3>
-          <p>Once a request lands on your server, what happens next? Routing,
-             middleware, caching, rate limiting — every step lit up.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/messaging/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Messaging</span></h3>
-          <p>Brokers, queues, topics, partitions — drag messages around and
-             see how Kafka, RabbitMQ, SQS actually differ.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/distributed-systems/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Distributed Systems</span></h3>
-          <p>Watch nodes vote, argue, partition, and recover. Raft, CAP,
-             leader election, gossip — all running live.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/cryptography/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Cryptography</span></h3>
-          <p>What's really happening inside a TLS handshake? Hashing,
-             signatures, key exchange, certificates — animated step by step.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/design-patterns/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Design Patterns</span></h3>
-          <p>Strategy, Observer, Factory, DI, CQRS — names for refactoring
-             intent. The GoF classics, plus the patterns the book missed.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/operating-systems/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Operating Systems</span></h3>
-          <p>What's the kernel actually doing under your code? Processes,
-             threads, syscalls, memory, IPC, containers — all visible.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-      </div>
-
-      <h3 class="category-heading" data-i18n="home.categories.cs">Computer Science</h3>
-      <div class="subject-grid">
-        <a class="subject-card" href="topics/computer-architecture/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Computer Architecture</span></h3>
-          <p>Why are two identical programs 10× different in speed? CPU
-             pipelines, caches, branch prediction — the silicon underneath.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/compilers/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3 data-i18n-html="compilers.card.title">Fundamental of <span class="x">Compilers</span></h3>
-          <p data-i18n="compilers.card.body">How does the file you wrote become bytes the CPU runs?
-             Lexer, parser, AST, IR, optimization, codegen — every pass, interactive.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/machine-learning/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Machine Learning</span></h3>
-          <p>Watch gradient descent climb. Train a tiny neural net one frame
-             at a time. Regression, classification, k-means — all live.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/transformers/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Transformers &amp; LLMs</span></h3>
-          <p>Tokens go in, attention happens, words come out. See exactly
-             what a transformer does to your prompt — one matmul at a time.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/quantum-computing/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Quantum Computing</span></h3>
-          <p>Spin a qubit on the Bloch sphere. Make two of them entangle.
-             Gates, circuits, Grover, Shor — the math made tangible.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-      </div>
-
-      <h3 class="category-heading" data-i18n="home.categories.science">Science &amp; Engineering</h3>
-      <div class="subject-grid">
-        <a class="subject-card" href="topics/light/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Light</span></h3>
-          <p>Bend it. Reflect it. Split it through a prism. The physics of
-             light through interactive optics experiments.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/solar-cell/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Solar Cell</span></h3>
-          <p>How does a photon turn into electricity? Bandgaps, P-N
-             junctions, Shockley-Queisser — physics behind every rooftop panel.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/energy-systems/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Energy Systems</span></h3>
-          <p>Watch a power grid balance supply and demand in real time. The
-             duck curve, storage arbitrage, frequency — by the numbers.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/electric-vehicles/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Electric Vehicles</span></h3>
-          <p>Strip a Tesla or BYD down to principles. Battery chemistry, BMS,
-             motors, regen, charging curves — electrons to motion.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-
-        <a class="subject-card" href="topics/genetics/index.html">
-          <span class="tag" data-i18n="shared.live">LIVE</span>
-          <h3>Fundamental of <span class="x">Genetics</span></h3>
-          <p>DNA's molecular machinery — replication, transcription,
-             translation, mutations, sequencing, CRISPR. Life as a program
-             in four letters.</p>
-          <div class="meta">8 lessons · interactive</div>
-        </a>
-      </div>
-    </section>
-
-    <section id="about" style="margin-top: 3rem; max-width: 720px;">
-      <h2 data-i18n="home.about.heading">Why visual?</h2>
-      <p data-i18n-html="home.about.p1">
-        Honestly? Because pictures move. A B-Tree splitting is one diagram
-        instead of three paragraphs; a transaction rolling back is one
-        animation instead of a bullet list. You learn faster when you can
-        <em>see</em> the thing happen — that's the whole pitch.
-      </p>
-      <p data-i18n="home.about.p2">
-        Every subject is a self-contained playground. Start anywhere. Click
-        around. If something feels weird, that's usually where the
-        interesting bit is hiding.
-      </p>
-    </section>
-  </main>
-
-  <footer class="site-footer" data-i18n="site.footer">
-    Built with curiosity. Made for learners who think with pictures.
-  </footer>
-
-  <script type="module">
-    import { initI18n, mountLangSwitcher } from './js/i18n.js';
-    await initI18n({ relRoot: '' });
-    mountLangSwitcher(document.getElementById('lang-switcher'));
-    // Defer mascot until after i18n so the bubble text is correct on first paint.
-    import('./js/mascot.js');
-  </script>
+  <div id="root"></div>
 </body>
 </html>

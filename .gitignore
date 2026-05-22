@@ -1,6 +1,12 @@
 .DS_Store
 *.log
 node_modules/
-dist/
 .vscode/
 .idea/
+
+# Vite dev cache only — built output (index.html, assets/) is committed so
+# GitHub Pages can serve it from main without a build step.
+.vite/
+
+# Stand-alone dist output only used during local previews.
+dist/
