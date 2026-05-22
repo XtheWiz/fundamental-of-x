@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Browse existing requests
+    url: https://github.com/xthewiz/fundamental-of-x/issues?q=is%3Aissue+label%3Atopic-request
+    about: See what others have already asked for — and 👍 to vote.

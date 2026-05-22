@@ -60,6 +60,42 @@ export default function Home() {
             bit is hiding.
           </p>
         </section>
+
+        <section id="contribute" style={{ marginTop: '3rem', maxWidth: 720 }}>
+          <h2>Help shape what's next</h2>
+          <p>
+            Two ways to chip in. Each one opens a GitHub issue with a short form —
+            no commitment beyond filling it out.
+          </p>
+          <div className="cta-grid">
+            <a
+              className="cta-card"
+              href="https://github.com/xthewiz/fundamental-of-x/issues/new?template=topic-request.yml"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="cta-icon" aria-hidden="true">＋</div>
+              <strong>Request a topic</strong>
+              <span>
+                Tell us what the next <span className="x">Fundamental&nbsp;of&nbsp;X</span> should
+                cover. Other folks 👍 to vote up the queue.
+              </span>
+            </a>
+            <a
+              className="cta-card"
+              href="https://github.com/xthewiz/fundamental-of-x/issues/new?template=feedback.yml"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="cta-icon" aria-hidden="true">✎</div>
+              <strong>Report a bug or send feedback</strong>
+              <span>
+                Broken widget, typo, confusing explanation, or just an idea on an
+                existing lesson — tell us.
+              </span>
+            </a>
+          </div>
+        </section>
       </main>
 
       <footer className="site-footer">

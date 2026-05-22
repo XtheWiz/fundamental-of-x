@@ -459,6 +459,81 @@
 .base-U { background: #9b59b6; color: white; }
 
 /* ============================================================
+   Home page "Help shape what's next" CTA cards
+   ============================================================ */
+.cta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+}
+@media (max-width: 640px) {
+  .cta-grid { grid-template-columns: 1fr; }
+}
+.cta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: 5px 5px 0 var(--ink);
+  color: var(--ink);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  position: relative;
+}
+.cta-card:hover {
+  color: var(--ink);
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--ink);
+}
+.cta-card .cta-icon {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: white;
+  border: 2.5px solid var(--ink);
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  transform: rotate(-6deg);
+}
+.cta-card strong {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.03em;
+}
+.cta-card span {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+/* Per-lesson "found a bug?" footer link */
+.lesson-feedback {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1.5px dashed var(--ink-faint);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.lesson-feedback a {
+  color: var(--ink-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.lesson-feedback a:hover { color: var(--accent); }
+
+/* ============================================================
    ML plot primitives (used by every Machine Learning widget)
    ============================================================ */
 .ml-plot-bg { fill: var(--paper-deep); stroke: var(--ink); stroke-width: 1.5; }

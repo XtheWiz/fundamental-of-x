@@ -4,16 +4,53 @@ Notes on deferred work — for me (Claude) and any future contributors to find
 across sessions. Items are committed deliberately; revisit when the prereqs
 in each section are met.
 
-## Deferred: Learner-driven topic requests
+## Feedback + topic-request system
 
-**Idea (from user, scoping deferred):** open a public way for learners to
-suggest which "Fundamental of X" subjects they'd like to see next. An AI
-workflow picks 1–2 winners per day based on request volume and ships them
-automatically.
+### v0 — shipped
 
-**Prerequisites before designing this:** finish the React migration
-(Phase 3 polish). All 18 topics are now React-native, but Phase 3
-cleanup is pending.
+Submission surface in place via GitHub Issues, zero new infra:
+
+- `.github/ISSUE_TEMPLATE/topic-request.yml` — structured form for new
+  subject suggestions. Labelled `topic-request`. 👍 reactions = votes.
+- `.github/ISSUE_TEMPLATE/feedback.yml` — bug / typo / suggestion form
+  for existing lessons. Labelled `feedback`. URL field pre-filled when
+  reached from a lesson page.
+- `.github/ISSUE_TEMPLATE/config.yml` — disables blank issues, links
+  the existing-requests browse view.
+- Home page "Help shape what's next" section with two CTA cards.
+- Per-lesson "Found a bug? Tell us" footer link in `LessonShell`
+  that pre-fills the issue template title + URL.
+
+Validation step: triage incoming issues by hand for a couple of weeks.
+If the queue stays empty, lower the submission friction (custom form,
+no GitHub login) before bothering with the AI loop. If it fills up,
+move to v1.
+
+### v1 — deferred (build when v0 has signal)
+
+Daily GitHub Action that:
+1. Fetches open `topic-request` issues, ranks by `votes × log(age+1) ÷ dup_count`.
+2. Calls Claude API with the site's style guide + 2-3 golden examples
+   (Compilers, Genetics manifests) + the file shape it should emit
+   (`src/data/<slug>.jsx`, widgets in `src/widgets/<slug>/`).
+3. Runs `npm run build` and a playwright smoke test on the draft.
+4. Opens a draft PR — **never auto-merges.** Human review is the gate.
+5. Comments on the source issue with the PR link.
+
+Same pipeline for `feedback` label, just with a different prompt:
+attempt an auto-fix, open PR, human reviews.
+
+Guardrails: budget cap in the workflow (max N drafts per month),
+cooldown (don't propose the same topic twice in 7 days), kill switch
+(disable the Action).
+
+### v2 — deferred further
+
+- Custom submission form (no GitHub login) via a serverless function.
+- Weekly digest of queue + shipped items via Slack/email.
+- Auto-close stale requests with no votes in 90 days.
+
+### Open questions to revisit when v1 lands
 
 **Open questions for that discussion:**
 - Submission surface: GitHub Issues (free, low friction, public), a
@@ -37,6 +74,14 @@ cleanup is pending.
 on fundamentals." Letting the audience nominate next subjects compounds
 that — the library grows in the directions learners actually want, and
 the AI loop keeps cost-per-topic low enough to justify the long tail.
+
+### Decisions made
+
+- **Always human merges.** AI never ships unreviewed; every PR needs eyes.
+- **GitHub Issues as the queue** (v0). Lower friction options (custom form,
+  serverless backend) are v2 if friction proves to be the bottleneck.
+- **Single repo, single workflow.** Topic requests + feedback share the
+  same pipeline, differentiated by issue label.
 
 ## Migration progress
 

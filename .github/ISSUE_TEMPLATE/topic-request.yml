@@ -1,0 +1,42 @@
+name: Request a topic
+description: Suggest a new "Fundamental of X" subject
+title: "[topic] "
+labels: ["topic-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a topic! Existing subjects are listed on the home page —
+        please skim that first so requests don't duplicate.
+
+        Other folks can 👍 your issue to vote it up.
+  - type: input
+    id: topic
+    attributes:
+      label: Topic
+      description: "What should the next Fundamental of X cover?"
+      placeholder: e.g. \"Distributed Locks\", \"Compilers (specifically Rust)\", \"Bioinformatics\"
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this topic?
+      description: A sentence or two. What's the angle? What did you wish existed when you tried to learn this?
+    validations:
+      required: true
+  - type: textarea
+    id: lessons
+    attributes:
+      label: Suggested lessons (optional)
+      description: |
+        Most topics ship as 8 lessons. If you have ideas about what they could be, list them here.
+      placeholder: |
+        1. Whatever comes first
+        2. Next one
+        ...
+  - type: textarea
+    id: resources
+    attributes:
+      label: Existing resources you'd improve on (optional)
+      description: Links to articles / videos / courses on this topic that have room to grow.

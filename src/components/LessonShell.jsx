@@ -106,9 +106,31 @@ export default function LessonShell({ topic, lesson }) {
                 </a>
               )}
             </nav>
+
+            <FeedbackLink topic={topic} lesson={lesson} />
           </div>
         </main>
       </div>
     </>
+  );
+}
+
+function FeedbackLink({ topic, lesson }) {
+  // Pre-fill the GitHub feedback issue with the current URL so the reporter
+  // doesn't have to copy it themselves.
+  const url = typeof window !== 'undefined'
+    ? window.location.href
+    : `https://fundamentalofx.com/topics/${topic.slug}/lessons/${lesson.slug}`;
+  const href = 'https://github.com/xthewiz/fundamental-of-x/issues/new?'
+    + new URLSearchParams({
+      template: 'feedback.yml',
+      title: `[feedback] ${topic.title} · ${lesson.title}`,
+      url,
+    }).toString();
+  return (
+    <div className="lesson-feedback">
+      Found a bug or have an idea for this lesson?{' '}
+      <a href={href} target="_blank" rel="noopener noreferrer">Tell us</a>.
+    </div>
   );
 }

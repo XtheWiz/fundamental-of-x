@@ -1,0 +1,39 @@
+name: Report a bug or send feedback
+description: Broken widget, typo, confusing explanation, or just an idea on an existing lesson
+title: "[feedback] "
+labels: ["feedback"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of feedback?
+      options:
+        - Bug — something is broken
+        - Typo / small content fix
+        - Confusing explanation
+        - Idea to make a lesson better
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Page URL
+      description: Which lesson is this about? Copy the full URL.
+      placeholder: https://fundamentalofx.com/topics/.../lessons/...
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: What happened, or what would you change?
+      description: |
+        For bugs: what you expected vs what you saw. Steps to reproduce help.
+        For ideas: what's the change, and why is it better?
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Browser + OS (optional, helpful for bugs)
+      placeholder: e.g. Chrome 130 / macOS 14
