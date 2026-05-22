@@ -115,25 +115,56 @@ export function applyI18n(root = document) {
   });
 }
 
-// Drop a language switcher into a container. Renders as a manga-styled
-// <select> so it stays compact and looks native on mobile.
+// Drop a language switcher into a container. Renders as a small globe
+// icon that opens a popover menu on click — keeps the header uncluttered
+// since most visitors won't change language.
 export function mountLangSwitcher(el) {
   if (!el) return;
   el.classList.add('lang-switcher');
   el.innerHTML = `
-    <label class="lang-select-wrap" aria-label="Language">
-      <span class="lang-select-icon" aria-hidden="true">🌐</span>
-      <select class="lang-select">
-        ${SUPPORTED.map((l) =>
-          `<option value="${l.code}"${l.code === currentLang ? ' selected' : ''}>${l.native}</option>`
-        ).join('')}
-      </select>
-      <span class="lang-select-caret" aria-hidden="true">▾</span>
-    </label>
+    <button class="lang-toggle" type="button" aria-label="Change language" aria-haspopup="menu" aria-expanded="false">
+      <span aria-hidden="true">🌐</span>
+    </button>
+    <div class="lang-menu" role="menu" hidden>
+      ${SUPPORTED.map((l) =>
+        `<button type="button" role="menuitem" data-lang="${l.code}" class="lang-option${l.code === currentLang ? ' active' : ''}">${l.native}</button>`
+      ).join('')}
+    </div>
   `;
-  const sel = el.querySelector('.lang-select');
-  sel.addEventListener('change', async () => {
-    await setLang(sel.value);
+  const toggle = el.querySelector('.lang-toggle');
+  const menu = el.querySelector('.lang-menu');
+
+  function open() {
+    menu.hidden = false;
+    toggle.setAttribute('aria-expanded', 'true');
+    el.classList.add('open');
+  }
+  function close() {
+    menu.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    el.classList.remove('open');
+  }
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    menu.hidden ? open() : close();
+  });
+
+  menu.addEventListener('click', async (e) => {
+    const btn = e.target.closest('[data-lang]');
+    if (!btn) return;
+    await setLang(btn.dataset.lang);
+    menu.querySelectorAll('.lang-option').forEach((b) =>
+      b.classList.toggle('active', b.dataset.lang === currentLang)
+    );
+    close();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!el.contains(e.target)) close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu.hidden) close();
   });
 }
 
