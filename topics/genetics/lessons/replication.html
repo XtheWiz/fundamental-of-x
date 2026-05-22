@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>DNA Replication — Fundamental of Genetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 02</div>
+          <h1>DNA Replication</h1>
+          <p class="blurb">Before a cell divides, it must copy its entire genome. A fork opens, the strands separate, and each one acts as a template for a new partner. The result: two double helices identical to the original.</p>
+        </div>
+
+        <section class="section">
+          <h2>The fork machinery</h2>
+          <ul>
+            <li><strong>Helicase</strong> unwinds the helix and pulls the strands apart.</li>
+            <li><strong>DNA polymerase</strong> reads each template strand and synthesizes the complement, one base at a time, 5'→3'.</li>
+            <li><strong>Leading strand</strong> is synthesized continuously toward the fork.</li>
+            <li><strong>Lagging strand</strong> can only be made in chunks (Okazaki fragments), because polymerase only works in one direction. Ligase stitches them together.</li>
+          </ul>
+          <p>This is <em>semiconservative</em> replication — each daughter helix has one old strand and one new one.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Two daughter helices, each half-old, half-new. Confirmed by the famous Meselson-Stahl experiment in 1958.</li>
+            <li>Polymerase is one-directional — that asymmetry is why the lagging strand exists.</li>
+            <li>Error rate is ~1 per billion bases after proofreading. Mutations slip through anyway.</li>
+            <li>Replication is fast: <em>50 bases/second per fork</em>, with thousands of forks active at once.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initReplicationWidget } from '../widgets/replication.js';
+    mountSidebar({ manifest, currentSlug: 'replication' });
+    mountBreadcrumb({ manifest, currentTitle: 'DNA Replication' });
+    mountLessonNav({ manifest, currentSlug: 'replication' });
+    mountMenuToggle();
+    initReplicationWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

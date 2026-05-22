@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>The Double Helix — Fundamental of Genetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 01</div>
+          <h1>The Double Helix</h1>
+          <p class="blurb">DNA is a long polymer of four bases — <strong>A</strong>denine, <strong>T</strong>hymine, <strong>G</strong>uanine, <strong>C</strong>ytosine — strung along a sugar-phosphate backbone. Two such strands twist around each other, held together by a strict pairing rule: A always pairs with T, G always pairs with C.</p>
+        </div>
+
+        <section class="section">
+          <h2>Why the pairing rule matters</h2>
+          <p>The pairing is what makes DNA both a stable store and an easy copy. The two strands carry redundant information — given one, you can reconstruct the other. Every later trick (replication, transcription, repair) is built on this complementarity.</p>
+          <ul>
+            <li><strong>A · T</strong> share two hydrogen bonds.</li>
+            <li><strong>G · C</strong> share three hydrogen bonds — slightly tighter, so GC-rich DNA melts at higher temperatures.</li>
+            <li>The two strands run <em>antiparallel</em> (5'→3' on one, 3'→5' on the other) — important for everything that reads them.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Four bases, two pairing rules. Everything else is downstream.</li>
+            <li>Each strand fully specifies the other — DNA is its own backup.</li>
+            <li>The helix is about 10 base pairs per full turn; the major and minor grooves are where most proteins read it.</li>
+            <li>Genomes are huge: <em>~3 billion</em> base pairs in a human, packed into 2 metres of DNA per cell.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initHelixWidget } from '../widgets/helix.js';
+    mountSidebar({ manifest, currentSlug: 'helix' });
+    mountBreadcrumb({ manifest, currentTitle: 'The Double Helix' });
+    mountLessonNav({ manifest, currentSlug: 'helix' });
+    mountMenuToggle();
+    initHelixWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

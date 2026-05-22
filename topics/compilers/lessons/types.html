@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Type Checking — Fundamental of Compilers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 04</div>
+          <h1>Type Checking</h1>
+          <p class="blurb">Once the AST exists, the type checker walks it bottom-up: every leaf already has a type (literals, variables in scope), every operator computes its result type from its operands. Mismatches become errors.</p>
+        </div>
+
+        <section class="section">
+          <h2>Inference vs annotation</h2>
+          <p>In languages like Java you write <code>int x = 1 + 2</code> — the compiler verifies. In Rust, Haskell, TypeScript with <code>const x = 1 + 2</code>, the compiler <em>infers</em> <code>x: i32</code> from the right-hand side. Same algorithm; just whether you wrote the answer down.</p>
+          <p>Type errors caught here ("can't add a string to a number") are why static languages catch whole classes of bugs at compile time.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Types propagate bottom-up. Each node either accepts its children's types or fails.</li>
+            <li>Implicit coercions (int → float in <code>1 + 2.0</code>) are decided here, not at runtime.</li>
+            <li>Generics &amp; polymorphism push this further: types become variables (<code>?T</code>) that get unified across the tree.</li>
+            <li>Type checking is a separate pass from parsing — the parser doesn't know what types anything has.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initTypesWidget } from '../widgets/types.js';
+    mountSidebar({ manifest, currentSlug: 'types' });
+    mountBreadcrumb({ manifest, currentTitle: 'Type Checking' });
+    mountLessonNav({ manifest, currentSlug: 'types' });
+    mountMenuToggle();
+    initTypesWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>CRISPR — Fundamental of Genetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 08</div>
+          <h1>CRISPR Gene Editing</h1>
+          <p class="blurb">A guide RNA finds a matching sequence in the genome. A Cas9 enzyme rides along, recognizes the right neighborhood (a <em>PAM</em> site), and cuts both DNA strands. The cell tries to repair the cut — and that's the moment you can insert, delete, or replace a sequence.</p>
+        </div>
+
+        <section class="section">
+          <h2>How the cut becomes an edit</h2>
+          <ul>
+            <li><strong>Guide RNA</strong> — ~20-base RNA you design to match the target. Complementarity decides where Cas9 binds.</li>
+            <li><strong>PAM site</strong> — a short motif (usually NGG) just downstream of the target. Cas9 won't cut without it. This is a safety feature evolution gave bacteria; we exploit it.</li>
+            <li><strong>Double-strand break</strong> — Cas9 cuts both strands 3 bases upstream of the PAM.</li>
+            <li><strong>Repair</strong> — the cell either ligates the ends back (NHEJ, error-prone, usually disables the gene) or copies a template you supply (HDR, slow but precise).</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>CRISPR turned gene editing from "PhD project" to "kit you order online" — Doudna &amp; Charpentier got the 2020 Nobel for it.</li>
+            <li>The PAM constraint means you can't target absolutely anywhere — design tools search for nearby NGG sites.</li>
+            <li>NHEJ is good for knockouts; HDR is needed for precise rewrites and is much less efficient (~1%).</li>
+            <li>The first CRISPR-based therapy (Casgevy for sickle-cell) was approved in 2023.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initCrisprWidget } from '../widgets/crispr.js';
+    mountSidebar({ manifest, currentSlug: 'crispr' });
+    mountBreadcrumb({ manifest, currentTitle: 'CRISPR Gene Editing' });
+    mountLessonNav({ manifest, currentSlug: 'crispr' });
+    mountMenuToggle();
+    initCrisprWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

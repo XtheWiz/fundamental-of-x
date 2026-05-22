@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Translation — Fundamental of Genetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 04</div>
+          <h1>Translation</h1>
+          <p class="blurb">The mRNA leaves the nucleus. A ribosome grabs it and reads three letters (a <em>codon</em>) at a time, looking each one up in the genetic code to grab the matching amino acid. The amino acids form a chain — that's the protein.</p>
+        </div>
+
+        <section class="section">
+          <h2>The genetic code</h2>
+          <p>There are 4 RNA bases and 3 positions per codon, so 4³ = 64 codons. They encode 20 amino acids plus a stop signal — meaning the code is <em>redundant</em>: most amino acids have multiple codons (e.g. Leucine has six). The redundancy makes the code robust to point mutations.</p>
+          <p>Translation always starts at <code>AUG</code> (which codes for Methionine) and ends when one of three stop codons (UAA, UAG, UGA) is read.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>The genetic code is nearly universal — bacteria, plants, and humans use the same table (with tiny mitochondrial exceptions).</li>
+            <li>Redundancy ("wobble") protects against mutations in the third codon position — many silent mutations land here.</li>
+            <li>Frame matters: shift the starting point by one base and the whole protein changes — that's a frameshift mutation.</li>
+            <li>The same mRNA can be translated by many ribosomes simultaneously (a <em>polysome</em>), making lots of protein fast.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initTranslationWidget } from '../widgets/translation.js';
+    mountSidebar({ manifest, currentSlug: 'translation' });
+    mountBreadcrumb({ manifest, currentTitle: 'Translation' });
+    mountLessonNav({ manifest, currentSlug: 'translation' });
+    mountMenuToggle();
+    initTranslationWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

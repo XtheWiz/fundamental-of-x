@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Register Allocation — Fundamental of Compilers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 07</div>
+          <h1>Register Allocation</h1>
+          <p class="blurb">The IR uses infinite virtual registers. The CPU has 16. The register allocator maps the first set to the second, sharing real registers between variables that don't overlap in time.</p>
+        </div>
+
+        <section class="section">
+          <h2>Live ranges &amp; interference</h2>
+          <p>A variable is <em>live</em> from when it's defined to its last use. Two variables <em>interfere</em> if their live ranges overlap. Build a graph where nodes are variables and edges connect interferers, then <strong>graph-color</strong> the nodes with K colors (K = number of registers). Two variables that don't interfere can share a register.</p>
+          <p>If a graph can't be colored with K, the allocator <em>spills</em> a variable to the stack — slow but always works.</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>Register allocation is graph coloring — NP-hard in general but easy on the graphs real programs produce.</li>
+            <li>The fewer registers (small K), the harder it is to avoid spills.</li>
+            <li>Spilling means storing to and reloading from RAM — orders of magnitude slower than a register hit.</li>
+            <li>Linear-scan allocators (used in JITs) are faster but suboptimal; graph-coloring is used in AOT compilers like GCC.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initRegallocWidget } from '../widgets/regalloc.js';
+    mountSidebar({ manifest, currentSlug: 'regalloc' });
+    mountBreadcrumb({ manifest, currentTitle: 'Register Allocation' });
+    mountLessonNav({ manifest, currentSlug: 'regalloc' });
+    mountMenuToggle();
+    initRegallocWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>

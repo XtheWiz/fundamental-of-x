@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title>Sequence Alignment — Fundamental of Genetics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../css/shell.css">
+  <link rel="stylesheet" href="../../../css/widgets.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <div class="brand"><a href="../../../index.html">Fundamental of <span class="accent">X</span></a></div>
+      <div class="breadcrumb" id="breadcrumb"></div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">Menu</button>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main">
+      <div class="container">
+        <div class="lesson-header">
+          <div class="lesson-num">Lesson 07</div>
+          <h1>Sequence Alignment</h1>
+          <p class="blurb">Given two DNA sequences, how similar are they — and where? <em>Needleman-Wunsch</em> is the classic answer: fill a 2D scoring matrix with dynamic programming, then trace back the best path. The path is the alignment.</p>
+        </div>
+
+        <section class="section">
+          <h2>The algorithm in one paragraph</h2>
+          <p>Each cell <code>M[i][j]</code> holds the best score for aligning the first <code>i</code> characters of sequence A with the first <code>j</code> of sequence B. To fill it, look at three neighbors: the diagonal (match or mismatch), top (insert a gap in A), and left (insert a gap in B). Take the max. After the matrix is full, trace back from the bottom-right to reconstruct which moves got you there.</p>
+          <p>The same idea, with slightly different scoring, gives <em>local</em> alignment (Smith-Waterman, used in BLAST).</p>
+        </section>
+
+        <section class="section">
+          <h2>Try it</h2>
+          <div id="widget-root"></div>
+        </section>
+
+        <div class="takeaways">
+          <h3>Key takeaways</h3>
+          <ul>
+            <li>O(n·m) time and space — fine for genes, too slow for whole genomes (hence heuristics like BLAST).</li>
+            <li>The path encodes <em>which</em> bases align, <em>which</em> are mismatches, and where gaps go.</li>
+            <li>Substitution matrices (BLOSUM, PAM) give chemically similar amino acids better scores than wild swaps.</li>
+            <li>This algorithm is the basis for genome comparison, phylogeny, gene finding, and a huge chunk of bioinformatics.</li>
+          </ul>
+        </div>
+        <nav class="lesson-nav" id="lesson-nav"></nav>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import { manifest } from '../manifest.js';
+    import { mountSidebar, mountBreadcrumb, mountLessonNav, mountMenuToggle } from '../../../js/shell.js';
+    import { initAlignmentWidget } from '../widgets/alignment.js';
+    mountSidebar({ manifest, currentSlug: 'alignment' });
+    mountBreadcrumb({ manifest, currentTitle: 'Sequence Alignment' });
+    mountLessonNav({ manifest, currentSlug: 'alignment' });
+    mountMenuToggle();
+    initAlignmentWidget(document.getElementById('widget-root'));
+  </script>
+</body>
+</html>
