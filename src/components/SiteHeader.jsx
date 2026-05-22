@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import BMCButton from './BMCButton.jsx';
 
 // Breadcrumb is rendered separately by lesson/topic pages; the home page
 // shows the brand + the section anchors. Language switcher stays hidden
@@ -18,12 +19,15 @@ export default function SiteHeader({ breadcrumb }) {
           <Link to="/">Fundamental of <span className="accent">X</span></Link>
         </div>
       )}
-      {!breadcrumb && (
-        <nav>
-          <a href="#subjects">Subjects</a>
-          <a href="#about">About</a>
-        </nav>
-      )}
+      <nav>
+        {!breadcrumb && (
+          <>
+            <a href="#subjects">Subjects</a>
+            <a href="#about">About</a>
+          </>
+        )}
+        <BMCButton variant="compact" />
+      </nav>
     </header>
   );
 }

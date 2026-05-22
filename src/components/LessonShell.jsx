@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SiteHeader from './SiteHeader.jsx';
 import { MascotTakeaway } from './Mascot.jsx';
+import BMCButton from './BMCButton.jsx';
 import TallyModal from './TallyModal.jsx';
 import { TALLY_FORMS, useFeedbackForm, githubFeedbackUrl } from '../data/contact.js';
 
@@ -83,6 +84,8 @@ export default function LessonShell({ topic, lesson }) {
               </ul>
               <MascotTakeaway />
             </div>
+
+            <BMCButton variant="card" />
 
             <nav className="lesson-nav">
               {prev ? (
