@@ -1,4 +1,5 @@
 import LegacyWidget from '../widgets/database/LegacyWidget.jsx';
+import QueryWidget from '../widgets/database/QueryWidget.jsx';
 import { initAcidWidget } from '../widgets/database/legacy/acid.js';
 import { initBTreeWidget } from '../widgets/database/legacy/btree.js';
 import { initStorageWidget } from '../widgets/database/legacy/storage.js';
@@ -6,7 +7,6 @@ import { initIsolationWidget } from '../widgets/database/legacy/isolation.js';
 import { initWalWidget } from '../widgets/database/legacy/wal.js';
 import { initReplicationWidget } from '../widgets/database/legacy/replication.js';
 import { initShardingWidget } from '../widgets/database/legacy/sharding.js';
-import { initQueryWidget } from '../widgets/database/legacy/query.js';
 
 const W = (init) => () => <LegacyWidget init={init} />;
 
@@ -179,7 +179,7 @@ export const manifest = {
     {
       slug: 'query', number: '08', title: 'Query Execution',
       blurb: 'From SQL text to result set: parser → planner → executor, step by step.',
-      Widget: W(initQueryWidget),
+      Widget: QueryWidget,
       intro: <>SQL is declarative — you say what you want, the database figures out how. Three passes get from text to rows: parse the SQL, plan an execution strategy, run it.</>,
       sections: [{
         heading: 'The pipeline',

@@ -1,5 +1,6 @@
 import LegacyWidget from '../widgets/database/LegacyWidget.jsx';
 import OutboxWidget from '../widgets/messaging/OutboxWidget.jsx';
+import ArchitecturesWidget from '../widgets/messaging/ArchitecturesWidget.jsx';
 import { initWhyWidget } from '../widgets/messaging/legacy/why.js';
 import { initTopicsPartitionsWidget } from '../widgets/messaging/legacy/topics-partitions.js';
 import { initDeliveryWidget } from '../widgets/messaging/legacy/delivery.js';
@@ -7,7 +8,6 @@ import { initOrderingWidget } from '../widgets/messaging/legacy/ordering.js';
 import { initQueuesStreamsWidget } from '../widgets/messaging/legacy/queues-vs-streams.js';
 import { initBackpressureWidget } from '../widgets/messaging/legacy/backpressure.js';
 import { initDlqWidget } from '../widgets/messaging/legacy/dlq-retries.js';
-import { initMsgArchitecturesWidget } from '../widgets/messaging/legacy/architectures.js';
 
 const W = (init) => () => <LegacyWidget init={init} />;
 
@@ -37,7 +37,7 @@ export const manifest = {
     { slug: 'dlq-retries', number: '07', title: 'Dead Letter Queues & Retries', blurb: 'A consumer keeps failing on the same message. Retry forever? Skip it? Quarantine it.', Widget: W(initDlqWidget),
       intro: <>Some messages are poison. Retrying forever blocks the queue; skipping silently loses data. DLQs move bad messages aside for human inspection.</>, sections: [],
       takeaways: ['Retry with exponential backoff for transient failures.', 'After N retries, move to a DLQ — don\'t block the main pipeline.', 'DLQ messages need a human or alert; otherwise they pile up forever.', 'Always log the cause when moving to DLQ — context is lost otherwise.'] },
-    { slug: 'architectures', number: '08', title: 'Architectures in Practice', blurb: 'Kafka, RabbitMQ, SQS, NATS, Redis Streams — how the same primitives compose into very different products.', Widget: W(initMsgArchitecturesWidget),
+    { slug: 'architectures', number: '08', title: 'Architectures in Practice', blurb: 'Kafka, RabbitMQ, SQS, NATS, Redis Streams — how the same primitives compose into very different products.', Widget: ArchitecturesWidget,
       intro: <>Five popular brokers, five different sweet spots. Knowing which one fits the workload up-front saves you from a re-platform later.</>, sections: [],
       takeaways: ['Kafka: high throughput, replay, durable. Heavy ops.', 'RabbitMQ: flexible routing, smaller scale, easy to start.', 'SQS: fully managed, simple, AWS-locked.', 'NATS: low latency, lightweight. Redis Streams: in-memory speed but not durable by default.'] },
     { slug: 'outbox', number: '09', title: 'Transactional Outbox', blurb: 'How to update a database AND publish a message reliably when there\'s no distributed transaction between them.',

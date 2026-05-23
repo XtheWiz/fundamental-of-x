@@ -1,12 +1,12 @@
 import LegacyWidget from '../widgets/database/LegacyWidget.jsx';
+import TwoPCWidget from '../widgets/distributed-systems/TwoPCWidget.jsx';
+import ArchitecturesWidget from '../widgets/distributed-systems/ArchitecturesWidget.jsx';
 import { initCapWidget } from '../widgets/distributed-systems/legacy/cap.js';
 import { initConsistencyWidget } from '../widgets/distributed-systems/legacy/consistency.js';
 import { initLeaderElectionWidget } from '../widgets/distributed-systems/legacy/leader-election.js';
 import { initRaftWidget } from '../widgets/distributed-systems/legacy/raft.js';
 import { initVectorClocksWidget } from '../widgets/distributed-systems/legacy/vector-clocks.js';
 import { initGossipWidget } from '../widgets/distributed-systems/legacy/gossip.js';
-import { initTwoPCWidget } from '../widgets/distributed-systems/legacy/2pc.js';
-import { initArchitecturesWidget } from '../widgets/distributed-systems/legacy/architectures.js';
 
 const W = (init) => () => <LegacyWidget init={init} />;
 
@@ -33,10 +33,10 @@ export const manifest = {
     { slug: 'gossip', number: '06', title: 'Gossip & Failure Detection', blurb: 'No coordinator, no broadcast — nodes whisper to random neighbours.', Widget: W(initGossipWidget),
       intro: <>Each node periodically picks a random peer and exchanges state. Information spreads logarithmically and tolerates any individual node\'s failure.</>, sections: [],
       takeaways: ['O(log N) rounds to reach every node.', 'No central point of failure — every node knows just its peers.', 'Used by Cassandra, Consul, Serf, Hashicorp memberlist.', 'Same protocol detects failures: missed heartbeats from peers mark them suspect.'] },
-    { slug: '2pc', number: '07', title: 'Two-Phase Commit', blurb: 'Coordinator polls participants — all yes, commit; any no, abort.', Widget: W(initTwoPCWidget),
+    { slug: '2pc', number: '07', title: 'Two-Phase Commit', blurb: 'Coordinator polls participants — all yes, commit; any no, abort.', Widget: TwoPCWidget,
       intro: <>Atomic commit across multiple participants. Phase 1 asks each "can you commit?", phase 2 tells them all to do it (or roll back).</>, sections: [],
       takeaways: ['All-or-nothing across nodes — the building block of distributed transactions.', 'Blocking: if the coordinator dies mid-protocol, participants are stuck.', 'Three-phase commit fixes this at the cost of more round-trips.', 'In practice, most modern systems use consensus protocols instead.'] },
-    { slug: 'architectures', number: '08', title: 'Architectures in Practice', blurb: 'Cassandra, DynamoDB, Spanner, etcd — how real systems compose these primitives.', Widget: W(initArchitecturesWidget),
+    { slug: 'architectures', number: '08', title: 'Architectures in Practice', blurb: 'Cassandra, DynamoDB, Spanner, etcd — how real systems compose these primitives.', Widget: ArchitecturesWidget,
       intro: <>Each real database picks a point on the CAP triangle and stacks consistency, replication, and consensus primitives differently. Knowing the pattern lets you predict the trade-offs.</>, sections: [],
       takeaways: ['Cassandra/Dynamo: AP, eventual consistency, vector clocks.', 'Spanner: CP, strong consistency via TrueTime + Paxos.', 'etcd/Consul: CP, Raft, small datasets, high consistency needs.', 'Pick the database that matches your workload, not the one your team knows.'] },
   ],
