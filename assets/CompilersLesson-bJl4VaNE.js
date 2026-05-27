@@ -1,0 +1,1 @@
+import{u as a,j as r,N as l,L as m}from"./main-Dfqj_VUe.js";import{manifest as t}from"./compilers-BEC5aNOt.js";import"./index-CCy-1sZU.js";import"./proxy-oI7iOEWV.js";function x(){const s=a(),e=(s["*"]||s.slug||"").replace(/\.html$/,"").replace(/\/$/,""),o=t.lessons.find(n=>n.slug===e);return o?r.jsx(m,{topic:t,lesson:o}):r.jsx(l,{})}export{x as default};

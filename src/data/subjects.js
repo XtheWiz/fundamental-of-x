@@ -25,6 +25,10 @@ export const CATEGORIES = [
       C('Design Patterns', 'Strategy, Observer, Factory, DI, CQRS — names for refactoring intent. The GoF classics, plus the patterns the book missed.', 'design-patterns'),
       C('Operating Systems', "What's the kernel actually doing under your code? Processes, threads, syscalls, memory, IPC, containers — all visible.", 'operating-systems'),
       C('Threads', 'OS threads, green threads, Java virtual threads (Project Loom), Go goroutines, async/await — the application-level concurrency story.', 'threads'),
+      C('Software Security', "Threat modelling, defense in depth, memory safety, supply chain, secrets, incident response. Every attack you can poke at — every fix paired with it.", 'software-security'),
+      C('OWASP Top 10', "The ten web vulnerabilities every developer should be able to spot in code review. BAD payload, GOOD fix, side-by-side.", 'owasp'),
+      C('Containers & Kubernetes', "OCI layers, runtimes, the K8s control plane, ingress/egress, networking, autoscaling — every concept with a sandbox.", 'containers-k8s'),
+      C('CI / CD', "Why automate, build pipelines, test pyramids, deployment strategies, feature flags, rollback, supply-chain signing, DORA metrics.", 'ci-cd'),
     ],
   },
   {

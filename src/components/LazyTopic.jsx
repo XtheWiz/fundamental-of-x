@@ -28,6 +28,7 @@ const ALL_SLUGS = new Set([
   'transformers', 'quantum-computing',
   'light', 'solar-cell', 'energy-systems', 'electric-vehicles',
   'algorithms', 'threads',
+  'software-security', 'owasp', 'containers-k8s', 'ci-cd',
 ]);
 
 // Cache successfully loaded manifests so re-navigations are instant.
