@@ -1,1 +1,0 @@
-import{u as a,j as t,N as i,L as l}from"./main-Dfqj_VUe.js";import{manifest as e}from"./genetics-Dk6iCJMk.js";import"./proxy-oI7iOEWV.js";import"./index-CCy-1sZU.js";function x(){const s=a(),r=(s["*"]||s.slug||"").replace(/\.html$/,"").replace(/\/$/,""),o=e.lessons.find(n=>n.slug===r);return o?t.jsx(l,{topic:e,lesson:o}):t.jsx(i,{})}export{x as default};

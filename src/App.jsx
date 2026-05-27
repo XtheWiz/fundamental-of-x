@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Home from './routes/Home.jsx';
 import NotFound from './routes/NotFound.jsx';
 import Loading from './components/Loading.jsx';
@@ -25,8 +25,21 @@ function S({ children }) {
   return <Suspense fallback={<Loading />}>{children}</Suspense>;
 }
 
+// Restore scroll position to the top whenever the pathname changes.
+// React Router preserves scroll between route changes by default, which
+// surprises learners who expect a fresh page after clicking a lesson.
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [pathname]);
+  return null;
+}
+
 export default function App() {
   return (
+    <>
+    <ScrollToTop />
     <Routes>
       <Route path="/" element={<Home />} />
 
@@ -60,5 +73,6 @@ export default function App() {
 
       <Route path="*" element={<NotFound />} />
     </Routes>
+    </>
   );
 }

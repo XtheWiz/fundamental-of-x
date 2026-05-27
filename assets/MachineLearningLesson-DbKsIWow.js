@@ -1,1 +1,0 @@
-import{u as a,j as n,N as i,L as l}from"./main-Dfqj_VUe.js";import{manifest as r}from"./machine-learning-DjhQiT8_.js";import"./proxy-oI7iOEWV.js";import"./index-CCy-1sZU.js";function x(){const s=a(),t=(s["*"]||s.slug||"").replace(/\.html$/,"").replace(/\/$/,""),o=r.lessons.find(e=>e.slug===t);return o?n.jsx(l,{topic:r,lesson:o}):n.jsx(i,{})}export{x as default};
