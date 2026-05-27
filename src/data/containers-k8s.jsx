@@ -6,11 +6,15 @@ import IngressEgressWidget from '../widgets/containers-k8s/IngressEgressWidget.j
 import ConfigVolumesWidget from '../widgets/containers-k8s/ConfigVolumesWidget.jsx';
 import NetworkingWidget from '../widgets/containers-k8s/NetworkingWidget.jsx';
 import SchedulingWidget from '../widgets/containers-k8s/SchedulingWidget.jsx';
+import StatefulSetsJobsWidget from '../widgets/containers-k8s/StatefulSetsJobsWidget.jsx';
+import HelmKustomizeWidget from '../widgets/containers-k8s/HelmKustomizeWidget.jsx';
+import OperatorsCrdsWidget from '../widgets/containers-k8s/OperatorsCrdsWidget.jsx';
+import RbacPodSecurityWidget from '../widgets/containers-k8s/RbacPodSecurityWidget.jsx';
 
 export const manifest = {
   slug: 'containers-k8s',
   title: 'Containers & Kubernetes',
-  intro: <>Eight lessons starting where the OS topic\'s container lesson leaves off: image layers, runtimes, the Kubernetes control plane, ingress/egress, networking, and autoscaling. Every concept comes with a sandbox you can poke at.</>,
+  intro: <>Twelve lessons covering the full production K8s stack — image layers, runtimes, the control plane, pods/services, ingress/egress, config/secrets, networking, autoscaling, workload identity, packaging (Helm/Kustomize), the Operator pattern, and the security model. Every concept comes with a sandbox you can poke at.</>,
   lessons: [
     { slug: 'oci-images', number: '01', title: 'OCI Images & Layers',
       blurb: 'A Dockerfile is a layer cache. Reorder lines, watch the cache shatter or hold.',
@@ -106,6 +110,54 @@ export const manifest = {
         "HPA on CPU is the easy default. For latency-sensitive workloads, scale on a custom queue-depth metric instead.",
         "VPA and HPA don\'t mix on the same metric — pick one. VPA on memory + HPA on CPU is fine.",
         "Cluster Autoscaler reacts to Pending pods. If a workload is too large for any node shape you have, it stays Pending forever.",
+      ] },
+
+    { slug: 'statefulsets-jobs', number: '09', title: 'StatefulSets & Jobs',
+      blurb: 'Same scale slider, three behaviours: cattle, named pets with their own disks, and one-shot scheduled runs.',
+      Widget: StatefulSetsJobsWidget,
+      intro: <>A Deployment treats pods as interchangeable. A StatefulSet gives each pod a sticky name (pod-0, pod-1, ...) and its own PersistentVolumeClaim that survives reschedules. A Job runs a pod to completion; a CronJob fires Jobs on a schedule with a concurrency policy. Same cluster, three very different promises.</>,
+      sections: [],
+      takeaways: [
+        "Deployment pods are cattle: random names, ephemeral, interchangeable. Any replacement is as good as the original.",
+        "StatefulSet pods are pets: ordered creation, sticky identity, each bound to its own PVC. Scale down terminates highest ordinal first; PVCs are retained.",
+        "Headless Service + StatefulSet gives each pod a stable DNS name (web-0.web, web-1.web, ...) — required for quorum systems like Kafka, Zookeeper, etcd.",
+        "Job runs to completion. CronJob schedules Jobs. Pick concurrencyPolicy carefully — Allow can pile up, Forbid silently skips, Replace kills the prior run.",
+      ] },
+
+    { slug: 'helm-kustomize', number: '10', title: 'Helm & Kustomize',
+      blurb: 'Two ways to manage YAML across environments. Templates + values vs base + overlays.',
+      Widget: HelmKustomizeWidget,
+      intro: <>You don\'t ship raw YAML to every environment. Helm templates a chart with per-environment values; Kustomize composes a base with per-environment overlay patches. Same outcome, different philosophy — Helm leans into templating, Kustomize keeps things as plain YAML diffs.</>,
+      sections: [],
+      takeaways: [
+        "Helm: one chart, many releases. `values.yaml` per environment. Powerful but easy to over-template.",
+        "Kustomize: base + overlays, pure YAML, built into `kubectl apply -k`. Less magic, sometimes more verbose.",
+        "Both produce the same final Deployment — pick by team preference and existing tooling, not by religion.",
+        "Don\'t mix: pick one per repo. Combining means two mental models for the same problem.",
+      ] },
+
+    { slug: 'operators-crds', number: '11', title: 'Operators & CRDs',
+      blurb: 'Teach Kubernetes new nouns. The reconciliation loop is the entire pattern.',
+      Widget: OperatorsCrdsWidget,
+      intro: <>A Custom Resource Definition (CRD) adds a new object type to your cluster (e.g. `PostgresCluster`). An Operator is a controller that watches that type and reconciles actual cluster state to match the spec — the same pattern Kubernetes uses for Deployments, scaled up to any domain you can encode.</>,
+      sections: [],
+      takeaways: [
+        "CRD = new noun. Operator = new verb. Together they extend the kubectl vocabulary.",
+        "Reconciliation loop is the whole pattern: observe → diff → act → re-observe. Idempotent.",
+        "Production operators handle backups, scaling, version upgrades, failover — things that used to need humans.",
+        "Best framework: Kubebuilder (Go) or Operator SDK. Don\'t hand-roll the controller machinery.",
+      ] },
+
+    { slug: 'rbac-podsecurity', number: '12', title: 'RBAC & PodSecurity',
+      blurb: 'Two layers of access control. RBAC = who can do what. PodSecurity = what containers can do.',
+      Widget: RbacPodSecurityWidget,
+      intro: <>RBAC controls API access — which users/service-accounts can verb which resources. PodSecurity controls runtime — which kernel privileges the containers themselves can acquire. Defaults are too permissive; lock both down before someone\'s exploit becomes your incident.</>,
+      sections: [],
+      takeaways: [
+        "RBAC: bind Roles (verb × resource) to Subjects (user/group/service-account). Default-deny by design.",
+        "ClusterRoles for cluster-wide, Roles for namespace-scoped. Use the smallest scope that works.",
+        "PodSecurity standards: Privileged / Baseline / Restricted. Production = Restricted on most namespaces.",
+        "Forbidden by default in Restricted: runAsRoot, allowPrivilegeEscalation, hostNetwork, dangerous capabilities (SYS_ADMIN, NET_ADMIN).",
       ] },
   ],
 };

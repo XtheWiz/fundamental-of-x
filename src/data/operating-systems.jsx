@@ -1,4 +1,7 @@
 import LegacyWidget from '../widgets/database/LegacyWidget.jsx';
+import FilesystemsWidget from '../widgets/operating-systems/FilesystemsWidget.jsx';
+import VirtualMemoryWidget from '../widgets/operating-systems/VirtualMemoryWidget.jsx';
+import EbpfWidget from '../widgets/operating-systems/EbpfWidget.jsx';
 import { initProcessesWidget } from '../widgets/operating-systems/legacy/processes.js';
 import { initSchedulerWidget } from '../widgets/operating-systems/legacy/scheduler.js';
 import { initMemoryWidget } from '../widgets/operating-systems/legacy/memory.js';
@@ -39,5 +42,38 @@ export const manifest = {
     { slug: 'containers', number: '08', title: 'Containers (namespaces + cgroups)', blurb: 'What Docker actually is.', Widget: W(initContainersWidget),
       intro: <>Containers aren\'t VMs. They\'re processes with restricted views of the kernel — namespaces hide what they can see, cgroups cap what they can use.</>, sections: [],
       takeaways: ['Namespaces: PID, mount, network, user, UTS, IPC. Each hides part of the host.', 'cgroups: CPU shares, memory limits, IO throttling.', 'Docker = namespaces + cgroups + a layered filesystem + a packaging format.', 'Containers share the host kernel — VMs do not. Faster, less isolated.'] },
+    { slug: 'filesystems', number: '09', title: 'Filesystems (inodes, journaling, COW)',
+      blurb: 'Map /home/user/file.txt to actual disk blocks. Crash mid-write — does journaling save you?',
+      Widget: FilesystemsWidget,
+      intro: <>A filesystem is a tree of directories, files, and metadata laid over a flat block device. Inodes hold the metadata; data blocks hold the bytes; directory entries map names to inodes. Crash recovery — journaling vs copy-on-write — is what separates &quot;files lost&quot; from &quot;files intact&quot;.</>,
+      sections: [],
+      takeaways: [
+        'Inode = metadata (permissions, size, block pointers). Filename lives in the directory entry, not the inode — hence hardlinks.',
+        'Journaling (ext4, NTFS): write intent to a log, then apply. Replay on crash.',
+        'Copy-on-write (ZFS, btrfs): write new blocks, atomically swap the pointer. Old data stays valid until GC.',
+        'fsync is the only durability boundary you can rely on. Buffer cache lies until you call it.',
+      ] },
+    { slug: 'virtual-memory', number: '10', title: 'Virtual Memory Deep Dive (page tables, TLB)',
+      blurb: 'Translate a virtual address to a physical frame. Watch the TLB cache the walk.',
+      Widget: VirtualMemoryWidget,
+      intro: <>Every memory access your code makes goes through the MMU\'s page-table walk — unless the TLB has already cached the translation. Faults bring in pages from disk and possibly evict others. The whole performance picture of your program is shaped by how well its memory access pattern fits the TLB and the resident set.</>,
+      sections: [],
+      takeaways: [
+        'Multi-level page tables let huge virtual address spaces stay sparse on disk.',
+        'TLB caches recent translations. Hit = nanoseconds; miss = hundreds of cycles for the walk.',
+        'Page faults pull in absent pages — major fault if disk-bound, minor if just unmapped.',
+        'Working set > TLB → translation overhead spikes. Working set > RAM → thrash.',
+      ] },
+    { slug: 'ebpf', number: '11', title: 'eBPF & Kernel Observability',
+      blurb: 'Attach a safe little program to a kernel hook. Trace syscalls, packets, anything.',
+      Widget: EbpfWidget,
+      intro: <>eBPF lets userspace ship small programs that run in-kernel at trace points, syscalls, packet hooks, and function entries — sandboxed by a verifier that proves termination and memory safety before load. The result: production observability and networking without recompiling the kernel.</>,
+      sections: [],
+      takeaways: [
+        'The verifier is the safety net — it rejects unbounded loops, out-of-bounds reads, forbidden helpers.',
+        'Maps are shared key/value stores between kernel programs and userspace.',
+        'Hook types: kprobes (function entry), tracepoints (stable events), uprobes (user functions), XDP (packets), LSM (security).',
+        'Production users: Cilium (networking), Falco (security), bpftrace (one-liners), Pixie (observability).',
+      ] },
   ],
 };

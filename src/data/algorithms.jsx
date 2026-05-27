@@ -1,16 +1,22 @@
 import BigOWidget from '../widgets/algorithms/BigOWidget.jsx';
 import SortingWidget from '../widgets/algorithms/SortingWidget.jsx';
 import SearchingWidget from '../widgets/algorithms/SearchingWidget.jsx';
+import TreesWidget from '../widgets/algorithms/TreesWidget.jsx';
+import HeapsWidget from '../widgets/algorithms/HeapsWidget.jsx';
 import GraphTraversalWidget from '../widgets/algorithms/GraphTraversalWidget.jsx';
 import ShortestPathsWidget from '../widgets/algorithms/ShortestPathsWidget.jsx';
+import UnionFindWidget from '../widgets/algorithms/UnionFindWidget.jsx';
 import DPWidget from '../widgets/algorithms/DPWidget.jsx';
 import GreedyVsDPWidget from '../widgets/algorithms/GreedyVsDPWidget.jsx';
+import BacktrackingWidget from '../widgets/algorithms/BacktrackingWidget.jsx';
+import TriesWidget from '../widgets/algorithms/TriesWidget.jsx';
+import StringAlgosWidget from '../widgets/algorithms/StringAlgosWidget.jsx';
 import RandomizedWidget from '../widgets/algorithms/RandomizedWidget.jsx';
 
 export const manifest = {
   slug: 'algorithms',
   title: 'Algorithms',
-  intro: <>Eight lessons on the algorithms worth knowing in your bones — what each one looks like running, where constants beat asymptotics, and why "just sort it" isn&apos;t always the right answer.</>,
+  intro: <>Fourteen lessons covering the algorithms worth knowing in your bones — analysis, data structures (trees, heaps, tries, union-find), graphs, dynamic programming, greedy, backtracking, string matching, and randomised techniques. What each one looks like running, where constants beat asymptotics, and why "just sort it" isn&apos;t always the right answer.</>,
   lessons: [
     {
       slug: 'bigo', number: '01', title: 'Big-O in Practice', blurb: 'When constants beat asymptotic, when they don\'t. A reality check on the math.',
@@ -74,7 +80,33 @@ export const manifest = {
       ],
     },
     {
-      slug: 'graph-traversal', number: '04', title: 'Graph Traversal (BFS/DFS)', blurb: 'Two traversal orders, two data structures, very different uses.',
+      slug: 'trees', number: '04', title: 'Trees (BST, AVL, Red-Black)',
+      blurb: 'Insert sorted keys into a plain BST — watch it degrade into a linked list. AVL and red-black hold their height.',
+      Widget: TreesWidget,
+      intro: <>A binary search tree gives sorted iteration and O(log n) lookup — until adversarial input turns it into a linked list. AVL and red-black trees rebalance on insert/delete to keep height logarithmic, paying a small constant for guarantees.</>,
+      sections: [],
+      takeaways: [
+        'Plain BST: O(log n) average, O(n) worst case (sorted input is the killer).',
+        'AVL: strict balance (heights differ by ≤1). Fastest lookups, more rotations on writes.',
+        'Red-black: looser balance, fewer rotations. The default in std::map, Java TreeMap, Linux scheduler.',
+        'B-trees (covered in Database) are the disk-friendly generalisation — fewer levels, wider nodes.',
+      ],
+    },
+    {
+      slug: 'heaps', number: '05', title: 'Heaps & Priority Queues',
+      blurb: 'A complete binary tree where the smallest (or largest) value is always at the root. Backed by an array.',
+      Widget: HeapsWidget,
+      intro: <>Heaps are the data structure under priority queues. Insert and extract-root in O(log n); the tree is complete, so it fits an array with index arithmetic instead of pointers.</>,
+      sections: [],
+      takeaways: [
+        'Heap property: parent ≤ children (min-heap) or parent ≥ children (max-heap).',
+        'Insert: append + sift up. Extract: swap root with last + sift down. Both O(log n).',
+        'Build heap from N items in O(n) via Floyd\'s heapify (not n log n).',
+        'Used everywhere: Dijkstra, A*, top-K, event schedulers, OS run queues.',
+      ],
+    },
+    {
+      slug: 'graph-traversal', number: '06', title: 'Graph Traversal (BFS/DFS)', blurb: 'Two traversal orders, two data structures, very different uses.',
       Widget: GraphTraversalWidget,
       intro: <>BFS uses a queue and explores level by level — shortest path in unweighted graphs. DFS uses a stack (or recursion) and goes deep before wide — cycle detection, topological sort.</>,
       sections: [{
@@ -91,7 +123,7 @@ export const manifest = {
       ],
     },
     {
-      slug: 'shortest-paths', number: '05', title: 'Shortest Paths', blurb: 'Dijkstra and A*, side by side. How a good heuristic earns its keep.',
+      slug: 'shortest-paths', number: '07', title: 'Shortest Paths', blurb: 'Dijkstra and A*, side by side. How a good heuristic earns its keep.',
       Widget: ShortestPathsWidget,
       intro: <>Dijkstra is BFS with a priority queue — always expand the cheapest-so-far node. A* adds a heuristic estimate of the remaining distance, focusing search toward the goal.</>,
       sections: [{
@@ -108,7 +140,20 @@ export const manifest = {
       ],
     },
     {
-      slug: 'dp', number: '06', title: 'Dynamic Programming', blurb: 'Edit distance between two strings. Watch the memo table fill in.',
+      slug: 'union-find', number: '08', title: 'Union-Find (Disjoint Set)',
+      blurb: 'Track connected components in near-constant time. The data structure under Kruskal\'s MST and cycle detection.',
+      Widget: UnionFindWidget,
+      intro: <>A forest of pointers where each tree represents one component. With union-by-rank and path compression, the operations are effectively O(α(n)) — the inverse Ackermann function, which is ≤ 4 for any N you\'ll meet.</>,
+      sections: [],
+      takeaways: [
+        'Find: walk up parent pointers to the root. Union: hook one root under the other.',
+        'Union-by-rank keeps the trees shallow.',
+        'Path compression flattens the tree on every Find — almost free amortised.',
+        'Used in Kruskal\'s MST, cycle detection in undirected graphs, image-flood-fill, percolation models.',
+      ],
+    },
+    {
+      slug: 'dp', number: '09', title: 'Dynamic Programming', blurb: 'Edit distance between two strings. Watch the memo table fill in.',
       Widget: DPWidget,
       intro: <>DP solves problems by combining solutions to overlapping subproblems. Edit distance asks: how many insertions, deletions, and substitutions turn string A into string B? The whole computation is a 2D table.</>,
       sections: [{
@@ -129,7 +174,7 @@ export const manifest = {
       ],
     },
     {
-      slug: 'greedy-vs-dp', number: '07', title: 'Greedy vs DP', blurb: 'Coin change: when greedy works, when it doesn\'t.',
+      slug: 'greedy-vs-dp', number: '10', title: 'Greedy vs DP', blurb: 'Coin change: when greedy works, when it doesn\'t.',
       Widget: GreedyVsDPWidget,
       intro: <>Greedy picks the locally best option at each step. It&apos;s fast and simple — but only correct when the problem has the right structure. Coin change is the classic counter-example.</>,
       sections: [{
@@ -146,7 +191,46 @@ export const manifest = {
       ],
     },
     {
-      slug: 'randomized', number: '08', title: 'Randomized & Approximation', blurb: 'Bloom filter: a probabilistic set with no false negatives.',
+      slug: 'backtracking', number: '11', title: 'Backtracking',
+      blurb: 'DFS with pruning. N-queens, subset sum, sudoku — same algorithm shape, different problems.',
+      Widget: BacktrackingWidget,
+      intro: <>Backtracking explores a tree of partial solutions, abandoning any branch that can\'t possibly succeed. The pruning step is what makes it tractable — without it, the search space explodes.</>,
+      sections: [],
+      takeaways: [
+        'Backtracking is DFS over the solution space, with a "is this branch still viable?" check at each node.',
+        'The pruning predicate is the algorithm. A weak one means exponential blowup.',
+        'Pattern: choose → recurse → un-choose. The "un-choose" is the backtrack.',
+        'Applies to constraint satisfaction (sudoku), combinatorial enumeration (subsets, permutations), and search (N-queens, maze solving).',
+      ],
+    },
+    {
+      slug: 'tries', number: '12', title: 'Tries',
+      blurb: 'A tree where each edge is a character. Prefix lookup in O(length), regardless of dictionary size.',
+      Widget: TriesWidget,
+      intro: <>A trie (pronounced "try") shares prefixes across stored words. Lookup time depends on the length of the query, not the number of stored words — the trick that powers autocomplete, IP routing tables, and the Aho-Corasick multi-pattern matcher.</>,
+      sections: [],
+      takeaways: [
+        'Trie lookup: O(L) where L is the query length. Independent of stored-word count.',
+        'Memory: one node per (prefix, character) pair. Common prefixes share nodes.',
+        'Radix / Patricia tries compress single-child chains — same complexity, less storage.',
+        'Beyond autocomplete: IP routing (longest prefix match), genome k-mer indexing, dictionary compression.',
+      ],
+    },
+    {
+      slug: 'string-algos', number: '13', title: 'String Algorithms (KMP, Rabin-Karp)',
+      blurb: 'Substring search done right. Skip redundant comparisons with a failure function or a rolling hash.',
+      Widget: StringAlgosWidget,
+      intro: <>Naive substring search is O(nm). KMP precomputes a failure table to skip impossible alignments — O(n+m). Rabin-Karp uses a rolling hash to compare windows in O(1) amortised — also O(n+m) average, useful for multi-pattern search.</>,
+      sections: [],
+      takeaways: [
+        'Naive search: O(nm). KMP and Rabin-Karp both achieve O(n+m).',
+        'KMP\'s failure function tells you how far the pattern can shift on mismatch without re-scanning.',
+        'Rabin-Karp: hash the window, slide cheaply via the rolling hash, verify on match.',
+        'Aho-Corasick generalises KMP to many patterns at once — the engine under tools like grep -F.',
+      ],
+    },
+    {
+      slug: 'randomized', number: '14', title: 'Randomized & Approximation', blurb: 'Bloom filter: a probabilistic set with no false negatives.',
       Widget: RandomizedWidget,
       intro: <>Some problems are easier if you accept a small chance of being wrong. Bloom filters trade certainty for huge space savings — useful for "is this URL in our blocklist of 100M?"</>,
       sections: [{

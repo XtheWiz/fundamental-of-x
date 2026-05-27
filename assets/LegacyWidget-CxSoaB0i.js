@@ -1,0 +1,1 @@
+import{r as n,j as s}from"./main-BhRPON15.js";function u({init:t}){const r=n.useRef(null);return n.useEffect(()=>{if(!r.current)return;const e=r.current;return e.innerHTML="",t(e),()=>{e.innerHTML=""}},[t]),s.jsx("div",{ref:r})}export{u as L};

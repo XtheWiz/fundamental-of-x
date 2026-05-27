@@ -1,5 +1,8 @@
 import LegacyWidget from '../widgets/database/LegacyWidget.jsx';
 import QueryWidget from '../widgets/database/QueryWidget.jsx';
+import NoSqlWidget from '../widgets/database/NoSqlWidget.jsx';
+import MvccWidget from '../widgets/database/MvccWidget.jsx';
+import IndexTypesWidget from '../widgets/database/IndexTypesWidget.jsx';
 import { initAcidWidget } from '../widgets/database/legacy/acid.js';
 import { initBTreeWidget } from '../widgets/database/legacy/btree.js';
 import { initStorageWidget } from '../widgets/database/legacy/storage.js';
@@ -196,6 +199,46 @@ export const manifest = {
         "The optimizer relies on statistics. Stale stats → bad plans → slow queries. Re-analyze regularly.",
         "Index choice can change query time by 10000×. Pick wisely.",
         "Modern engines (DuckDB, ClickHouse, Snowflake) use vectorised execution — process batches of rows at a time, not one row.",
+      ],
+    },
+    {
+      slug: 'nosql', number: '09', title: 'NoSQL & Document Stores',
+      blurb: 'Same data, three shapes. Relational, document, key-value. The query you write changes per model — so does the cost.',
+      Widget: NoSqlWidget,
+      intro: <>"NoSQL" lumps together everything that isn&apos;t a relational table. The real choice is data model: normalised tables, denormalised JSON documents, or single opaque blobs by key. Each fits a different query pattern; each pays a different denormalisation tax.</>,
+      sections: [],
+      takeaways: [
+        "Relational: writes cheap, reads sometimes expensive (joins). Schema enforced.",
+        "Document (Mongo, Dynamo, Firestore): nested structures are first-class. Joins are application-side.",
+        "Key-value (Redis, Memcached, DynamoDB single-table): one round-trip per key. Schema-free.",
+        "Pick by query shape, not by hype. The same workload at 10× scale may flip the right answer.",
+      ],
+    },
+    {
+      slug: 'mvcc', number: '10', title: 'MVCC (Multi-Version Concurrency Control)',
+      blurb: 'Readers don\'t block writers. Writers don\'t block readers. The trick: every row has multiple versions tagged with TXIDs.',
+      Widget: MvccWidget,
+      intro: <>MVCC is the mechanism underneath snapshot isolation in every modern database. Each update creates a new version of the row stamped with a transaction ID; each transaction reads the snapshot consistent with its own start time. No read locks needed.</>,
+      sections: [],
+      takeaways: [
+        "Each transaction sees a snapshot of the database as of its start (or its statement, depending on isolation).",
+        "Updates write new versions instead of overwriting; old versions remain until VACUUM.",
+        "Long-running transactions block VACUUM and cause table bloat — the classic Postgres ops problem.",
+        "Serialisable snapshot isolation (SSI) layers conflict detection on top of MVCC for full serialisability.",
+      ],
+    },
+    {
+      slug: 'index-types', number: '11', title: 'Index Types Beyond B-Tree',
+      blurb: 'Hash, GIN, GIST, Bloom. Each wins for a different query shape. Pick the right one and the query gets 1000× faster.',
+      Widget: IndexTypesWidget,
+      intro: <>B-tree is the default because it handles point lookups, ranges, and ordering. But for substring search, geo radius, JSON path, or set-containment queries, specialised indexes (GIN, GIST, Bloom) are dramatically faster — sometimes the difference between milliseconds and minutes.</>,
+      sections: [],
+      takeaways: [
+        "B-tree: balanced, supports equality + range + ordering. The default for a reason.",
+        "Hash: faster equality lookup, no range. Niche.",
+        "GIN: inverted index. Good for full-text, array containment, JSONB path queries.",
+        "GIST: generalised search tree. Good for geo (R-tree), trigram similarity, ranges.",
+        "Bloom: probabilistic, tiny, fast negative check. Useful as a filter before a real lookup.",
       ],
     },
   ],

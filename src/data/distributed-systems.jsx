@@ -1,6 +1,9 @@
 import LegacyWidget from '../widgets/database/LegacyWidget.jsx';
 import TwoPCWidget from '../widgets/distributed-systems/TwoPCWidget.jsx';
 import ArchitecturesWidget from '../widgets/distributed-systems/ArchitecturesWidget.jsx';
+import CrdtsWidget from '../widgets/distributed-systems/CrdtsWidget.jsx';
+import DistributedLocksWidget from '../widgets/distributed-systems/DistributedLocksWidget.jsx';
+import ClocksTimeWidget from '../widgets/distributed-systems/ClocksTimeWidget.jsx';
 import { initCapWidget } from '../widgets/distributed-systems/legacy/cap.js';
 import { initConsistencyWidget } from '../widgets/distributed-systems/legacy/consistency.js';
 import { initLeaderElectionWidget } from '../widgets/distributed-systems/legacy/leader-election.js';
@@ -39,5 +42,38 @@ export const manifest = {
     { slug: 'architectures', number: '08', title: 'Architectures in Practice', blurb: 'Cassandra, DynamoDB, Spanner, etcd — how real systems compose these primitives.', Widget: ArchitecturesWidget,
       intro: <>Each real database picks a point on the CAP triangle and stacks consistency, replication, and consensus primitives differently. Knowing the pattern lets you predict the trade-offs.</>, sections: [],
       takeaways: ['Cassandra/Dynamo: AP, eventual consistency, vector clocks.', 'Spanner: CP, strong consistency via TrueTime + Paxos.', 'etcd/Consul: CP, Raft, small datasets, high consistency needs.', 'Pick the database that matches your workload, not the one your team knows.'] },
+    { slug: 'crdts', number: '09', title: 'CRDTs (Conflict-Free Replicated Data Types)',
+      blurb: 'Two replicas, both write while partitioned, sync after. The math guarantees they converge.',
+      Widget: CrdtsWidget,
+      intro: <>CRDTs are data structures whose merge function is associative, commutative, and idempotent — which means independent updates from any number of replicas can be merged in any order without conflict. The modern answer to &quot;last-writer-wins loses data&quot;.</>,
+      sections: [],
+      takeaways: [
+        'G-Counter: increment-only, merge by per-replica max. PN-Counter: pair of G-Counters for increment/decrement.',
+        'OR-Set (observed-remove): tracks add-tags so concurrent add+remove resolves in favour of add.',
+        'LWW-Register: timestamp + value; latest wins. Simple but loses concurrent edits.',
+        'Production users: Riak, Redis CRDTs, Yjs/Automerge (collaborative editors), Figma\'s multiplayer.',
+      ] },
+    { slug: 'distributed-locks', number: '10', title: 'Distributed Locks',
+      blurb: 'Locks across machines look easy. Then a GC pause makes one client think it still holds it. Use a fencing token.',
+      Widget: DistributedLocksWidget,
+      intro: <>A single-machine lock is solved. A distributed lock has to handle network partitions, clock skew, and processes that pause unexpectedly. Naive timeouts produce two holders; the fix is a monotonic fencing token that the protected resource validates on every write.</>,
+      sections: [],
+      takeaways: [
+        'Naive SETNX + TTL: simple, but a GC-paused client can write after expiry believing it still holds the lock.',
+        'Redlock (5 redis quorum): better availability, still vulnerable to clock skew per Kleppmann\'s critique.',
+        'Zookeeper sequential ephemeral nodes: stronger, but heavier ops.',
+        'Always combine with a fencing token — the resource refuses writes whose token < last accepted.',
+      ] },
+    { slug: 'clocks-time', number: '11', title: 'Clocks & Time',
+      blurb: 'Wall clock skew. NTP corrections. TrueTime intervals. HLC. Why ordering events across machines is hard.',
+      Widget: ClocksTimeWidget,
+      intro: <>You cannot order events across machines by wall-clock timestamps alone. Clocks drift, jump backward on NTP correction, and disagree by tens of milliseconds across a datacentre. Modern systems use TrueTime intervals (Spanner), Hybrid Logical Clocks (CockroachDB), or causal logical clocks to give meaningful ordering.</>,
+      sections: [],
+      takeaways: [
+        'Wall clocks drift and jump. Never trust raw timestamps for cross-node ordering.',
+        'NTP corrects drift but can adjust backward — code that assumes monotonicity breaks.',
+        'TrueTime: every timestamp is an interval; commit waits out the interval to ensure global order. Needs atomic clocks + GPS.',
+        'HLC: monotonic combination of physical and logical clock. Bounded skew + preserves causality.',
+      ] },
   ],
 };
